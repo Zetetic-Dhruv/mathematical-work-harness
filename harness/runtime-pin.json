@@ -1,0 +1,24 @@
+{
+  "verified_date": "2026-09-07",
+  "sdk_distribution": "deepseek-harness-sdk",
+  "sdk_version": "0.1.2rc1",
+  "runtime_distribution": "deepseek-harness-runtime-bin",
+  "runtime_version": "0.1.2rc1",
+  "observed_dsh_version": "0.1.2-rc.1",
+  "npm_distribution": "@deepseek-ai/dsh",
+  "npm_version": "0.1.2-rc.1",
+  "npm_integrity": "sha512-RPq48TzxvwpdT9/7W1tbhZDBMmeK+bxDrX9cqQC27Wx/LqtgJF8PSa3b3xriU8oxtvhwYmk21w2cej3uMQrnVA==",
+  "npm_tarball": "https://registry.npmjs.org/@deepseek-ai/dsh/-/dsh-0.1.2-rc.1.tgz",
+  "model": "labs-leanstral-1-5",
+  "provider": "mistral",
+  "pricing_basis": "Official model card labels this model Free; account entitlement and quotas are not inferred.",
+  "sources": [
+    "https://github.com/deepseek-ai/deepseek-harness",
+    "https://pypi.org/project/deepseek-harness-sdk/0.1.2rc1/",
+    "https://pypi.org/project/deepseek-harness-runtime-bin/0.1.2rc1/",
+    "https://docs.mistral.ai/models/leanstral-1-5",
+    "https://mistral.ai/news/leanstral-1-5"
+  ],
+  "no_paid_fallback": true,
+  "live_inference_tested": false
+}

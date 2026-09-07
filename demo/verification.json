@@ -1,0 +1,1015 @@
+{
+  "schema_version": 1,
+  "status": "passed",
+  "coverage": "complete",
+  "checks": [
+    {
+      "name": "source_identity",
+      "status": "passed",
+      "detail": "27eca7b93c960e13ff0308fa90ed0e9ddd8bd5151fd1dc3bf0be2587c9f35f2c"
+    },
+    {
+      "name": "toolchain",
+      "status": "passed",
+      "detail": "leanprover/lean4:v4.31.0"
+    },
+    {
+      "name": "mathlib",
+      "status": "passed",
+      "detail": "fabf563a7c95a166b8d7b6efca11c8b4dc9d911f"
+    },
+    {
+      "name": "elaboration",
+      "status": "passed",
+      "detail": "All indexed declarations and local contexts regenerated"
+    },
+    {
+      "name": "axioms",
+      "status": "passed",
+      "detail": "Every theorem has a checked report within the explicit allowed set"
+    }
+  ],
+  "verified_item_ids": [
+    "library",
+    "Tree",
+    "constants",
+    "BranchWise",
+    "PathConsistent",
+    "repeated",
+    "branchWise_repeated",
+    "uniform_no_positive",
+    "uniform_no_positive.have.1",
+    "uniform_no_positive.have.2",
+    "true_restriction_uniform",
+    "true_restriction_uniform.have.1",
+    "constants_depth_le_one",
+    "constants_depth_le_one.have.1",
+    "constants_depth_le_one.have.2",
+    "constants_depth_one",
+    "constants_exact_depth",
+    "repeated_counterexample",
+    "repeated_counterexample.have.1"
+  ],
+  "review_items": [
+    {
+      "id": "library",
+      "kind": "baseline",
+      "source": "Littlestone.lean:1-2",
+      "context": "Lean and imported Mathlib infrastructure; no project theorem imported.",
+      "statement": "import Mathlib.Data.Set.Basic\nimport Mathlib.Tactic",
+      "argument": "Explicit imported baseline; its approval is a human decision.",
+      "dependencies": [],
+      "scope": "local",
+      "coverage": "complete",
+      "elaborated_form": "leanprover/lean4:v4.31.0; Mathlib fabf563a7c95a166b8d7b6efca11c8b4dc9d911f"
+    },
+    {
+      "kind": "type",
+      "argument": "Complete binary trees indexed by depth, with equal-depth children; review the constructors and universe parameter.",
+      "dependencies": [
+        "library"
+      ],
+      "id": "Tree",
+      "source": "Littlestone.lean:20-22",
+      "source_span": {
+        "start": 20,
+        "end": 22
+      },
+      "source_text": "inductive Tree (X : Type u) : Nat → Type u where\n  | leaf : Tree X 0\n  | branch : {n : Nat} → X → Tree X n → Tree X n → Tree X (n + 1)",
+      "context": "inductive Reconstruction.Tree.{u} : (X : Type u) → Nat → Type u\nnumber of parameters: 1\nconstructors:\nReconstruction.Tree.leaf : {X : Type u} →\n  Reconstruction.Tree.{u} X (@OfNat.ofNat.{0} Nat (nat_lit 0) (instOfNatNat (nat_lit 0)))\nReconstruction.Tree.branch : {X : Type u} →\n  {n : Nat} →\n    X →\n      Reconstruction.Tree.{u} X n →\n        Reconstruction.Tree.{u} X n →\n          Reconstruction.Tree.{u} X\n            (@HAdd.hAdd.{0, 0, 0} Nat Nat Nat (@instHAdd.{0} Nat instAddNat) n\n              (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))",
+      "statement": "inductive Tree (X : Type u) : Nat → Type u where\n  | leaf : Tree X 0\n  | branch : {n : Nat} → X → Tree X n → Tree X n → Tree X (n + 1)",
+      "scope": "local",
+      "coverage": "complete",
+      "declaration": "Tree",
+      "lean_kind": "inductive",
+      "elaborated_form": "inductive Reconstruction.Tree.{u} : (X : Type u) → Nat → Type u\nnumber of parameters: 1\nconstructors:\nReconstruction.Tree.leaf : {X : Type u} →\n  Reconstruction.Tree.{u} X (@OfNat.ofNat.{0} Nat (nat_lit 0) (instOfNatNat (nat_lit 0)))\nReconstruction.Tree.branch : {X : Type u} →\n  {n : Nat} →\n    X →\n      Reconstruction.Tree.{u} X n →\n        Reconstruction.Tree.{u} X n →\n          Reconstruction.Tree.{u} X\n            (@HAdd.hAdd.{0, 0, 0} Nat Nat Nat (@instHAdd.{0} Nat instAddNat) n\n              (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))"
+    },
+    {
+      "kind": "definition",
+      "argument": "The class is exactly the two constant Boolean functions, with arbitrary domain and no finiteness assumption.",
+      "dependencies": [
+        "library"
+      ],
+      "id": "constants",
+      "source": "Littlestone.lean:25-26",
+      "source_span": {
+        "start": 25,
+        "end": 26
+      },
+      "source_text": "def constants (X : Type u) : Set (X → Bool) :=\n  {c | c = (fun _ => true) ∨ c = (fun _ => false)}",
+      "context": "def Reconstruction.constants.{u} : (X : Type u) → Set.{u} (X → Bool)",
+      "statement": "def constants (X : Type u) : Set (X → Bool)",
+      "scope": "local",
+      "coverage": "complete",
+      "declaration": "constants",
+      "lean_kind": "def",
+      "elaborated_form": "def Reconstruction.constants.{u} : (X : Type u) → Set.{u} (X → Bool) :=\nfun (X : Type u) =>\n  @setOf.{u} (X → Bool) fun (c : X → Bool) =>\n    Or (@Eq.{u + 1} (X → Bool) c fun (x : X) => Bool.true) (@Eq.{u + 1} (X → Bool) c fun (x : X) => Bool.false)"
+    },
+    {
+      "kind": "definition",
+      "argument": "Deliberately defective comparator: unrestricted recursive classes permit a different witness at each level; the leaf is True.",
+      "dependencies": [
+        "Tree"
+      ],
+      "id": "BranchWise",
+      "source": "Littlestone.lean:29-33",
+      "source_span": {
+        "start": 29,
+        "end": 33
+      },
+      "source_text": "def BranchWise {X : Type u} {n : Nat} (C : Set (X → Bool)) : Tree X n → Prop\n  | .leaf => True\n  | .branch x l r =>\n      (∃ c ∈ C, c x = true ∧ BranchWise C l) ∧\n      (∃ c ∈ C, c x = false ∧ BranchWise C r)",
+      "context": "def Reconstruction.BranchWise.{u} : {X : Type u} →\n  {n : Nat} → (C : Set.{u} (X → Bool)) → Reconstruction.Tree.{u} X n → Prop",
+      "statement": "def BranchWise {X : Type u} {n : Nat} (C : Set (X → Bool)) : Tree X n → Prop\n  | .leaf => True\n  | .branch x l r =>\n      (∃ c ∈ C, c x = true ∧ BranchWise C l) ∧\n      (∃ c ∈ C, c x = false ∧ BranchWise C r)",
+      "scope": "local",
+      "coverage": "complete",
+      "declaration": "BranchWise",
+      "lean_kind": "def",
+      "elaborated_form": "def Reconstruction.BranchWise.{u} : {X : Type u} →\n  {n : Nat} → (C : Set.{u} (X → Bool)) → Reconstruction.Tree.{u} X n → Prop :=\nfun {X : Type u} {n : Nat} (C : Set.{u} (X → Bool)) (x : Reconstruction.Tree.{u} X n) =>\n  @Reconstruction.Tree.brecOn.{1, u} X (fun {n : Nat} (x : Reconstruction.Tree.{u} X n) => Prop) n x\n    (@Reconstruction.BranchWise._f.{u} X C)"
+    },
+    {
+      "kind": "definition",
+      "argument": "Retain all earlier branch constraints by restricting the class at each edge; a leaf requires a concept witness.",
+      "dependencies": [
+        "Tree"
+      ],
+      "id": "PathConsistent",
+      "source": "Littlestone.lean:37-42",
+      "source_span": {
+        "start": 37,
+        "end": 42
+      },
+      "source_text": "def PathConsistent {X : Type u} {n : Nat} (C : Set (X → Bool)) : Tree X n → Prop\n  | .leaf => C.Nonempty\n  | .branch x l r =>\n      (∃ c ∈ C, c x = true) ∧ (∃ c ∈ C, c x = false) ∧\n      PathConsistent {c ∈ C | c x = true} l ∧\n      PathConsistent {c ∈ C | c x = false} r",
+      "context": "def Reconstruction.PathConsistent.{u} : {X : Type u} →\n  {n : Nat} → (C : Set.{u} (X → Bool)) → Reconstruction.Tree.{u} X n → Prop",
+      "statement": "def PathConsistent {X : Type u} {n : Nat} (C : Set (X → Bool)) : Tree X n → Prop\n  | .leaf => C.Nonempty\n  | .branch x l r =>\n      (∃ c ∈ C, c x = true) ∧ (∃ c ∈ C, c x = false) ∧\n      PathConsistent {c ∈ C | c x = true} l ∧\n      PathConsistent {c ∈ C | c x = false} r",
+      "scope": "local",
+      "coverage": "complete",
+      "declaration": "PathConsistent",
+      "lean_kind": "def",
+      "elaborated_form": "def Reconstruction.PathConsistent.{u} : {X : Type u} →\n  {n : Nat} → (C : Set.{u} (X → Bool)) → Reconstruction.Tree.{u} X n → Prop :=\nfun {X : Type u} {n : Nat} (C : Set.{u} (X → Bool)) (x : Reconstruction.Tree.{u} X n) =>\n  @Reconstruction.Tree.brecOn.{u + 1, u} X\n    (fun {n : Nat} (x : Reconstruction.Tree.{u} X n) => (C : Set.{u} (X → Bool)) → Prop) n x\n    (@Reconstruction.PathConsistent._f.{u} X) C"
+    },
+    {
+      "kind": "construction",
+      "argument": "Repeat one arbitrary input at every internal node, at arbitrary natural-number depth.",
+      "dependencies": [
+        "Tree"
+      ],
+      "id": "repeated",
+      "source": "Littlestone.lean:45-47",
+      "source_span": {
+        "start": 45,
+        "end": 47
+      },
+      "source_text": "def repeated {X : Type u} (x : X) : (n : Nat) → Tree X n\n  | 0 => .leaf\n  | n + 1 => .branch x (repeated x n) (repeated x n)",
+      "context": "def Reconstruction.repeated.{u} : {X : Type u} → (x : X) → (n : Nat) → Reconstruction.Tree.{u} X n",
+      "statement": "def repeated {X : Type u} (x : X) : (n : Nat) → Tree X n\n  | 0 => .leaf\n  | n + 1 => .branch x (repeated x n) (repeated x n)",
+      "scope": "local",
+      "coverage": "complete",
+      "declaration": "repeated",
+      "lean_kind": "def",
+      "elaborated_form": "def Reconstruction.repeated.{u} : {X : Type u} → (x : X) → (n : Nat) → Reconstruction.Tree.{u} X n :=\nfun {X : Type u} (x : X) (x_1 : Nat) =>\n  @Nat.brecOn.{u + 1} (fun (x : Nat) => Reconstruction.Tree.{u} X x) x_1 (@Reconstruction.repeated._f.{u} X x)"
+    },
+    {
+      "kind": "theorem",
+      "argument": "Induction on depth supplies the true and false constant witnesses at each node, reusing the same unrestricted class.",
+      "dependencies": [
+        "BranchWise",
+        "constants",
+        "repeated"
+      ],
+      "id": "branchWise_repeated",
+      "source": "Littlestone.lean:50-56",
+      "source_span": {
+        "start": 50,
+        "end": 56
+      },
+      "source_text": "theorem branchWise_repeated {X : Type u} (x : X) (n : Nat) :\n    BranchWise (constants X) (repeated x n) := by\n  induction n with\n  | zero => trivial\n  | succ n ih =>\n      exact ⟨⟨fun _ => true, Or.inl rfl, rfl, ih⟩,\n        ⟨fun _ => false, Or.inr rfl, rfl, ih⟩⟩",
+      "context": "theorem Reconstruction.branchWise_repeated.{u} : ∀ {X : Type u} (x : X) (n : Nat),\n  @Reconstruction.BranchWise.{u} X n (Reconstruction.constants.{u} X) (@Reconstruction.repeated.{u} X x n)",
+      "statement": "theorem branchWise_repeated {X : Type u} (x : X) (n : Nat) :\n    BranchWise (constants X) (repeated x n)",
+      "scope": "local",
+      "coverage": "complete",
+      "declaration": "branchWise_repeated",
+      "lean_kind": "theorem",
+      "elaborated_form": "theorem Reconstruction.branchWise_repeated.{u} : ∀ {X : Type u} (x : X) (n : Nat),\n  @Reconstruction.BranchWise.{u} X n (Reconstruction.constants.{u} X) (@Reconstruction.repeated.{u} X x n) :=\nfun {X : Type u} (x : X) (n : Nat) =>\n  @Nat.recAux.{0}\n    (fun (n : Nat) =>\n      @Reconstruction.BranchWise.{u} X n (Reconstruction.constants.{u} X) (@Reconstruction.repeated.{u} X x n))\n    True.intro\n    (fun (n : Nat)\n        (ih :\n          @Reconstruction.BranchWise.{u} X n (Reconstruction.constants.{u} X) (@Reconstruction.repeated.{u} X x n)) =>\n      @And.intro\n        (@Exists.{u + 1} (X → Bool) fun (c : X → Bool) =>\n          And\n            (@Membership.mem.{u, u} (X → Bool) (Set.{u} (X → Bool)) (@Set.instMembership.{u} (X → Bool))\n              (Reconstruction.constants.{u} X) c)\n            (And (@Eq.{1} Bool (c x) Bool.true)\n              (@Reconstruction.BranchWise.{u} X n (Reconstruction.constants.{u} X)\n                (@Reconstruction.repeated.{u} X x n))))\n        (@Exists.{u + 1} (X → Bool) fun (c : X → Bool) =>\n          And\n            (@Membership.mem.{u, u} (X → Bool) (Set.{u} (X → Bool)) (@Set.instMembership.{u} (X → Bool))\n              (Reconstruction.constants.{u} X) c)\n            (And (@Eq.{1} Bool (c x) Bool.false)\n              (@Reconstruction.BranchWise.{u} X n (Reconstruction.constants.{u} X)\n                (@Reconstruction.repeated.{u} X x n))))\n        (@Exists.intro.{u + 1} (X → Bool)\n          (fun (c : X → Bool) =>\n            And\n              (@Membership.mem.{u, u} (X → Bool) (Set.{u} (X → Bool)) (@Set.instMembership.{u} (X → Bool))\n                (Reconstruction.constants.{u} X) c)\n              (And (@Eq.{1} Bool (c x) Bool.true)\n                (@Reconstruction.BranchWise.{u} X n (Reconstruction.constants.{u} X)\n                  (@Reconstruction.repeated.{u} X x n))))\n          (fun (x : X) => Bool.true)\n          (@And.intro\n            (@Membership.mem.{u, u} (X → Bool) (Set.{u} (X → Bool)) (@Set.instMembership.{u} (X → Bool))\n              (Reconstruction.constants.{u} X) fun (x : X) => Bool.true)\n            (And (@Eq.{1} Bool ((fun (x : X) => Bool.true) x) Bool.true)\n              (@Reconstruction.BranchWise.{u} X n (Reconstruction.constants.{u} X)\n                (@Reconstruction.repeated.{u} X x n)))\n            (@Or.inl (@Eq.{u + 1} (X → Bool) (fun (x : X) => Bool.true) fun (x : X) => Bool.true)\n              (@Eq.{u + 1} (X → Bool) (fun (x : X) => Bool.true) fun (x : X) => Bool.false)\n              (@rfl.{u + 1} (X → Bool) fun (x : X) => Bool.true))\n            (@And.intro (@Eq.{1} Bool ((fun (x : X) => Bool.true) x) Bool.true)\n              (@Reconstruction.BranchWise.{u} X n (Reconstruction.constants.{u} X) (@Reconstruction.repeated.{u} X x n))\n              (@rfl.{1} Bool ((fun (x : X) => Bool.true) x)) ih)))\n        (@Exists.intro.{u + 1} (X → Bool)\n          (fun (c : X → Bool) =>\n            And\n              (@Membership.mem.{u, u} (X → Bool) (Set.{u} (X → Bool)) (@Set.instMembership.{u} (X → Bool))\n                (Reconstruction.constants.{u} X) c)\n              (And (@Eq.{1} Bool (c x) Bool.false)\n                (@Reconstruction.BranchWise.{u} X n (Reconstruction.constants.{u} X)\n                  (@Reconstruction.repeated.{u} X x n))))\n          (fun (x : X) => Bool.false)\n          (@And.intro\n            (@Membership.mem.{u, u} (X → Bool) (Set.{u} (X → Bool)) (@Set.instMembership.{u} (X → Bool))\n              (Reconstruction.constants.{u} X) fun (x : X) => Bool.false)\n            (And (@Eq.{1} Bool ((fun (x : X) => Bool.false) x) Bool.false)\n              (@Reconstruction.BranchWise.{u} X n (Reconstruction.constants.{u} X)\n                (@Reconstruction.repeated.{u} X x n)))\n            (@Or.inr (@Eq.{u + 1} (X → Bool) (fun (x : X) => Bool.false) fun (x : X) => Bool.true)\n              (@Eq.{u + 1} (X → Bool) (fun (x : X) => Bool.false) fun (x : X) => Bool.false)\n              (@rfl.{u + 1} (X → Bool) fun (x : X) => Bool.false))\n            (@And.intro (@Eq.{1} Bool ((fun (x : X) => Bool.false) x) Bool.false)\n              (@Reconstruction.BranchWise.{u} X n (Reconstruction.constants.{u} X) (@Reconstruction.repeated.{u} X x n))\n              (@rfl.{1} Bool ((fun (x : X) => Bool.false) x)) ih))))\n    n",
+      "axiom_report": "'Reconstruction.branchWise_repeated' does not depend on any axioms"
+    },
+    {
+      "kind": "theorem",
+      "argument": "For an arbitrary class whose functions all have fixed label b everywhere, the opposite root-label witness is impossible. Review both Bool cases, witness eliminations, and both local equalities.",
+      "dependencies": [
+        "PathConsistent",
+        "uniform_no_positive.have.1",
+        "uniform_no_positive.have.2"
+      ],
+      "id": "uniform_no_positive",
+      "source": "Littlestone.lean:59-77",
+      "source_span": {
+        "start": 59,
+        "end": 77
+      },
+      "source_text": "theorem uniform_no_positive {X : Type u} {C : Set (X → Bool)} (b : Bool)\n    (uniform : ∀ c ∈ C, ∀ x, c x = b) (n : Nat) (t : Tree X (n + 1)) :\n    ¬ PathConsistent C t := by\n  cases t with\n  | branch x l r =>\n      intro h\n      cases b with\n      | false =>\n          obtain ⟨c, hc, hx⟩ := h.1\n          have incompatible : (true : Bool) = false := by\n            trace_state\n            exact hx.symm.trans (uniform c hc x)\n          cases incompatible\n      | true =>\n          obtain ⟨c, hc, hx⟩ := h.2.1\n          have incompatible : (false : Bool) = true := by\n            trace_state\n            exact hx.symm.trans (uniform c hc x)\n          cases incompatible",
+      "context": "theorem Reconstruction.uniform_no_positive.{u} : ∀ {X : Type u} {C : Set.{u} (X → Bool)} (b : Bool)\n  (uniform :\n    ∀ (c : X → Bool),\n      @Membership.mem.{u, u} (X → Bool) (Set.{u} (X → Bool)) (@Set.instMembership.{u} (X → Bool)) C c →\n        ∀ (x : X), @Eq.{1} Bool (c x) b)\n  (n : Nat)\n  (t :\n    Reconstruction.Tree.{u} X\n      (@HAdd.hAdd.{0, 0, 0} Nat Nat Nat (@instHAdd.{0} Nat instAddNat) n\n        (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))),\n  Not\n    (@Reconstruction.PathConsistent.{u} X\n      (@HAdd.hAdd.{0, 0, 0} Nat Nat Nat (@instHAdd.{0} Nat instAddNat) n\n        (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))\n      C t)",
+      "statement": "theorem uniform_no_positive {X : Type u} {C : Set (X → Bool)} (b : Bool)\n    (uniform : ∀ c ∈ C, ∀ x, c x = b) (n : Nat) (t : Tree X (n + 1)) :\n    ¬ PathConsistent C t",
+      "scope": "local",
+      "coverage": "complete",
+      "declaration": "uniform_no_positive",
+      "lean_kind": "theorem",
+      "elaborated_form": "theorem Reconstruction.uniform_no_positive.{u} : ∀ {X : Type u} {C : Set.{u} (X → Bool)} (b : Bool)\n  (uniform :\n    ∀ (c : X → Bool),\n      @Membership.mem.{u, u} (X → Bool) (Set.{u} (X → Bool)) (@Set.instMembership.{u} (X → Bool)) C c →\n        ∀ (x : X), @Eq.{1} Bool (c x) b)\n  (n : Nat)\n  (t :\n    Reconstruction.Tree.{u} X\n      (@HAdd.hAdd.{0, 0, 0} Nat Nat Nat (@instHAdd.{0} Nat instAddNat) n\n        (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))),\n  Not\n    (@Reconstruction.PathConsistent.{u} X\n      (@HAdd.hAdd.{0, 0, 0} Nat Nat Nat (@instHAdd.{0} Nat instAddNat) n\n        (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))\n      C t) :=\nfun {X : Type u} {C : Set.{u} (X → Bool)} (b : Bool)\n    (uniform :\n      ∀ (c : X → Bool),\n        @Membership.mem.{u, u} (X → Bool) (Set.{u} (X → Bool)) (@Set.instMembership.{u} (X → Bool)) C c →\n          ∀ (x : X), @Eq.{1} Bool (c x) b)\n    (n : Nat)\n    (t :\n      Reconstruction.Tree.{u} X\n        (@HAdd.hAdd.{0, 0, 0} Nat Nat Nat (@instHAdd.{0} Nat instAddNat) n\n          (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))) =>\n  @Reconstruction.Tree.casesOn.{0, u} X\n    (fun (a : Nat) (t_1 : Reconstruction.Tree.{u} X a) =>\n      ∀\n        (h :\n          @Eq.{1} Nat\n            (@HAdd.hAdd.{0, 0, 0} Nat Nat Nat (@instHAdd.{0} Nat instAddNat) n\n              (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))\n            a)\n        (h :\n          @HEq.{u + 1}\n            (Reconstruction.Tree.{u} X\n              (@HAdd.hAdd.{0, 0, 0} Nat Nat Nat (@instHAdd.{0} Nat instAddNat) n\n                (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1)))))\n            t (Reconstruction.Tree.{u} X a) t_1),\n        Not\n          (@Reconstruction.PathConsistent.{u} X\n            (@HAdd.hAdd.{0, 0, 0} Nat Nat Nat (@instHAdd.{0} Nat instAddNat) n\n              (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))\n            C t))\n    (@HAdd.hAdd.{0, 0, 0} Nat Nat Nat (@instHAdd.{0} Nat instAddNat) n\n      (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))\n    t\n    (fun\n        (h :\n          @Eq.{1} Nat\n            (@HAdd.hAdd.{0, 0, 0} Nat Nat Nat (@instHAdd.{0} Nat instAddNat) n\n              (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))\n            (@OfNat.ofNat.{0} Nat (nat_lit 0) (instOfNatNat (nat_lit 0)))) =>\n      @False.elim.{0}\n        (∀\n          (h :\n            @HEq.{u + 1}\n              (Reconstruction.Tree.{u} X\n                (@HAdd.hAdd.{0, 0, 0} Nat Nat Nat (@instHAdd.{0} Nat instAddNat) n\n                  (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1)))))\n              t (Reconstruction.Tree.{u} X (@OfNat.ofNat.{0} Nat (nat_lit 0) (instOfNatNat (nat_lit 0))))\n              (@Reconstruction.Tree.leaf.{u} X)),\n          Not\n            (@Reconstruction.PathConsistent.{u} X\n              (@HAdd.hAdd.{0, 0, 0} Nat Nat Nat (@instHAdd.{0} Nat instAddNat) n\n                (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))\n              C t))\n        (@noConfusion_of_Nat.{1} Nat Nat.ctorIdx (Nat.succ (Nat.add n (nat_lit 0))) (nat_lit 0) h))\n    (fun {n_1 : Nat} (x : X) (l r : Reconstruction.Tree.{u} X n_1)\n        (h :\n          @Eq.{1} Nat\n            (@HAdd.hAdd.{0, 0, 0} Nat Nat Nat (@instHAdd.{0} Nat instAddNat) n\n              (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))\n            (@HAdd.hAdd.{0, 0, 0} Nat Nat Nat (@instHAdd.{0} Nat instAddNat) n_1\n              (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))) =>\n      @Nat.elimOffset.{0}\n        (∀\n          (h :\n            @HEq.{u + 1}\n              (Reconstruction.Tree.{u} X\n                (@HAdd.hAdd.{0, 0, 0} Nat Nat Nat (@instHAdd.{0} Nat instAddNat) n\n                  (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1)))))\n              t\n              (Reconstruction.Tree.{u} X\n                (@HAdd.hAdd.{0, 0, 0} Nat Nat Nat (@instHAdd.{0} Nat instAddNat) n_1\n                  (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1)))))\n              (@Reconstruction.Tree.branch.{u} X n_1 x l r)),\n          Not\n            (@Reconstruction.PathConsistent.{u} X\n              (@HAdd.hAdd.{0, 0, 0} Nat Nat Nat (@instHAdd.{0} Nat instAddNat) n\n                (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))\n              C t))\n        n n_1 (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))) h fun (x_1 : @Eq.{1} Nat n n_1) =>\n        @Eq.ndrec.{0, 1} Nat n\n          (fun {n_2 : Nat} =>\n            ∀ (l r : Reconstruction.Tree.{u} X n_2)\n              (h :\n                @HEq.{u + 1}\n                  (Reconstruction.Tree.{u} X\n                    (@HAdd.hAdd.{0, 0, 0} Nat Nat Nat (@instHAdd.{0} Nat instAddNat) n\n                      (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1)))))\n                  t\n                  (Reconstruction.Tree.{u} X\n                    (@HAdd.hAdd.{0, 0, 0} Nat Nat Nat (@instHAdd.{0} Nat instAddNat) n_2\n                      (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1)))))\n                  (@Reconstruction.Tree.branch.{u} X n_2 x l r)),\n              Not\n                (@Reconstruction.PathConsistent.{u} X\n                  (@HAdd.hAdd.{0, 0, 0} Nat Nat Nat (@instHAdd.{0} Nat instAddNat) n\n                    (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))\n                  C t))\n          (fun (l r : Reconstruction.Tree.{u} X n)\n              (h :\n                @HEq.{u + 1}\n                  (Reconstruction.Tree.{u} X\n                    (@HAdd.hAdd.{0, 0, 0} Nat Nat Nat (@instHAdd.{0} Nat instAddNat) n\n                      (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1)))))\n                  t\n                  (Reconstruction.Tree.{u} X\n                    (@HAdd.hAdd.{0, 0, 0} Nat Nat Nat (@instHAdd.{0} Nat instAddNat) n\n                      (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1)))))\n                  (@Reconstruction.Tree.branch.{u} X n x l r)) =>\n            @Eq.ndrec.{0, u + 1}\n              (Reconstruction.Tree.{u} X\n                (@HAdd.hAdd.{0, 0, 0} Nat Nat Nat (@instHAdd.{0} Nat instAddNat) n\n                  (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1)))))\n              (@Reconstruction.Tree.branch.{u} X n x l r)\n              (fun\n                  (t :\n                    Reconstruction.Tree.{u} X\n                      (@HAdd.hAdd.{0, 0, 0} Nat Nat Nat (@instHAdd.{0} Nat instAddNat) n\n                        (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))) =>\n                Not\n                  (@Reconstruction.PathConsistent.{u} X\n                    (@HAdd.hAdd.{0, 0, 0} Nat Nat Nat (@instHAdd.{0} Nat instAddNat) n\n                      (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))\n                    C t))\n              (fun\n                  (h :\n                    @Reconstruction.PathConsistent.{u} X\n                      (@HAdd.hAdd.{0, 0, 0} Nat Nat Nat (@instHAdd.{0} Nat instAddNat) n\n                        (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))\n                      C (@Reconstruction.Tree.branch.{u} X n x l r)) =>\n                @Bool.casesOn.{0} (fun (t : Bool) => ∀ (h : @Eq.{1} Bool b t), False) b\n                  (fun (h_1 : @Eq.{1} Bool b Bool.false) =>\n                    @Eq.ndrec.{0, 1} Bool Bool.false\n                      (fun (b : Bool) =>\n                        ∀\n                          (uniform :\n                            ∀ (c : X → Bool),\n                              @Membership.mem.{u, u} (X → Bool) (Set.{u} (X → Bool))\n                                  (@Set.instMembership.{u} (X → Bool)) C c →\n                                ∀ (x : X), @Eq.{1} Bool (c x) b),\n                          False)\n                      (fun\n                          (uniform :\n                            ∀ (c : X → Bool),\n                              @Membership.mem.{u, u} (X → Bool) (Set.{u} (X → Bool))\n                                  (@Set.instMembership.{u} (X → Bool)) C c →\n                                ∀ (x : X), @Eq.{1} Bool (c x) Bool.false) =>\n                        @Exists.casesOn.{u + 1} (X → Bool)\n                          (fun (c : X → Bool) =>\n                            And\n                              (@Membership.mem.{u, u} (X → Bool) (Set.{u} (X → Bool))\n                                (@Set.instMembership.{u} (X → Bool)) C c)\n                              (@Eq.{1} Bool (c x) Bool.true))\n                          (fun\n                              (x :\n                                @Exists.{u + 1} (X → Bool) fun (c : X → Bool) =>\n                                  And\n                                    (@Membership.mem.{u, u} (X → Bool) (Set.{u} (X → Bool))\n                                      (@Set.instMembership.{u} (X → Bool)) C c)\n                                    (@Eq.{1} Bool (c x) Bool.true)) =>\n                            False)\n                          (@And.left\n                            (@Exists.{u + 1} (X → Bool) fun (c : X → Bool) =>\n                              And\n                                (@Membership.mem.{u, u} (X → Bool) (Set.{u} (X → Bool))\n                                  (@Set.instMembership.{u} (X → Bool)) C c)\n                                (@Eq.{1} Bool (c x) Bool.true))\n                            (And\n                              (@Exists.{u + 1} (X → Bool) fun (c : X → Bool) =>\n                                And\n                                  (@Membership.mem.{u, u} (X → Bool) (Set.{u} (X → Bool))\n                                    (@Set.instMembership.{u} (X → Bool)) C c)\n                                  (@Eq.{1} Bool (c x) Bool.false))\n                              (And\n                                (@Reconstruction.PathConsistent.{u} X n\n                                  (@setOf.{u} (X → Bool) fun (c : X → Bool) =>\n                                    And\n                                      (@Membership.mem.{u, u} (X → Bool) (Set.{u} (X → Bool))\n                                        (@Set.instMembership.{u} (X → Bool)) C c)\n                                      (@Eq.{1} Bool (c x) Bool.true))\n                                  l)\n                                (@Reconstruction.PathConsistent.{u} X n\n                                  (@setOf.{u} (X → Bool) fun (c : X → Bool) =>\n                                    And\n                                      (@Membership.mem.{u, u} (X → Bool) (Set.{u} (X → Bool))\n                                        (@Set.instMembership.{u} (X → Bool)) C c)\n                                      (@Eq.{1} Bool (c x) Bool.false))\n                                  r)))\n                            h)\n                          fun (c : X → Bool)\n                            (h :\n                              And\n                                (@Membership.mem.{u, u} (X → Bool) (Set.{u} (X → Bool))\n                                  (@Set.instMembership.{u} (X → Bool)) C c)\n                                (@Eq.{1} Bool (c x) Bool.true)) =>\n                          @And.casesOn.{0}\n                            (@Membership.mem.{u, u} (X → Bool) (Set.{u} (X → Bool)) (@Set.instMembership.{u} (X → Bool))\n                              C c)\n                            (@Eq.{1} Bool (c x) Bool.true)\n                            (fun\n                                (x :\n                                  And\n                                    (@Membership.mem.{u, u} (X → Bool) (Set.{u} (X → Bool))\n                                      (@Set.instMembership.{u} (X → Bool)) C c)\n                                    (@Eq.{1} Bool (c x) Bool.true)) =>\n                              False)\n                            h\n                            fun\n                              (hc :\n                                @Membership.mem.{u, u} (X → Bool) (Set.{u} (X → Bool))\n                                  (@Set.instMembership.{u} (X → Bool)) C c)\n                              (hx : @Eq.{1} Bool (c x) Bool.true) =>\n                            have incompatible : @Eq.{1} Bool Bool.true Bool.false :=\n                              @Eq.trans.{1} Bool Bool.true (c x) Bool.false (@Eq.symm.{1} Bool (c x) Bool.true hx)\n                                (uniform c hc x);\n                            @Eq.casesOn.{0, 1} Bool Bool.true\n                              (fun (a : Bool) (t : @Eq.{1} Bool Bool.true a) =>\n                                ∀ (h : @Eq.{1} Bool Bool.false a)\n                                  (h :\n                                    @HEq.{0} (@Eq.{1} Bool Bool.true Bool.false) incompatible (@Eq.{1} Bool Bool.true a)\n                                      t),\n                                  False)\n                              Bool.false incompatible\n                              (fun (h : @Eq.{1} Bool Bool.false Bool.true) =>\n                                @False.elim.{0}\n                                  (∀\n                                    (h :\n                                      @HEq.{0} (@Eq.{1} Bool Bool.true Bool.false) incompatible\n                                        (@Eq.{1} Bool Bool.true Bool.true) (@Eq.refl.{1} Bool Bool.true)),\n                                    False)\n                                  (@noConfusion_of_Nat.{1} Bool Bool.ctorIdx Bool.false Bool.true h))\n                              (@Eq.refl.{1} Bool Bool.false)\n                              (@HEq.refl.{0} (@Eq.{1} Bool Bool.true Bool.false) incompatible))\n                      b (@Eq.symm.{1} Bool b Bool.false h_1) uniform)\n                  (fun (h_1 : @Eq.{1} Bool b Bool.true) =>\n                    @Eq.ndrec.{0, 1} Bool Bool.true\n                      (fun (b : Bool) =>\n                        ∀\n                          (uniform :\n                            ∀ (c : X → Bool),\n                              @Membership.mem.{u, u} (X → Bool) (Set.{u} (X → Bool))\n                                  (@Set.instMembership.{u} (X → Bool)) C c →\n                                ∀ (x : X), @Eq.{1} Bool (c x) b),\n                          False)\n                      (fun\n                          (uniform :\n                            ∀ (c : X → Bool),\n                              @Membership.mem.{u, u} (X → Bool) (Set.{u} (X → Bool))\n                                  (@Set.instMembership.{u} (X → Bool)) C c →\n                                ∀ (x : X), @Eq.{1} Bool (c x) Bool.true) =>\n                        @Exists.casesOn.{u + 1} (X → Bool)\n                          (fun (c : X → Bool) =>\n                            And\n                              (@Membership.mem.{u, u} (X → Bool) (Set.{u} (X → Bool))\n                                (@Set.instMembership.{u} (X → Bool)) C c)\n                              (@Eq.{1} Bool (c x) Bool.false))\n                          (fun\n                              (x :\n                                @Exists.{u + 1} (X → Bool) fun (c : X → Bool) =>\n                                  And\n                                    (@Membership.mem.{u, u} (X → Bool) (Set.{u} (X → Bool))\n                                      (@Set.instMembership.{u} (X → Bool)) C c)\n                                    (@Eq.{1} Bool (c x) Bool.false)) =>\n                            False)\n                          (@And.left\n                            (@Exists.{u + 1} (X → Bool) fun (c : X → Bool) =>\n                              And\n                                (@Membership.mem.{u, u} (X → Bool) (Set.{u} (X → Bool))\n                                  (@Set.instMembership.{u} (X → Bool)) C c)\n                                (@Eq.{1} Bool (c x) Bool.false))\n                            (And\n                              (@Reconstruction.PathConsistent.{u} X n\n                                (@setOf.{u} (X → Bool) fun (c : X → Bool) =>\n                                  And\n                                    (@Membership.mem.{u, u} (X → Bool) (Set.{u} (X → Bool))\n                                      (@Set.instMembership.{u} (X → Bool)) C c)\n                                    (@Eq.{1} Bool (c x) Bool.true))\n                                l)\n                              (@Reconstruction.PathConsistent.{u} X n\n                                (@setOf.{u} (X → Bool) fun (c : X → Bool) =>\n                                  And\n                                    (@Membership.mem.{u, u} (X → Bool) (Set.{u} (X → Bool))\n                                      (@Set.instMembership.{u} (X → Bool)) C c)\n                                    (@Eq.{1} Bool (c x) Bool.false))\n                                r))\n                            (@And.right\n                              (@Exists.{u + 1} (X → Bool) fun (c : X → Bool) =>\n                                And\n                                  (@Membership.mem.{u, u} (X → Bool) (Set.{u} (X → Bool))\n                                    (@Set.instMembership.{u} (X → Bool)) C c)\n                                  (@Eq.{1} Bool (c x) Bool.true))\n                              (And\n                                (@Exists.{u + 1} (X → Bool) fun (c : X → Bool) =>\n                                  And\n                                    (@Membership.mem.{u, u} (X → Bool) (Set.{u} (X → Bool))\n                                      (@Set.instMembership.{u} (X → Bool)) C c)\n                                    (@Eq.{1} Bool (c x) Bool.false))\n                                (And\n                                  (@Reconstruction.PathConsistent.{u} X n\n                                    (@setOf.{u} (X → Bool) fun (c : X → Bool) =>\n                                      And\n                                        (@Membership.mem.{u, u} (X → Bool) (Set.{u} (X → Bool))\n                                          (@Set.instMembership.{u} (X → Bool)) C c)\n                                        (@Eq.{1} Bool (c x) Bool.true))\n                                    l)\n                                  (@Reconstruction.PathConsistent.{u} X n\n                                    (@setOf.{u} (X → Bool) fun (c : X → Bool) =>\n                                      And\n                                        (@Membership.mem.{u, u} (X → Bool) (Set.{u} (X → Bool))\n                                          (@Set.instMembership.{u} (X → Bool)) C c)\n                                        (@Eq.{1} Bool (c x) Bool.false))\n                                    r)))\n                              h))\n                          fun (c : X → Bool)\n                            (h :\n                              And\n                                (@Membership.mem.{u, u} (X → Bool) (Set.{u} (X → Bool))\n                                  (@Set.instMembership.{u} (X → Bool)) C c)\n                                (@Eq.{1} Bool (c x) Bool.false)) =>\n                          @And.casesOn.{0}\n                            (@Membership.mem.{u, u} (X → Bool) (Set.{u} (X → Bool)) (@Set.instMembership.{u} (X → Bool))\n                              C c)\n                            (@Eq.{1} Bool (c x) Bool.false)\n                            (fun\n                                (x :\n                                  And\n                                    (@Membership.mem.{u, u} (X → Bool) (Set.{u} (X → Bool))\n                                      (@Set.instMembership.{u} (X → Bool)) C c)\n                                    (@Eq.{1} Bool (c x) Bool.false)) =>\n                              False)\n                            h\n                            fun\n                              (hc :\n                                @Membership.mem.{u, u} (X → Bool) (Set.{u} (X → Bool))\n                                  (@Set.instMembership.{u} (X → Bool)) C c)\n                              (hx : @Eq.{1} Bool (c x) Bool.false) =>\n                            have incompatible : @Eq.{1} Bool Bool.false Bool.true :=\n                              @Eq.trans.{1} Bool Bool.false (c x) Bool.true (@Eq.symm.{1} Bool (c x) Bool.false hx)\n                                (uniform c hc x);\n                            @Eq.casesOn.{0, 1} Bool Bool.false\n                              (fun (a : Bool) (t : @Eq.{1} Bool Bool.false a) =>\n                                ∀ (h : @Eq.{1} Bool Bool.true a)\n                                  (h :\n                                    @HEq.{0} (@Eq.{1} Bool Bool.false Bool.true) incompatible\n                                      (@Eq.{1} Bool Bool.false a) t),\n                                  False)\n                              Bool.true incompatible\n                              (fun (h : @Eq.{1} Bool Bool.true Bool.false) =>\n                                @False.elim.{0}\n                                  (∀\n                                    (h :\n                                      @HEq.{0} (@Eq.{1} Bool Bool.false Bool.true) incompatible\n                                        (@Eq.{1} Bool Bool.false Bool.false) (@Eq.refl.{1} Bool Bool.false)),\n                                    False)\n                                  (@noConfusion_of_Nat.{1} Bool Bool.ctorIdx Bool.true Bool.false h))\n                              (@Eq.refl.{1} Bool Bool.true)\n                              (@HEq.refl.{0} (@Eq.{1} Bool Bool.false Bool.true) incompatible))\n                      b (@Eq.symm.{1} Bool b Bool.true h_1) uniform)\n                  (@Eq.refl.{1} Bool b))\n              t\n              (@Eq.symm.{u + 1}\n                (Reconstruction.Tree.{u} X\n                  (@HAdd.hAdd.{0, 0, 0} Nat Nat Nat (@instHAdd.{0} Nat instAddNat) n\n                    (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1)))))\n                t (@Reconstruction.Tree.branch.{u} X n x l r)\n                (@eq_of_heq.{u + 1}\n                  (Reconstruction.Tree.{u} X\n                    (@HAdd.hAdd.{0, 0, 0} Nat Nat Nat (@instHAdd.{0} Nat instAddNat) n\n                      (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1)))))\n                  t (@Reconstruction.Tree.branch.{u} X n x l r) h)))\n          n_1 x_1 l r)\n    (@Eq.refl.{1} Nat\n      (@HAdd.hAdd.{0, 0, 0} Nat Nat Nat (@instHAdd.{0} Nat instAddNat) n\n        (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1)))))\n    (@HEq.refl.{u + 1}\n      (Reconstruction.Tree.{u} X\n        (@HAdd.hAdd.{0, 0, 0} Nat Nat Nat (@instHAdd.{0} Nat instAddNat) n\n          (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1)))))\n      t)",
+      "axiom_report": "'Reconstruction.uniform_no_positive' depends on axioms: [propext]"
+    },
+    {
+      "argument": "In the b=false branch, the true witness and uniformity give true=false.",
+      "dependencies": [
+        "PathConsistent"
+      ],
+      "id": "uniform_no_positive.have.1",
+      "kind": "have",
+      "source": "Littlestone.lean:68",
+      "source_span": {
+        "start": 68,
+        "end": 69
+      },
+      "source_text": "          have incompatible : (true : Bool) = false := by\n            trace_state",
+      "context": "X : Type u\nC : Set.{u} (X → Bool)\nn : Nat\nx : X\nl r : Reconstruction.Tree.{u} X n\nh :\n  @Reconstruction.PathConsistent.{u} X\n    (@HAdd.hAdd.{0, 0, 0} Nat Nat Nat (@instHAdd.{0} Nat instAddNat) n\n      (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))\n    C (@Reconstruction.Tree.branch.{u} X n x l r)\nuniform :\n  ∀ (c : X → Bool),\n    @Membership.mem.{u, u} (X → Bool) (Set.{u} (X → Bool)) (@Set.instMembership.{u} (X → Bool)) C c →\n      ∀ (x : X), @Eq.{1} Bool (c x) Bool.false\nc : X → Bool\nhc : @Membership.mem.{u, u} (X → Bool) (Set.{u} (X → Bool)) (@Set.instMembership.{u} (X → Bool)) C c\nhx : @Eq.{1} Bool (c x) Bool.true\n⊢ @Eq.{1} Bool Bool.true Bool.false",
+      "statement": "have incompatible : (true : Bool) = false",
+      "scope": "local",
+      "coverage": "complete",
+      "declaration": "uniform_no_positive",
+      "local_name": "incompatible",
+      "trace_line": 69,
+      "elaborated_form": "X : Type u\nC : Set.{u} (X → Bool)\nn : Nat\nx : X\nl r : Reconstruction.Tree.{u} X n\nh :\n  @Reconstruction.PathConsistent.{u} X\n    (@HAdd.hAdd.{0, 0, 0} Nat Nat Nat (@instHAdd.{0} Nat instAddNat) n\n      (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))\n    C (@Reconstruction.Tree.branch.{u} X n x l r)\nuniform :\n  ∀ (c : X → Bool),\n    @Membership.mem.{u, u} (X → Bool) (Set.{u} (X → Bool)) (@Set.instMembership.{u} (X → Bool)) C c →\n      ∀ (x : X), @Eq.{1} Bool (c x) Bool.false\nc : X → Bool\nhc : @Membership.mem.{u, u} (X → Bool) (Set.{u} (X → Bool)) (@Set.instMembership.{u} (X → Bool)) C c\nhx : @Eq.{1} Bool (c x) Bool.true\n⊢ @Eq.{1} Bool Bool.true Bool.false"
+    },
+    {
+      "argument": "In the b=true branch, the false witness and uniformity give false=true.",
+      "dependencies": [
+        "PathConsistent"
+      ],
+      "id": "uniform_no_positive.have.2",
+      "kind": "have",
+      "source": "Littlestone.lean:74",
+      "source_span": {
+        "start": 74,
+        "end": 75
+      },
+      "source_text": "          have incompatible : (false : Bool) = true := by\n            trace_state",
+      "context": "X : Type u\nC : Set.{u} (X → Bool)\nn : Nat\nx : X\nl r : Reconstruction.Tree.{u} X n\nh :\n  @Reconstruction.PathConsistent.{u} X\n    (@HAdd.hAdd.{0, 0, 0} Nat Nat Nat (@instHAdd.{0} Nat instAddNat) n\n      (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))\n    C (@Reconstruction.Tree.branch.{u} X n x l r)\nuniform :\n  ∀ (c : X → Bool),\n    @Membership.mem.{u, u} (X → Bool) (Set.{u} (X → Bool)) (@Set.instMembership.{u} (X → Bool)) C c →\n      ∀ (x : X), @Eq.{1} Bool (c x) Bool.true\nc : X → Bool\nhc : @Membership.mem.{u, u} (X → Bool) (Set.{u} (X → Bool)) (@Set.instMembership.{u} (X → Bool)) C c\nhx : @Eq.{1} Bool (c x) Bool.false\n⊢ @Eq.{1} Bool Bool.false Bool.true",
+      "statement": "have incompatible : (false : Bool) = true",
+      "scope": "local",
+      "coverage": "complete",
+      "declaration": "uniform_no_positive",
+      "local_name": "incompatible",
+      "trace_line": 75,
+      "elaborated_form": "X : Type u\nC : Set.{u} (X → Bool)\nn : Nat\nx : X\nl r : Reconstruction.Tree.{u} X n\nh :\n  @Reconstruction.PathConsistent.{u} X\n    (@HAdd.hAdd.{0, 0, 0} Nat Nat Nat (@instHAdd.{0} Nat instAddNat) n\n      (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))\n    C (@Reconstruction.Tree.branch.{u} X n x l r)\nuniform :\n  ∀ (c : X → Bool),\n    @Membership.mem.{u, u} (X → Bool) (Set.{u} (X → Bool)) (@Set.instMembership.{u} (X → Bool)) C c →\n      ∀ (x : X), @Eq.{1} Bool (c x) Bool.true\nc : X → Bool\nhc : @Membership.mem.{u, u} (X → Bool) (Set.{u} (X → Bool)) (@Set.instMembership.{u} (X → Bool)) C c\nhx : @Eq.{1} Bool (c x) Bool.false\n⊢ @Eq.{1} Bool Bool.false Bool.true"
+    },
+    {
+      "kind": "theorem",
+      "argument": "Membership in the constants and label true at one input eliminates the false constant. Review the function-equality case assumptions and the local contradiction.",
+      "dependencies": [
+        "constants",
+        "true_restriction_uniform.have.1"
+      ],
+      "id": "true_restriction_uniform",
+      "source": "Littlestone.lean:80-88",
+      "source_span": {
+        "start": 80,
+        "end": 88
+      },
+      "source_text": "theorem true_restriction_uniform {X : Type u} (x : X) :\n    ∀ c ∈ ({c ∈ constants X | c x = true} : Set (X → Bool)), ∀ y, c y = true := by\n  intro c hc y\n  rcases hc.1 with htrue | hfalse\n  · simp only [htrue]\n  · have incompatible : (false : Bool) = true := by\n      trace_state\n      simpa only [hfalse] using hc.2\n    cases incompatible",
+      "context": "theorem Reconstruction.true_restriction_uniform.{u} : ∀ {X : Type u} (x : X) (c : X → Bool),\n  @Membership.mem.{u, u} (X → Bool) (Set.{u} (X → Bool)) (@Set.instMembership.{u} (X → Bool))\n      (@setOf.{u} (X → Bool) fun (c : X → Bool) =>\n        And\n          (@Membership.mem.{u, u} (X → Bool) (Set.{u} (X → Bool)) (@Set.instMembership.{u} (X → Bool))\n            (Reconstruction.constants.{u} X) c)\n          (@Eq.{1} Bool (c x) Bool.true))\n      c →\n    ∀ (y : X), @Eq.{1} Bool (c y) Bool.true",
+      "statement": "theorem true_restriction_uniform {X : Type u} (x : X) :\n    ∀ c ∈ ({c ∈ constants X | c x = true} : Set (X → Bool)), ∀ y, c y = true",
+      "scope": "local",
+      "coverage": "complete",
+      "declaration": "true_restriction_uniform",
+      "lean_kind": "theorem",
+      "elaborated_form": "theorem Reconstruction.true_restriction_uniform.{u} : ∀ {X : Type u} (x : X) (c : X → Bool),\n  @Membership.mem.{u, u} (X → Bool) (Set.{u} (X → Bool)) (@Set.instMembership.{u} (X → Bool))\n      (@setOf.{u} (X → Bool) fun (c : X → Bool) =>\n        And\n          (@Membership.mem.{u, u} (X → Bool) (Set.{u} (X → Bool)) (@Set.instMembership.{u} (X → Bool))\n            (Reconstruction.constants.{u} X) c)\n          (@Eq.{1} Bool (c x) Bool.true))\n      c →\n    ∀ (y : X), @Eq.{1} Bool (c y) Bool.true :=\nfun {X : Type u} (x : X) (c : X → Bool)\n    (hc :\n      @Membership.mem.{u, u} (X → Bool) (Set.{u} (X → Bool)) (@Set.instMembership.{u} (X → Bool))\n        (@setOf.{u} (X → Bool) fun (c : X → Bool) =>\n          And\n            (@Membership.mem.{u, u} (X → Bool) (Set.{u} (X → Bool)) (@Set.instMembership.{u} (X → Bool))\n              (Reconstruction.constants.{u} X) c)\n            (@Eq.{1} Bool (c x) Bool.true))\n        c)\n    (y : X) =>\n  @Or.casesOn (@Eq.{u + 1} (X → Bool) c fun (x : X) => Bool.true) (@Eq.{u + 1} (X → Bool) c fun (x : X) => Bool.false)\n    (fun\n        (x :\n          @Membership.mem.{u, u} (X → Bool) (Set.{u} (X → Bool)) (@Set.instMembership.{u} (X → Bool))\n            (Reconstruction.constants.{u} X) c) =>\n      @Eq.{1} Bool (c y) Bool.true)\n    (@And.left\n      (@Membership.mem.{u, u} (X → Bool) (Set.{u} (X → Bool)) (@Set.instMembership.{u} (X → Bool))\n        (Reconstruction.constants.{u} X) c)\n      (@Eq.{1} Bool (c x) Bool.true) hc)\n    (fun (htrue : @Eq.{u + 1} (X → Bool) c fun (x : X) => Bool.true) =>\n      @of_eq_true (@Eq.{1} Bool (c y) Bool.true)\n        (@Eq.trans.{1} Prop (@Eq.{1} Bool (c y) Bool.true) (@Eq.{1} Bool Bool.true Bool.true) True\n          (@congrFun'.{1, 1} Bool Prop (@Eq.{1} Bool (c y)) (@Eq.{1} Bool Bool.true)\n            (@congrArg.{1, 1} Bool (Bool → Prop) (c y) Bool.true (@Eq.{1} Bool)\n              (@congrFun'.{u + 1, 1} X Bool c (fun (x : X) => Bool.true) htrue y))\n            Bool.true)\n          (@eq_self.{1} Bool Bool.true)))\n    fun (hfalse : @Eq.{u + 1} (X → Bool) c fun (x : X) => Bool.false) =>\n    have incompatible : @Eq.{1} Bool Bool.false Bool.true :=\n      @Eq.mp.{0} (@Eq.{1} Bool (c x) Bool.true) (@Eq.{1} Bool Bool.false Bool.true)\n        (@congrFun'.{1, 1} Bool Prop (@Eq.{1} Bool (c x)) (@Eq.{1} Bool Bool.false)\n          (@congrArg.{1, 1} Bool (Bool → Prop) (c x) Bool.false (@Eq.{1} Bool)\n            (@congrFun'.{u + 1, 1} X Bool c (fun (x : X) => Bool.false) hfalse x))\n          Bool.true)\n        (@And.right\n          (@Membership.mem.{u, u} (X → Bool) (Set.{u} (X → Bool)) (@Set.instMembership.{u} (X → Bool))\n            (Reconstruction.constants.{u} X) c)\n          (@Eq.{1} Bool (c x) Bool.true) hc);\n    @Eq.casesOn.{0, 1} Bool Bool.false\n      (fun (a : Bool) (t : @Eq.{1} Bool Bool.false a) =>\n        ∀ (h : @Eq.{1} Bool Bool.true a)\n          (h : @HEq.{0} (@Eq.{1} Bool Bool.false Bool.true) incompatible (@Eq.{1} Bool Bool.false a) t),\n          @Eq.{1} Bool (c y) Bool.true)\n      Bool.true incompatible\n      (fun (h : @Eq.{1} Bool Bool.true Bool.false) =>\n        @False.elim.{0}\n          (∀\n            (h :\n              @HEq.{0} (@Eq.{1} Bool Bool.false Bool.true) incompatible (@Eq.{1} Bool Bool.false Bool.false)\n                (@Eq.refl.{1} Bool Bool.false)),\n            @Eq.{1} Bool (c y) Bool.true)\n          (@noConfusion_of_Nat.{1} Bool Bool.ctorIdx Bool.true Bool.false h))\n      (@Eq.refl.{1} Bool Bool.true) (@HEq.refl.{0} (@Eq.{1} Bool Bool.false Bool.true) incompatible)",
+      "axiom_report": "'Reconstruction.true_restriction_uniform' depends on axioms: [propext]"
+    },
+    {
+      "argument": "Under the false-constant case assumption, membership in the true restriction gives false=true.",
+      "dependencies": [
+        "constants"
+      ],
+      "id": "true_restriction_uniform.have.1",
+      "kind": "have",
+      "source": "Littlestone.lean:85",
+      "source_span": {
+        "start": 85,
+        "end": 86
+      },
+      "source_text": "  · have incompatible : (false : Bool) = true := by\n      trace_state",
+      "context": "X : Type u\nx : X\nc : X → Bool\nhc :\n  @Membership.mem.{u, u} (X → Bool) (Set.{u} (X → Bool)) (@Set.instMembership.{u} (X → Bool))\n    (@setOf.{u} (X → Bool) fun (c : X → Bool) =>\n      And\n        (@Membership.mem.{u, u} (X → Bool) (Set.{u} (X → Bool)) (@Set.instMembership.{u} (X → Bool))\n          (Reconstruction.constants.{u} X) c)\n        (@Eq.{1} Bool (c x) Bool.true))\n    c\ny : X\nhfalse : @Eq.{u + 1} (X → Bool) c fun (x : X) => Bool.false\n⊢ @Eq.{1} Bool Bool.false Bool.true",
+      "statement": "· have incompatible : (false : Bool) = true",
+      "scope": "local",
+      "coverage": "complete",
+      "declaration": "true_restriction_uniform",
+      "local_name": "incompatible",
+      "trace_line": 86,
+      "elaborated_form": "X : Type u\nx : X\nc : X → Bool\nhc :\n  @Membership.mem.{u, u} (X → Bool) (Set.{u} (X → Bool)) (@Set.instMembership.{u} (X → Bool))\n    (@setOf.{u} (X → Bool) fun (c : X → Bool) =>\n      And\n        (@Membership.mem.{u, u} (X → Bool) (Set.{u} (X → Bool)) (@Set.instMembership.{u} (X → Bool))\n          (Reconstruction.constants.{u} X) c)\n        (@Eq.{1} Bool (c x) Bool.true))\n    c\ny : X\nhfalse : @Eq.{u + 1} (X → Bool) c fun (x : X) => Bool.false\n⊢ @Eq.{1} Bool Bool.false Bool.true"
+    },
+    {
+      "kind": "generalization",
+      "argument": "An arbitrary shattered tree of depth at least two has a positive-depth true subtree; its restricted class is uniform and therefore cannot shatter that subtree. Review the index case split and both local obligations.",
+      "dependencies": [
+        "constants",
+        "PathConsistent",
+        "constants_depth_le_one.have.1",
+        "constants_depth_le_one.have.2"
+      ],
+      "id": "constants_depth_le_one",
+      "source": "Littlestone.lean:92-108",
+      "source_span": {
+        "start": 92,
+        "end": 108
+      },
+      "source_text": "theorem constants_depth_le_one {X : Type u} {n : Nat} (t : Tree X n)\n    (shattered : PathConsistent (constants X) t) : n ≤ 1 := by\n  cases t with\n  | leaf => exact Nat.zero_le 1\n  | @branch n x l r =>\n      cases n with\n      | zero => exact Nat.le_refl 1\n      | succ k =>\n          have left_shattered :\n              PathConsistent {c ∈ constants X | c x = true} l := by\n            trace_state\n            exact shattered.2.2.1\n          have obstruction :\n              ¬ PathConsistent {c ∈ constants X | c x = true} l := by\n            trace_state\n            exact uniform_no_positive true (true_restriction_uniform x) k l\n          exact False.elim (obstruction left_shattered)",
+      "context": "theorem Reconstruction.constants_depth_le_one.{u} : ∀ {X : Type u} {n : Nat} (t : Reconstruction.Tree.{u} X n)\n  (shattered : @Reconstruction.PathConsistent.{u} X n (Reconstruction.constants.{u} X) t),\n  @LE.le.{0} Nat instLENat n (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1)))",
+      "statement": "theorem constants_depth_le_one {X : Type u} {n : Nat} (t : Tree X n)\n    (shattered : PathConsistent (constants X) t) : n ≤ 1",
+      "scope": "general",
+      "coverage": "complete",
+      "declaration": "constants_depth_le_one",
+      "lean_kind": "theorem",
+      "elaborated_form": "theorem Reconstruction.constants_depth_le_one.{u} : ∀ {X : Type u} {n : Nat} (t : Reconstruction.Tree.{u} X n)\n  (shattered : @Reconstruction.PathConsistent.{u} X n (Reconstruction.constants.{u} X) t),\n  @LE.le.{0} Nat instLENat n (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))) :=\nfun {X : Type u} {n : Nat} (t : Reconstruction.Tree.{u} X n)\n    (shattered : @Reconstruction.PathConsistent.{u} X n (Reconstruction.constants.{u} X) t) =>\n  @Reconstruction.Tree.casesOn.{0, u} X\n    (fun (a : Nat) (t_1 : Reconstruction.Tree.{u} X a) =>\n      ∀ (h : @Eq.{1} Nat n a) (h : @HEq.{u + 1} (Reconstruction.Tree.{u} X n) t (Reconstruction.Tree.{u} X a) t_1),\n        @LE.le.{0} Nat instLENat n (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))\n    n t\n    (fun (h : @Eq.{1} Nat n (@OfNat.ofNat.{0} Nat (nat_lit 0) (instOfNatNat (nat_lit 0)))) =>\n      @Eq.ndrec.{0, 1} Nat (@OfNat.ofNat.{0} Nat (nat_lit 0) (instOfNatNat (nat_lit 0)))\n        (fun {n : Nat} =>\n          ∀ (t : Reconstruction.Tree.{u} X n)\n            (shattered : @Reconstruction.PathConsistent.{u} X n (Reconstruction.constants.{u} X) t)\n            (h :\n              @HEq.{u + 1} (Reconstruction.Tree.{u} X n) t\n                (Reconstruction.Tree.{u} X (@OfNat.ofNat.{0} Nat (nat_lit 0) (instOfNatNat (nat_lit 0))))\n                (@Reconstruction.Tree.leaf.{u} X)),\n            @LE.le.{0} Nat instLENat n (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))\n        (fun (t : Reconstruction.Tree.{u} X (@OfNat.ofNat.{0} Nat (nat_lit 0) (instOfNatNat (nat_lit 0))))\n            (shattered :\n              @Reconstruction.PathConsistent.{u} X (@OfNat.ofNat.{0} Nat (nat_lit 0) (instOfNatNat (nat_lit 0)))\n                (Reconstruction.constants.{u} X) t)\n            (h :\n              @HEq.{u + 1} (Reconstruction.Tree.{u} X (@OfNat.ofNat.{0} Nat (nat_lit 0) (instOfNatNat (nat_lit 0)))) t\n                (Reconstruction.Tree.{u} X (@OfNat.ofNat.{0} Nat (nat_lit 0) (instOfNatNat (nat_lit 0))))\n                (@Reconstruction.Tree.leaf.{u} X)) =>\n          @Eq.ndrec.{0, u + 1} (Reconstruction.Tree.{u} X (@OfNat.ofNat.{0} Nat (nat_lit 0) (instOfNatNat (nat_lit 0))))\n            (@Reconstruction.Tree.leaf.{u} X)\n            (fun (t : Reconstruction.Tree.{u} X (@OfNat.ofNat.{0} Nat (nat_lit 0) (instOfNatNat (nat_lit 0)))) =>\n              ∀\n                (shattered :\n                  @Reconstruction.PathConsistent.{u} X (@OfNat.ofNat.{0} Nat (nat_lit 0) (instOfNatNat (nat_lit 0)))\n                    (Reconstruction.constants.{u} X) t),\n                @LE.le.{0} Nat instLENat (@OfNat.ofNat.{0} Nat (nat_lit 0) (instOfNatNat (nat_lit 0)))\n                  (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))\n            (fun\n                (shattered :\n                  @Reconstruction.PathConsistent.{u} X (@OfNat.ofNat.{0} Nat (nat_lit 0) (instOfNatNat (nat_lit 0)))\n                    (Reconstruction.constants.{u} X) (@Reconstruction.Tree.leaf.{u} X)) =>\n              Nat.zero_le (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))\n            t\n            (@Eq.symm.{u + 1} (Reconstruction.Tree.{u} X (@OfNat.ofNat.{0} Nat (nat_lit 0) (instOfNatNat (nat_lit 0))))\n              t (@Reconstruction.Tree.leaf.{u} X)\n              (@eq_of_heq.{u + 1}\n                (Reconstruction.Tree.{u} X (@OfNat.ofNat.{0} Nat (nat_lit 0) (instOfNatNat (nat_lit 0)))) t\n                (@Reconstruction.Tree.leaf.{u} X) h))\n            shattered)\n        n (@Eq.symm.{1} Nat n (@OfNat.ofNat.{0} Nat (nat_lit 0) (instOfNatNat (nat_lit 0))) h) t shattered)\n    (fun {n_1 : Nat} (x : X) (l r : Reconstruction.Tree.{u} X n_1)\n        (h :\n          @Eq.{1} Nat n\n            (@HAdd.hAdd.{0, 0, 0} Nat Nat Nat (@instHAdd.{0} Nat instAddNat) n_1\n              (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))) =>\n      @Eq.ndrec.{0, 1} Nat\n        (@HAdd.hAdd.{0, 0, 0} Nat Nat Nat (@instHAdd.{0} Nat instAddNat) n_1\n          (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))\n        (fun {n : Nat} =>\n          ∀ (t : Reconstruction.Tree.{u} X n)\n            (shattered : @Reconstruction.PathConsistent.{u} X n (Reconstruction.constants.{u} X) t)\n            (h :\n              @HEq.{u + 1} (Reconstruction.Tree.{u} X n) t\n                (Reconstruction.Tree.{u} X\n                  (@HAdd.hAdd.{0, 0, 0} Nat Nat Nat (@instHAdd.{0} Nat instAddNat) n_1\n                    (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1)))))\n                (@Reconstruction.Tree.branch.{u} X n_1 x l r)),\n            @LE.le.{0} Nat instLENat n (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))\n        (fun\n            (t :\n              Reconstruction.Tree.{u} X\n                (@HAdd.hAdd.{0, 0, 0} Nat Nat Nat (@instHAdd.{0} Nat instAddNat) n_1\n                  (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1)))))\n            (shattered :\n              @Reconstruction.PathConsistent.{u} X\n                (@HAdd.hAdd.{0, 0, 0} Nat Nat Nat (@instHAdd.{0} Nat instAddNat) n_1\n                  (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))\n                (Reconstruction.constants.{u} X) t)\n            (h :\n              @HEq.{u + 1}\n                (Reconstruction.Tree.{u} X\n                  (@HAdd.hAdd.{0, 0, 0} Nat Nat Nat (@instHAdd.{0} Nat instAddNat) n_1\n                    (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1)))))\n                t\n                (Reconstruction.Tree.{u} X\n                  (@HAdd.hAdd.{0, 0, 0} Nat Nat Nat (@instHAdd.{0} Nat instAddNat) n_1\n                    (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1)))))\n                (@Reconstruction.Tree.branch.{u} X n_1 x l r)) =>\n          @Eq.ndrec.{0, u + 1}\n            (Reconstruction.Tree.{u} X\n              (@HAdd.hAdd.{0, 0, 0} Nat Nat Nat (@instHAdd.{0} Nat instAddNat) n_1\n                (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1)))))\n            (@Reconstruction.Tree.branch.{u} X n_1 x l r)\n            (fun\n                (t :\n                  Reconstruction.Tree.{u} X\n                    (@HAdd.hAdd.{0, 0, 0} Nat Nat Nat (@instHAdd.{0} Nat instAddNat) n_1\n                      (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))) =>\n              ∀\n                (shattered :\n                  @Reconstruction.PathConsistent.{u} X\n                    (@HAdd.hAdd.{0, 0, 0} Nat Nat Nat (@instHAdd.{0} Nat instAddNat) n_1\n                      (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))\n                    (Reconstruction.constants.{u} X) t),\n                @LE.le.{0} Nat instLENat\n                  (@HAdd.hAdd.{0, 0, 0} Nat Nat Nat (@instHAdd.{0} Nat instAddNat) n_1\n                    (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))\n                  (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))\n            (fun\n                (shattered :\n                  @Reconstruction.PathConsistent.{u} X\n                    (@HAdd.hAdd.{0, 0, 0} Nat Nat Nat (@instHAdd.{0} Nat instAddNat) n_1\n                      (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))\n                    (Reconstruction.constants.{u} X) (@Reconstruction.Tree.branch.{u} X n_1 x l r)) =>\n              @Nat.casesAuxOn.{0}\n                (fun (a : Nat) =>\n                  ∀ (h : @Eq.{1} Nat n_1 a),\n                    @LE.le.{0} Nat instLENat\n                      (@HAdd.hAdd.{0, 0, 0} Nat Nat Nat (@instHAdd.{0} Nat instAddNat) n_1\n                        (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))\n                      (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))\n                n_1\n                (fun (h : @Eq.{1} Nat n_1 (@OfNat.ofNat.{0} Nat (nat_lit 0) (instOfNatNat (nat_lit 0)))) =>\n                  @Eq.ndrec.{0, 1} Nat (@OfNat.ofNat.{0} Nat (nat_lit 0) (instOfNatNat (nat_lit 0)))\n                    (fun {n : Nat} =>\n                      ∀ (l r : Reconstruction.Tree.{u} X n)\n                        (shattered :\n                          @Reconstruction.PathConsistent.{u} X\n                            (@HAdd.hAdd.{0, 0, 0} Nat Nat Nat (@instHAdd.{0} Nat instAddNat) n\n                              (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))\n                            (Reconstruction.constants.{u} X) (@Reconstruction.Tree.branch.{u} X n x l r)),\n                        @LE.le.{0} Nat instLENat\n                          (@HAdd.hAdd.{0, 0, 0} Nat Nat Nat (@instHAdd.{0} Nat instAddNat) n\n                            (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))\n                          (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))\n                    (fun (l r : Reconstruction.Tree.{u} X (@OfNat.ofNat.{0} Nat (nat_lit 0) (instOfNatNat (nat_lit 0))))\n                        (shattered :\n                          @Reconstruction.PathConsistent.{u} X\n                            (@HAdd.hAdd.{0, 0, 0} Nat Nat Nat (@instHAdd.{0} Nat instAddNat)\n                              (@OfNat.ofNat.{0} Nat (nat_lit 0) (instOfNatNat (nat_lit 0)))\n                              (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))\n                            (Reconstruction.constants.{u} X)\n                            (@Reconstruction.Tree.branch.{u} X\n                              (@OfNat.ofNat.{0} Nat (nat_lit 0) (instOfNatNat (nat_lit 0))) x l r)) =>\n                      Nat.le_refl (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))\n                    n_1 (@Eq.symm.{1} Nat n_1 (@OfNat.ofNat.{0} Nat (nat_lit 0) (instOfNatNat (nat_lit 0))) h) l r\n                    shattered)\n                (fun (k : Nat)\n                    (h :\n                      @Eq.{1} Nat n_1\n                        (@HAdd.hAdd.{0, 0, 0} Nat Nat Nat (@instHAdd.{0} Nat instAddNat) k\n                          (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))) =>\n                  @Eq.ndrec.{0, 1} Nat\n                    (@HAdd.hAdd.{0, 0, 0} Nat Nat Nat (@instHAdd.{0} Nat instAddNat) k\n                      (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))\n                    (fun {n : Nat} =>\n                      ∀ (l r : Reconstruction.Tree.{u} X n)\n                        (shattered :\n                          @Reconstruction.PathConsistent.{u} X\n                            (@HAdd.hAdd.{0, 0, 0} Nat Nat Nat (@instHAdd.{0} Nat instAddNat) n\n                              (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))\n                            (Reconstruction.constants.{u} X) (@Reconstruction.Tree.branch.{u} X n x l r)),\n                        @LE.le.{0} Nat instLENat\n                          (@HAdd.hAdd.{0, 0, 0} Nat Nat Nat (@instHAdd.{0} Nat instAddNat) n\n                            (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))\n                          (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))\n                    (fun\n                        (l r :\n                          Reconstruction.Tree.{u} X\n                            (@HAdd.hAdd.{0, 0, 0} Nat Nat Nat (@instHAdd.{0} Nat instAddNat) k\n                              (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1)))))\n                        (shattered :\n                          @Reconstruction.PathConsistent.{u} X\n                            (@HAdd.hAdd.{0, 0, 0} Nat Nat Nat (@instHAdd.{0} Nat instAddNat)\n                              (@HAdd.hAdd.{0, 0, 0} Nat Nat Nat (@instHAdd.{0} Nat instAddNat) k\n                                (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))\n                              (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))\n                            (Reconstruction.constants.{u} X)\n                            (@Reconstruction.Tree.branch.{u} X\n                              (@HAdd.hAdd.{0, 0, 0} Nat Nat Nat (@instHAdd.{0} Nat instAddNat) k\n                                (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))\n                              x l r)) =>\n                      have left_shattered :\n                        @Reconstruction.PathConsistent.{u} X\n                          (@HAdd.hAdd.{0, 0, 0} Nat Nat Nat (@instHAdd.{0} Nat instAddNat) k\n                            (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))\n                          (@setOf.{u} (X → Bool) fun (c : X → Bool) =>\n                            And\n                              (@Membership.mem.{u, u} (X → Bool) (Set.{u} (X → Bool))\n                                (@Set.instMembership.{u} (X → Bool)) (Reconstruction.constants.{u} X) c)\n                              (@Eq.{1} Bool (c x) Bool.true))\n                          l :=\n                        @And.left\n                          (@Reconstruction.PathConsistent.{u} X\n                            (@HAdd.hAdd.{0, 0, 0} Nat Nat Nat (@instHAdd.{0} Nat instAddNat) k\n                              (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))\n                            (@setOf.{u} (X → Bool) fun (c : X → Bool) =>\n                              And\n                                (@Membership.mem.{u, u} (X → Bool) (Set.{u} (X → Bool))\n                                  (@Set.instMembership.{u} (X → Bool)) (Reconstruction.constants.{u} X) c)\n                                (@Eq.{1} Bool (c x) Bool.true))\n                            l)\n                          (@Reconstruction.PathConsistent.{u} X\n                            (@HAdd.hAdd.{0, 0, 0} Nat Nat Nat (@instHAdd.{0} Nat instAddNat) k\n                              (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))\n                            (@setOf.{u} (X → Bool) fun (c : X → Bool) =>\n                              And\n                                (@Membership.mem.{u, u} (X → Bool) (Set.{u} (X → Bool))\n                                  (@Set.instMembership.{u} (X → Bool)) (Reconstruction.constants.{u} X) c)\n                                (@Eq.{1} Bool (c x) Bool.false))\n                            r)\n                          (@And.right\n                            (@Exists.{u + 1} (X → Bool) fun (c : X → Bool) =>\n                              And\n                                (@Membership.mem.{u, u} (X → Bool) (Set.{u} (X → Bool))\n                                  (@Set.instMembership.{u} (X → Bool)) (Reconstruction.constants.{u} X) c)\n                                (@Eq.{1} Bool (c x) Bool.false))\n                            (And\n                              (@Reconstruction.PathConsistent.{u} X\n                                (@HAdd.hAdd.{0, 0, 0} Nat Nat Nat (@instHAdd.{0} Nat instAddNat) k\n                                  (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))\n                                (@setOf.{u} (X → Bool) fun (c : X → Bool) =>\n                                  And\n                                    (@Membership.mem.{u, u} (X → Bool) (Set.{u} (X → Bool))\n                                      (@Set.instMembership.{u} (X → Bool)) (Reconstruction.constants.{u} X) c)\n                                    (@Eq.{1} Bool (c x) Bool.true))\n                                l)\n                              (@Reconstruction.PathConsistent.{u} X\n                                (@HAdd.hAdd.{0, 0, 0} Nat Nat Nat (@instHAdd.{0} Nat instAddNat) k\n                                  (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))\n                                (@setOf.{u} (X → Bool) fun (c : X → Bool) =>\n                                  And\n                                    (@Membership.mem.{u, u} (X → Bool) (Set.{u} (X → Bool))\n                                      (@Set.instMembership.{u} (X → Bool)) (Reconstruction.constants.{u} X) c)\n                                    (@Eq.{1} Bool (c x) Bool.false))\n                                r))\n                            (@And.right\n                              (@Exists.{u + 1} (X → Bool) fun (c : X → Bool) =>\n                                And\n                                  (@Membership.mem.{u, u} (X → Bool) (Set.{u} (X → Bool))\n                                    (@Set.instMembership.{u} (X → Bool)) (Reconstruction.constants.{u} X) c)\n                                  (@Eq.{1} Bool (c x) Bool.true))\n                              (And\n                                (@Exists.{u + 1} (X → Bool) fun (c : X → Bool) =>\n                                  And\n                                    (@Membership.mem.{u, u} (X → Bool) (Set.{u} (X → Bool))\n                                      (@Set.instMembership.{u} (X → Bool)) (Reconstruction.constants.{u} X) c)\n                                    (@Eq.{1} Bool (c x) Bool.false))\n                                (And\n                                  (@Reconstruction.PathConsistent.{u} X\n                                    (@HAdd.hAdd.{0, 0, 0} Nat Nat Nat (@instHAdd.{0} Nat instAddNat) k\n                                      (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))\n                                    (@setOf.{u} (X → Bool) fun (c : X → Bool) =>\n                                      And\n                                        (@Membership.mem.{u, u} (X → Bool) (Set.{u} (X → Bool))\n                                          (@Set.instMembership.{u} (X → Bool)) (Reconstruction.constants.{u} X) c)\n                                        (@Eq.{1} Bool (c x) Bool.true))\n                                    l)\n                                  (@Reconstruction.PathConsistent.{u} X\n                                    (@HAdd.hAdd.{0, 0, 0} Nat Nat Nat (@instHAdd.{0} Nat instAddNat) k\n                                      (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))\n                                    (@setOf.{u} (X → Bool) fun (c : X → Bool) =>\n                                      And\n                                        (@Membership.mem.{u, u} (X → Bool) (Set.{u} (X → Bool))\n                                          (@Set.instMembership.{u} (X → Bool)) (Reconstruction.constants.{u} X) c)\n                                        (@Eq.{1} Bool (c x) Bool.false))\n                                    r)))\n                              shattered));\n                      have obstruction :\n                        Not\n                          (@Reconstruction.PathConsistent.{u} X\n                            (@HAdd.hAdd.{0, 0, 0} Nat Nat Nat (@instHAdd.{0} Nat instAddNat) k\n                              (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))\n                            (@setOf.{u} (X → Bool) fun (c : X → Bool) =>\n                              And\n                                (@Membership.mem.{u, u} (X → Bool) (Set.{u} (X → Bool))\n                                  (@Set.instMembership.{u} (X → Bool)) (Reconstruction.constants.{u} X) c)\n                                (@Eq.{1} Bool (c x) Bool.true))\n                            l) :=\n                        @Reconstruction.uniform_no_positive.{u} X\n                          (@setOf.{u} (X → Bool) fun (c : X → Bool) =>\n                            And\n                              (@Membership.mem.{u, u} (X → Bool) (Set.{u} (X → Bool))\n                                (@Set.instMembership.{u} (X → Bool)) (Reconstruction.constants.{u} X) c)\n                              (@Eq.{1} Bool (c x) Bool.true))\n                          Bool.true (@Reconstruction.true_restriction_uniform.{u} X x) k l;\n                      @False.elim.{0}\n                        (@LE.le.{0} Nat instLENat\n                          (@HAdd.hAdd.{0, 0, 0} Nat Nat Nat (@instHAdd.{0} Nat instAddNat)\n                            (@HAdd.hAdd.{0, 0, 0} Nat Nat Nat (@instHAdd.{0} Nat instAddNat) k\n                              (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))\n                            (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))\n                          (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))\n                        (obstruction left_shattered))\n                    n_1\n                    (@Eq.symm.{1} Nat n_1\n                      (@HAdd.hAdd.{0, 0, 0} Nat Nat Nat (@instHAdd.{0} Nat instAddNat) k\n                        (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))\n                      h)\n                    l r shattered)\n                (@Eq.refl.{1} Nat n_1))\n            t\n            (@Eq.symm.{u + 1}\n              (Reconstruction.Tree.{u} X\n                (@HAdd.hAdd.{0, 0, 0} Nat Nat Nat (@instHAdd.{0} Nat instAddNat) n_1\n                  (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1)))))\n              t (@Reconstruction.Tree.branch.{u} X n_1 x l r)\n              (@eq_of_heq.{u + 1}\n                (Reconstruction.Tree.{u} X\n                  (@HAdd.hAdd.{0, 0, 0} Nat Nat Nat (@instHAdd.{0} Nat instAddNat) n_1\n                    (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1)))))\n                t (@Reconstruction.Tree.branch.{u} X n_1 x l r) h))\n            shattered)\n        n\n        (@Eq.symm.{1} Nat n\n          (@HAdd.hAdd.{0, 0, 0} Nat Nat Nat (@instHAdd.{0} Nat instAddNat) n_1\n            (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))\n          h)\n        t shattered)\n    (@Eq.refl.{1} Nat n) (@HEq.refl.{u + 1} (Reconstruction.Tree.{u} X n) t)",
+      "axiom_report": "'Reconstruction.constants_depth_le_one' depends on axioms: [propext]"
+    },
+    {
+      "argument": "Extract the true subtree obligation under the complete depth-at-least-two case.",
+      "dependencies": [
+        "PathConsistent",
+        "constants"
+      ],
+      "id": "constants_depth_le_one.have.1",
+      "kind": "have",
+      "source": "Littlestone.lean:100",
+      "source_span": {
+        "start": 100,
+        "end": 102
+      },
+      "source_text": "          have left_shattered :\n              PathConsistent {c ∈ constants X | c x = true} l := by\n            trace_state",
+      "context": "X : Type u\nx : X\nk : Nat\nl r :\n  Reconstruction.Tree.{u} X\n    (@HAdd.hAdd.{0, 0, 0} Nat Nat Nat (@instHAdd.{0} Nat instAddNat) k\n      (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))\nshattered :\n  @Reconstruction.PathConsistent.{u} X\n    (@HAdd.hAdd.{0, 0, 0} Nat Nat Nat (@instHAdd.{0} Nat instAddNat)\n      (@HAdd.hAdd.{0, 0, 0} Nat Nat Nat (@instHAdd.{0} Nat instAddNat) k\n        (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))\n      (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))\n    (Reconstruction.constants.{u} X)\n    (@Reconstruction.Tree.branch.{u} X\n      (@HAdd.hAdd.{0, 0, 0} Nat Nat Nat (@instHAdd.{0} Nat instAddNat) k\n        (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))\n      x l r)\n⊢ @Reconstruction.PathConsistent.{u} X\n    (@HAdd.hAdd.{0, 0, 0} Nat Nat Nat (@instHAdd.{0} Nat instAddNat) k\n      (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))\n    (@setOf.{u} (X → Bool) fun (c : X → Bool) =>\n      And\n        (@Membership.mem.{u, u} (X → Bool) (Set.{u} (X → Bool)) (@Set.instMembership.{u} (X → Bool))\n          (Reconstruction.constants.{u} X) c)\n        (@Eq.{1} Bool (c x) Bool.true))\n    l",
+      "statement": "have left_shattered :\n              PathConsistent {c ∈ constants X | c x = true} l",
+      "scope": "local",
+      "coverage": "complete",
+      "declaration": "constants_depth_le_one",
+      "local_name": "left_shattered",
+      "trace_line": 102,
+      "elaborated_form": "X : Type u\nx : X\nk : Nat\nl r :\n  Reconstruction.Tree.{u} X\n    (@HAdd.hAdd.{0, 0, 0} Nat Nat Nat (@instHAdd.{0} Nat instAddNat) k\n      (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))\nshattered :\n  @Reconstruction.PathConsistent.{u} X\n    (@HAdd.hAdd.{0, 0, 0} Nat Nat Nat (@instHAdd.{0} Nat instAddNat)\n      (@HAdd.hAdd.{0, 0, 0} Nat Nat Nat (@instHAdd.{0} Nat instAddNat) k\n        (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))\n      (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))\n    (Reconstruction.constants.{u} X)\n    (@Reconstruction.Tree.branch.{u} X\n      (@HAdd.hAdd.{0, 0, 0} Nat Nat Nat (@instHAdd.{0} Nat instAddNat) k\n        (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))\n      x l r)\n⊢ @Reconstruction.PathConsistent.{u} X\n    (@HAdd.hAdd.{0, 0, 0} Nat Nat Nat (@instHAdd.{0} Nat instAddNat) k\n      (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))\n    (@setOf.{u} (X → Bool) fun (c : X → Bool) =>\n      And\n        (@Membership.mem.{u, u} (X → Bool) (Set.{u} (X → Bool)) (@Set.instMembership.{u} (X → Bool))\n          (Reconstruction.constants.{u} X) c)\n        (@Eq.{1} Bool (c x) Bool.true))\n    l"
+    },
+    {
+      "argument": "Apply the independently reviewed uniform-class obstruction to the positive-depth true subtree.",
+      "dependencies": [
+        "uniform_no_positive",
+        "true_restriction_uniform"
+      ],
+      "id": "constants_depth_le_one.have.2",
+      "kind": "have",
+      "source": "Littlestone.lean:104",
+      "source_span": {
+        "start": 104,
+        "end": 106
+      },
+      "source_text": "          have obstruction :\n              ¬ PathConsistent {c ∈ constants X | c x = true} l := by\n            trace_state",
+      "context": "X : Type u\nx : X\nk : Nat\nl r :\n  Reconstruction.Tree.{u} X\n    (@HAdd.hAdd.{0, 0, 0} Nat Nat Nat (@instHAdd.{0} Nat instAddNat) k\n      (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))\nshattered :\n  @Reconstruction.PathConsistent.{u} X\n    (@HAdd.hAdd.{0, 0, 0} Nat Nat Nat (@instHAdd.{0} Nat instAddNat)\n      (@HAdd.hAdd.{0, 0, 0} Nat Nat Nat (@instHAdd.{0} Nat instAddNat) k\n        (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))\n      (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))\n    (Reconstruction.constants.{u} X)\n    (@Reconstruction.Tree.branch.{u} X\n      (@HAdd.hAdd.{0, 0, 0} Nat Nat Nat (@instHAdd.{0} Nat instAddNat) k\n        (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))\n      x l r)\nleft_shattered :\n  @Reconstruction.PathConsistent.{u} X\n    (@HAdd.hAdd.{0, 0, 0} Nat Nat Nat (@instHAdd.{0} Nat instAddNat) k\n      (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))\n    (@setOf.{u} (X → Bool) fun (c : X → Bool) =>\n      And\n        (@Membership.mem.{u, u} (X → Bool) (Set.{u} (X → Bool)) (@Set.instMembership.{u} (X → Bool))\n          (Reconstruction.constants.{u} X) c)\n        (@Eq.{1} Bool (c x) Bool.true))\n    l\n⊢ Not\n    (@Reconstruction.PathConsistent.{u} X\n      (@HAdd.hAdd.{0, 0, 0} Nat Nat Nat (@instHAdd.{0} Nat instAddNat) k\n        (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))\n      (@setOf.{u} (X → Bool) fun (c : X → Bool) =>\n        And\n          (@Membership.mem.{u, u} (X → Bool) (Set.{u} (X → Bool)) (@Set.instMembership.{u} (X → Bool))\n            (Reconstruction.constants.{u} X) c)\n          (@Eq.{1} Bool (c x) Bool.true))\n      l)",
+      "statement": "have obstruction :\n              ¬ PathConsistent {c ∈ constants X | c x = true} l",
+      "scope": "local",
+      "coverage": "complete",
+      "declaration": "constants_depth_le_one",
+      "local_name": "obstruction",
+      "trace_line": 106,
+      "elaborated_form": "X : Type u\nx : X\nk : Nat\nl r :\n  Reconstruction.Tree.{u} X\n    (@HAdd.hAdd.{0, 0, 0} Nat Nat Nat (@instHAdd.{0} Nat instAddNat) k\n      (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))\nshattered :\n  @Reconstruction.PathConsistent.{u} X\n    (@HAdd.hAdd.{0, 0, 0} Nat Nat Nat (@instHAdd.{0} Nat instAddNat)\n      (@HAdd.hAdd.{0, 0, 0} Nat Nat Nat (@instHAdd.{0} Nat instAddNat) k\n        (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))\n      (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))\n    (Reconstruction.constants.{u} X)\n    (@Reconstruction.Tree.branch.{u} X\n      (@HAdd.hAdd.{0, 0, 0} Nat Nat Nat (@instHAdd.{0} Nat instAddNat) k\n        (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))\n      x l r)\nleft_shattered :\n  @Reconstruction.PathConsistent.{u} X\n    (@HAdd.hAdd.{0, 0, 0} Nat Nat Nat (@instHAdd.{0} Nat instAddNat) k\n      (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))\n    (@setOf.{u} (X → Bool) fun (c : X → Bool) =>\n      And\n        (@Membership.mem.{u, u} (X → Bool) (Set.{u} (X → Bool)) (@Set.instMembership.{u} (X → Bool))\n          (Reconstruction.constants.{u} X) c)\n        (@Eq.{1} Bool (c x) Bool.true))\n    l\n⊢ Not\n    (@Reconstruction.PathConsistent.{u} X\n      (@HAdd.hAdd.{0, 0, 0} Nat Nat Nat (@instHAdd.{0} Nat instAddNat) k\n        (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))\n      (@setOf.{u} (X → Bool) fun (c : X → Bool) =>\n        And\n          (@Membership.mem.{u, u} (X → Bool) (Set.{u} (X → Bool)) (@Set.instMembership.{u} (X → Bool))\n            (Reconstruction.constants.{u} X) c)\n          (@Eq.{1} Bool (c x) Bool.true))\n      l)"
+    },
+    {
+      "kind": "theorem",
+      "argument": "The chosen input and both constant functions witness depth one; review all four explicit witnesses, including restricted leaf membership.",
+      "dependencies": [
+        "Tree",
+        "constants",
+        "PathConsistent"
+      ],
+      "id": "constants_depth_one",
+      "source": "Littlestone.lean:111-116",
+      "source_span": {
+        "start": 111,
+        "end": 116
+      },
+      "source_text": "theorem constants_depth_one {X : Type u} (x : X) :\n    PathConsistent (constants X) (Tree.branch x Tree.leaf Tree.leaf) := by\n  exact ⟨⟨fun _ => true, Or.inl rfl, rfl⟩,\n    ⟨fun _ => false, Or.inr rfl, rfl⟩,\n    ⟨fun _ => true, Or.inl rfl, rfl⟩,\n    ⟨fun _ => false, Or.inr rfl, rfl⟩⟩",
+      "context": "theorem Reconstruction.constants_depth_one.{u} : ∀ {X : Type u} (x : X),\n  @Reconstruction.PathConsistent.{u} X\n    (@HAdd.hAdd.{0, 0, 0} Nat Nat Nat (@instHAdd.{0} Nat instAddNat)\n      (@OfNat.ofNat.{0} Nat (nat_lit 0) (instOfNatNat (nat_lit 0)))\n      (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))\n    (Reconstruction.constants.{u} X)\n    (@Reconstruction.Tree.branch.{u} X (@OfNat.ofNat.{0} Nat (nat_lit 0) (instOfNatNat (nat_lit 0))) x\n      (@Reconstruction.Tree.leaf.{u} X) (@Reconstruction.Tree.leaf.{u} X))",
+      "statement": "theorem constants_depth_one {X : Type u} (x : X) :\n    PathConsistent (constants X) (Tree.branch x Tree.leaf Tree.leaf)",
+      "scope": "local",
+      "coverage": "complete",
+      "declaration": "constants_depth_one",
+      "lean_kind": "theorem",
+      "elaborated_form": "theorem Reconstruction.constants_depth_one.{u} : ∀ {X : Type u} (x : X),\n  @Reconstruction.PathConsistent.{u} X\n    (@HAdd.hAdd.{0, 0, 0} Nat Nat Nat (@instHAdd.{0} Nat instAddNat)\n      (@OfNat.ofNat.{0} Nat (nat_lit 0) (instOfNatNat (nat_lit 0)))\n      (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))\n    (Reconstruction.constants.{u} X)\n    (@Reconstruction.Tree.branch.{u} X (@OfNat.ofNat.{0} Nat (nat_lit 0) (instOfNatNat (nat_lit 0))) x\n      (@Reconstruction.Tree.leaf.{u} X) (@Reconstruction.Tree.leaf.{u} X)) :=\nfun {X : Type u} (x : X) =>\n  @And.intro\n    (@Exists.{u + 1} (X → Bool) fun (c : X → Bool) =>\n      And\n        (@Membership.mem.{u, u} (X → Bool) (Set.{u} (X → Bool)) (@Set.instMembership.{u} (X → Bool))\n          (Reconstruction.constants.{u} X) c)\n        (@Eq.{1} Bool (c x) Bool.true))\n    (And\n      (@Exists.{u + 1} (X → Bool) fun (c : X → Bool) =>\n        And\n          (@Membership.mem.{u, u} (X → Bool) (Set.{u} (X → Bool)) (@Set.instMembership.{u} (X → Bool))\n            (Reconstruction.constants.{u} X) c)\n          (@Eq.{1} Bool (c x) Bool.false))\n      (And\n        (@Reconstruction.PathConsistent.{u} X (@OfNat.ofNat.{0} Nat (nat_lit 0) (instOfNatNat (nat_lit 0)))\n          (@setOf.{u} (X → Bool) fun (c : X → Bool) =>\n            And\n              (@Membership.mem.{u, u} (X → Bool) (Set.{u} (X → Bool)) (@Set.instMembership.{u} (X → Bool))\n                (Reconstruction.constants.{u} X) c)\n              (@Eq.{1} Bool (c x) Bool.true))\n          (@Reconstruction.Tree.leaf.{u} X))\n        (@Reconstruction.PathConsistent.{u} X (@OfNat.ofNat.{0} Nat (nat_lit 0) (instOfNatNat (nat_lit 0)))\n          (@setOf.{u} (X → Bool) fun (c : X → Bool) =>\n            And\n              (@Membership.mem.{u, u} (X → Bool) (Set.{u} (X → Bool)) (@Set.instMembership.{u} (X → Bool))\n                (Reconstruction.constants.{u} X) c)\n              (@Eq.{1} Bool (c x) Bool.false))\n          (@Reconstruction.Tree.leaf.{u} X))))\n    (@Exists.intro.{u + 1} (X → Bool)\n      (fun (c : X → Bool) =>\n        And\n          (@Membership.mem.{u, u} (X → Bool) (Set.{u} (X → Bool)) (@Set.instMembership.{u} (X → Bool))\n            (Reconstruction.constants.{u} X) c)\n          (@Eq.{1} Bool (c x) Bool.true))\n      (fun (x : X) => Bool.true)\n      (@And.intro\n        (@Membership.mem.{u, u} (X → Bool) (Set.{u} (X → Bool)) (@Set.instMembership.{u} (X → Bool))\n          (Reconstruction.constants.{u} X) fun (x : X) => Bool.true)\n        (@Eq.{1} Bool ((fun (x : X) => Bool.true) x) Bool.true)\n        (@Or.inl (@Eq.{u + 1} (X → Bool) (fun (x : X) => Bool.true) fun (x : X) => Bool.true)\n          (@Eq.{u + 1} (X → Bool) (fun (x : X) => Bool.true) fun (x : X) => Bool.false)\n          (@rfl.{u + 1} (X → Bool) fun (x : X) => Bool.true))\n        (@rfl.{1} Bool ((fun (x : X) => Bool.true) x))))\n    (@And.intro\n      (@Exists.{u + 1} (X → Bool) fun (c : X → Bool) =>\n        And\n          (@Membership.mem.{u, u} (X → Bool) (Set.{u} (X → Bool)) (@Set.instMembership.{u} (X → Bool))\n            (Reconstruction.constants.{u} X) c)\n          (@Eq.{1} Bool (c x) Bool.false))\n      (And\n        (@Reconstruction.PathConsistent.{u} X (@OfNat.ofNat.{0} Nat (nat_lit 0) (instOfNatNat (nat_lit 0)))\n          (@setOf.{u} (X → Bool) fun (c : X → Bool) =>\n            And\n              (@Membership.mem.{u, u} (X → Bool) (Set.{u} (X → Bool)) (@Set.instMembership.{u} (X → Bool))\n                (Reconstruction.constants.{u} X) c)\n              (@Eq.{1} Bool (c x) Bool.true))\n          (@Reconstruction.Tree.leaf.{u} X))\n        (@Reconstruction.PathConsistent.{u} X (@OfNat.ofNat.{0} Nat (nat_lit 0) (instOfNatNat (nat_lit 0)))\n          (@setOf.{u} (X → Bool) fun (c : X → Bool) =>\n            And\n              (@Membership.mem.{u, u} (X → Bool) (Set.{u} (X → Bool)) (@Set.instMembership.{u} (X → Bool))\n                (Reconstruction.constants.{u} X) c)\n              (@Eq.{1} Bool (c x) Bool.false))\n          (@Reconstruction.Tree.leaf.{u} X)))\n      (@Exists.intro.{u + 1} (X → Bool)\n        (fun (c : X → Bool) =>\n          And\n            (@Membership.mem.{u, u} (X → Bool) (Set.{u} (X → Bool)) (@Set.instMembership.{u} (X → Bool))\n              (Reconstruction.constants.{u} X) c)\n            (@Eq.{1} Bool (c x) Bool.false))\n        (fun (x : X) => Bool.false)\n        (@And.intro\n          (@Membership.mem.{u, u} (X → Bool) (Set.{u} (X → Bool)) (@Set.instMembership.{u} (X → Bool))\n            (Reconstruction.constants.{u} X) fun (x : X) => Bool.false)\n          (@Eq.{1} Bool ((fun (x : X) => Bool.false) x) Bool.false)\n          (@Or.inr (@Eq.{u + 1} (X → Bool) (fun (x : X) => Bool.false) fun (x : X) => Bool.true)\n            (@Eq.{u + 1} (X → Bool) (fun (x : X) => Bool.false) fun (x : X) => Bool.false)\n            (@rfl.{u + 1} (X → Bool) fun (x : X) => Bool.false))\n          (@rfl.{1} Bool ((fun (x : X) => Bool.false) x))))\n      (@And.intro\n        (@Reconstruction.PathConsistent.{u} X (@OfNat.ofNat.{0} Nat (nat_lit 0) (instOfNatNat (nat_lit 0)))\n          (@setOf.{u} (X → Bool) fun (c : X → Bool) =>\n            And\n              (@Membership.mem.{u, u} (X → Bool) (Set.{u} (X → Bool)) (@Set.instMembership.{u} (X → Bool))\n                (Reconstruction.constants.{u} X) c)\n              (@Eq.{1} Bool (c x) Bool.true))\n          (@Reconstruction.Tree.leaf.{u} X))\n        (@Reconstruction.PathConsistent.{u} X (@OfNat.ofNat.{0} Nat (nat_lit 0) (instOfNatNat (nat_lit 0)))\n          (@setOf.{u} (X → Bool) fun (c : X → Bool) =>\n            And\n              (@Membership.mem.{u, u} (X → Bool) (Set.{u} (X → Bool)) (@Set.instMembership.{u} (X → Bool))\n                (Reconstruction.constants.{u} X) c)\n              (@Eq.{1} Bool (c x) Bool.false))\n          (@Reconstruction.Tree.leaf.{u} X))\n        (@Exists.intro.{u + 1} (X → Bool)\n          (fun (x_1 : X → Bool) =>\n            @Membership.mem.{u, u} (X → Bool) (Set.{u} (X → Bool)) (@Set.instMembership.{u} (X → Bool))\n              (@setOf.{u} (X → Bool) fun (c : X → Bool) =>\n                And\n                  (@Membership.mem.{u, u} (X → Bool) (Set.{u} (X → Bool)) (@Set.instMembership.{u} (X → Bool))\n                    (Reconstruction.constants.{u} X) c)\n                  (@Eq.{1} Bool (c x) Bool.true))\n              x_1)\n          (fun (x : X) => Bool.true)\n          (@And.intro\n            (@Membership.mem.{u, u} (X → Bool) (Set.{u} (X → Bool)) (@Set.instMembership.{u} (X → Bool))\n              (Reconstruction.constants.{u} X) fun (x : X) => Bool.true)\n            (@Eq.{1} Bool ((fun (x : X) => Bool.true) x) Bool.true)\n            (@Or.inl (@Eq.{u + 1} (X → Bool) (fun (x : X) => Bool.true) fun (x : X) => Bool.true)\n              (@Eq.{u + 1} (X → Bool) (fun (x : X) => Bool.true) fun (x : X) => Bool.false)\n              (@rfl.{u + 1} (X → Bool) fun (x : X) => Bool.true))\n            (@rfl.{1} Bool ((fun (x : X) => Bool.true) x))))\n        (@Exists.intro.{u + 1} (X → Bool)\n          (fun (x_1 : X → Bool) =>\n            @Membership.mem.{u, u} (X → Bool) (Set.{u} (X → Bool)) (@Set.instMembership.{u} (X → Bool))\n              (@setOf.{u} (X → Bool) fun (c : X → Bool) =>\n                And\n                  (@Membership.mem.{u, u} (X → Bool) (Set.{u} (X → Bool)) (@Set.instMembership.{u} (X → Bool))\n                    (Reconstruction.constants.{u} X) c)\n                  (@Eq.{1} Bool (c x) Bool.false))\n              x_1)\n          (fun (x : X) => Bool.false)\n          (@And.intro\n            (@Membership.mem.{u, u} (X → Bool) (Set.{u} (X → Bool)) (@Set.instMembership.{u} (X → Bool))\n              (Reconstruction.constants.{u} X) fun (x : X) => Bool.false)\n            (@Eq.{1} Bool ((fun (x : X) => Bool.false) x) Bool.false)\n            (@Or.inr (@Eq.{u + 1} (X → Bool) (fun (x : X) => Bool.false) fun (x : X) => Bool.true)\n              (@Eq.{u + 1} (X → Bool) (fun (x : X) => Bool.false) fun (x : X) => Bool.false)\n              (@rfl.{u + 1} (X → Bool) fun (x : X) => Bool.false))\n            (@rfl.{1} Bool ((fun (x : X) => Bool.false) x))))))",
+      "axiom_report": "'Reconstruction.constants_depth_one' does not depend on any axioms"
+    },
+    {
+      "kind": "generalization",
+      "argument": "Nonempty X supplies an input; combine the depth-one witness with the arbitrary-domain upper bound. No finite-domain enumeration is used.",
+      "dependencies": [
+        "constants_depth_one",
+        "constants_depth_le_one"
+      ],
+      "id": "constants_exact_depth",
+      "source": "Littlestone.lean:119-124",
+      "source_span": {
+        "start": 119,
+        "end": 124
+      },
+      "source_text": "theorem constants_exact_depth {X : Type u} [Nonempty X] :\n    (∃ t : Tree X 1, PathConsistent (constants X) t) ∧\n    (∀ (n : Nat) (t : Tree X n), PathConsistent (constants X) t → n ≤ 1) := by\n  obtain ⟨x⟩ := ‹Nonempty X›\n  exact ⟨⟨Tree.branch x Tree.leaf Tree.leaf, constants_depth_one x⟩,\n    fun _ t ht => constants_depth_le_one t ht⟩",
+      "context": "theorem Reconstruction.constants_exact_depth.{u} : ∀ {X : Type u} [Nonempty.{u + 1} X],\n  And\n    (@Exists.{u + 1} (Reconstruction.Tree.{u} X (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))\n      fun (t : Reconstruction.Tree.{u} X (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1)))) =>\n      @Reconstruction.PathConsistent.{u} X (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1)))\n        (Reconstruction.constants.{u} X) t)\n    (∀ (n : Nat) (t : Reconstruction.Tree.{u} X n),\n      @Reconstruction.PathConsistent.{u} X n (Reconstruction.constants.{u} X) t →\n        @LE.le.{0} Nat instLENat n (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))",
+      "statement": "theorem constants_exact_depth {X : Type u} [Nonempty X] :\n    (∃ t : Tree X 1, PathConsistent (constants X) t) ∧\n    (∀ (n : Nat) (t : Tree X n), PathConsistent (constants X) t → n ≤ 1)",
+      "scope": "general",
+      "coverage": "complete",
+      "declaration": "constants_exact_depth",
+      "lean_kind": "theorem",
+      "elaborated_form": "theorem Reconstruction.constants_exact_depth.{u} : ∀ {X : Type u} [Nonempty.{u + 1} X],\n  And\n    (@Exists.{u + 1} (Reconstruction.Tree.{u} X (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))\n      fun (t : Reconstruction.Tree.{u} X (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1)))) =>\n      @Reconstruction.PathConsistent.{u} X (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1)))\n        (Reconstruction.constants.{u} X) t)\n    (∀ (n : Nat) (t : Reconstruction.Tree.{u} X n),\n      @Reconstruction.PathConsistent.{u} X n (Reconstruction.constants.{u} X) t →\n        @LE.le.{0} Nat instLENat n (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1)))) :=\nfun {X : Type u} [inst : Nonempty.{u + 1} X] =>\n  @Nonempty.casesOn.{u + 1} X\n    (fun (x : Nonempty.{u + 1} X) =>\n      And\n        (@Exists.{u + 1} (Reconstruction.Tree.{u} X (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))\n          fun (t : Reconstruction.Tree.{u} X (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1)))) =>\n          @Reconstruction.PathConsistent.{u} X (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1)))\n            (Reconstruction.constants.{u} X) t)\n        (∀ (n : Nat) (t : Reconstruction.Tree.{u} X n),\n          @Reconstruction.PathConsistent.{u} X n (Reconstruction.constants.{u} X) t →\n            @LE.le.{0} Nat instLENat n (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1)))))\n    inst fun (x : X) =>\n    @And.intro\n      (@Exists.{u + 1} (Reconstruction.Tree.{u} X (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))\n        fun (t : Reconstruction.Tree.{u} X (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1)))) =>\n        @Reconstruction.PathConsistent.{u} X (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1)))\n          (Reconstruction.constants.{u} X) t)\n      (∀ (n : Nat) (t : Reconstruction.Tree.{u} X n),\n        @Reconstruction.PathConsistent.{u} X n (Reconstruction.constants.{u} X) t →\n          @LE.le.{0} Nat instLENat n (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))\n      (@Exists.intro.{u + 1} (Reconstruction.Tree.{u} X (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))\n        (fun (t : Reconstruction.Tree.{u} X (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1)))) =>\n          @Reconstruction.PathConsistent.{u} X (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1)))\n            (Reconstruction.constants.{u} X) t)\n        (@Reconstruction.Tree.branch.{u} X (@OfNat.ofNat.{0} Nat (nat_lit 0) (instOfNatNat (nat_lit 0))) x\n          (@Reconstruction.Tree.leaf.{u} X) (@Reconstruction.Tree.leaf.{u} X))\n        (@Reconstruction.constants_depth_one.{u} X x))\n      fun (x : Nat) (t : Reconstruction.Tree.{u} X x)\n        (ht : @Reconstruction.PathConsistent.{u} X x (Reconstruction.constants.{u} X) t) =>\n      @Reconstruction.constants_depth_le_one.{u} X x t ht",
+      "axiom_report": "'Reconstruction.constants_exact_depth' depends on axioms: [propext]"
+    },
+    {
+      "kind": "theorem",
+      "argument": "The repeated-input depth-two tree satisfies the defective predicate but violates the repaired depth bound.",
+      "dependencies": [
+        "branchWise_repeated",
+        "constants_depth_le_one",
+        "repeated_counterexample.have.1"
+      ],
+      "id": "repeated_counterexample",
+      "source": "Littlestone.lean:127-136",
+      "source_span": {
+        "start": 127,
+        "end": 136
+      },
+      "source_text": "theorem repeated_counterexample {X : Type u} (x : X) :\n    BranchWise (constants X) (repeated x 2) ∧\n    ¬ PathConsistent (constants X) (repeated x 2) := by\n  constructor\n  · exact branchWise_repeated x 2\n  · intro h\n    have impossible_bound : 2 ≤ 1 := by\n      trace_state\n      exact constants_depth_le_one (repeated x 2) h\n    omega",
+      "context": "theorem Reconstruction.repeated_counterexample.{u} : ∀ {X : Type u} (x : X),\n  And\n    (@Reconstruction.BranchWise.{u} X (@OfNat.ofNat.{0} Nat (nat_lit 2) (instOfNatNat (nat_lit 2)))\n      (Reconstruction.constants.{u} X)\n      (@Reconstruction.repeated.{u} X x (@OfNat.ofNat.{0} Nat (nat_lit 2) (instOfNatNat (nat_lit 2)))))\n    (Not\n      (@Reconstruction.PathConsistent.{u} X (@OfNat.ofNat.{0} Nat (nat_lit 2) (instOfNatNat (nat_lit 2)))\n        (Reconstruction.constants.{u} X)\n        (@Reconstruction.repeated.{u} X x (@OfNat.ofNat.{0} Nat (nat_lit 2) (instOfNatNat (nat_lit 2))))))",
+      "statement": "theorem repeated_counterexample {X : Type u} (x : X) :\n    BranchWise (constants X) (repeated x 2) ∧\n    ¬ PathConsistent (constants X) (repeated x 2)",
+      "scope": "local",
+      "coverage": "complete",
+      "declaration": "repeated_counterexample",
+      "lean_kind": "theorem",
+      "elaborated_form": "theorem Reconstruction.repeated_counterexample.{u} : ∀ {X : Type u} (x : X),\n  And\n    (@Reconstruction.BranchWise.{u} X (@OfNat.ofNat.{0} Nat (nat_lit 2) (instOfNatNat (nat_lit 2)))\n      (Reconstruction.constants.{u} X)\n      (@Reconstruction.repeated.{u} X x (@OfNat.ofNat.{0} Nat (nat_lit 2) (instOfNatNat (nat_lit 2)))))\n    (Not\n      (@Reconstruction.PathConsistent.{u} X (@OfNat.ofNat.{0} Nat (nat_lit 2) (instOfNatNat (nat_lit 2)))\n        (Reconstruction.constants.{u} X)\n        (@Reconstruction.repeated.{u} X x (@OfNat.ofNat.{0} Nat (nat_lit 2) (instOfNatNat (nat_lit 2)))))) :=\nfun {X : Type u} (x : X) =>\n  @And.intro\n    (@Reconstruction.BranchWise.{u} X (@OfNat.ofNat.{0} Nat (nat_lit 2) (instOfNatNat (nat_lit 2)))\n      (Reconstruction.constants.{u} X)\n      (@Reconstruction.repeated.{u} X x (@OfNat.ofNat.{0} Nat (nat_lit 2) (instOfNatNat (nat_lit 2)))))\n    (Not\n      (@Reconstruction.PathConsistent.{u} X (@OfNat.ofNat.{0} Nat (nat_lit 2) (instOfNatNat (nat_lit 2)))\n        (Reconstruction.constants.{u} X)\n        (@Reconstruction.repeated.{u} X x (@OfNat.ofNat.{0} Nat (nat_lit 2) (instOfNatNat (nat_lit 2))))))\n    (@Reconstruction.branchWise_repeated.{u} X x (@OfNat.ofNat.{0} Nat (nat_lit 2) (instOfNatNat (nat_lit 2))))\n    fun\n      (h :\n        @Reconstruction.PathConsistent.{u} X (@OfNat.ofNat.{0} Nat (nat_lit 2) (instOfNatNat (nat_lit 2)))\n          (Reconstruction.constants.{u} X)\n          (@Reconstruction.repeated.{u} X x (@OfNat.ofNat.{0} Nat (nat_lit 2) (instOfNatNat (nat_lit 2))))) =>\n    have impossible_bound :\n      @LE.le.{0} Nat instLENat (@OfNat.ofNat.{0} Nat (nat_lit 2) (instOfNatNat (nat_lit 2)))\n        (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))) :=\n      @Reconstruction.constants_depth_le_one.{u} X (@OfNat.ofNat.{0} Nat (nat_lit 2) (instOfNatNat (nat_lit 2)))\n        (@Reconstruction.repeated.{u} X x (@OfNat.ofNat.{0} Nat (nat_lit 2) (instOfNatNat (nat_lit 2)))) h;\n    Reconstruction.repeated_counterexample._proof_1_1 impossible_bound",
+      "axiom_report": "'Reconstruction.repeated_counterexample' depends on axioms: [propext, Quot.sound.{u}]"
+    },
+    {
+      "argument": "Assuming repaired shattering of the depth-two repeated tree yields the impossible numerical bound 2≤1.",
+      "dependencies": [
+        "constants_depth_le_one",
+        "repeated"
+      ],
+      "id": "repeated_counterexample.have.1",
+      "kind": "have",
+      "source": "Littlestone.lean:133",
+      "source_span": {
+        "start": 133,
+        "end": 134
+      },
+      "source_text": "    have impossible_bound : 2 ≤ 1 := by\n      trace_state",
+      "context": "X : Type u\nx : X\nh :\n  @Reconstruction.PathConsistent.{u} X (@OfNat.ofNat.{0} Nat (nat_lit 2) (instOfNatNat (nat_lit 2)))\n    (Reconstruction.constants.{u} X)\n    (@Reconstruction.repeated.{u} X x (@OfNat.ofNat.{0} Nat (nat_lit 2) (instOfNatNat (nat_lit 2))))\n⊢ @LE.le.{0} Nat instLENat (@OfNat.ofNat.{0} Nat (nat_lit 2) (instOfNatNat (nat_lit 2)))\n    (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1)))",
+      "statement": "have impossible_bound : 2 ≤ 1",
+      "scope": "local",
+      "coverage": "complete",
+      "declaration": "repeated_counterexample",
+      "local_name": "impossible_bound",
+      "trace_line": 134,
+      "elaborated_form": "X : Type u\nx : X\nh :\n  @Reconstruction.PathConsistent.{u} X (@OfNat.ofNat.{0} Nat (nat_lit 2) (instOfNatNat (nat_lit 2)))\n    (Reconstruction.constants.{u} X)\n    (@Reconstruction.repeated.{u} X x (@OfNat.ofNat.{0} Nat (nat_lit 2) (instOfNatNat (nat_lit 2))))\n⊢ @LE.le.{0} Nat instLENat (@OfNat.ofNat.{0} Nat (nat_lit 2) (instOfNatNat (nat_lit 2)))\n    (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1)))"
+    }
+  ],
+  "human_approval": "not_performed",
+  "candidate_sha256": "27eca7b93c960e13ff0308fa90ed0e9ddd8bd5151fd1dc3bf0be2587c9f35f2c",
+  "checked_item_ids": [
+    "library",
+    "Tree",
+    "constants",
+    "BranchWise",
+    "PathConsistent",
+    "repeated",
+    "branchWise_repeated",
+    "uniform_no_positive",
+    "uniform_no_positive.have.1",
+    "uniform_no_positive.have.2",
+    "true_restriction_uniform",
+    "true_restriction_uniform.have.1",
+    "constants_depth_le_one",
+    "constants_depth_le_one.have.1",
+    "constants_depth_le_one.have.2",
+    "constants_depth_one",
+    "constants_exact_depth",
+    "repeated_counterexample",
+    "repeated_counterexample.have.1"
+  ],
+  "messages": [
+    {
+      "caption": "",
+      "data": "X : Type u\nC : Set.{u} (X → Bool)\nn : Nat\nx : X\nl r : Reconstruction.Tree.{u} X n\nh :\n  @Reconstruction.PathConsistent.{u} X\n    (@HAdd.hAdd.{0, 0, 0} Nat Nat Nat (@instHAdd.{0} Nat instAddNat) n\n      (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))\n    C (@Reconstruction.Tree.branch.{u} X n x l r)\nuniform :\n  ∀ (c : X → Bool),\n    @Membership.mem.{u, u} (X → Bool) (Set.{u} (X → Bool)) (@Set.instMembership.{u} (X → Bool)) C c →\n      ∀ (x : X), @Eq.{1} Bool (c x) Bool.false\nc : X → Bool\nhc : @Membership.mem.{u, u} (X → Bool) (Set.{u} (X → Bool)) (@Set.instMembership.{u} (X → Bool)) C c\nhx : @Eq.{1} Bool (c x) Bool.true\n⊢ @Eq.{1} Bool Bool.true Bool.false",
+      "endPos": {
+        "column": 23,
+        "line": 69
+      },
+      "fileName": "Littlestone.lean",
+      "isSilent": false,
+      "keepFullRange": false,
+      "kind": "trace",
+      "pos": {
+        "column": 12,
+        "line": 69
+      },
+      "severity": "information"
+    },
+    {
+      "caption": "",
+      "data": "X : Type u\nC : Set.{u} (X → Bool)\nn : Nat\nx : X\nl r : Reconstruction.Tree.{u} X n\nh :\n  @Reconstruction.PathConsistent.{u} X\n    (@HAdd.hAdd.{0, 0, 0} Nat Nat Nat (@instHAdd.{0} Nat instAddNat) n\n      (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))\n    C (@Reconstruction.Tree.branch.{u} X n x l r)\nuniform :\n  ∀ (c : X → Bool),\n    @Membership.mem.{u, u} (X → Bool) (Set.{u} (X → Bool)) (@Set.instMembership.{u} (X → Bool)) C c →\n      ∀ (x : X), @Eq.{1} Bool (c x) Bool.true\nc : X → Bool\nhc : @Membership.mem.{u, u} (X → Bool) (Set.{u} (X → Bool)) (@Set.instMembership.{u} (X → Bool)) C c\nhx : @Eq.{1} Bool (c x) Bool.false\n⊢ @Eq.{1} Bool Bool.false Bool.true",
+      "endPos": {
+        "column": 23,
+        "line": 75
+      },
+      "fileName": "Littlestone.lean",
+      "isSilent": false,
+      "keepFullRange": false,
+      "kind": "trace",
+      "pos": {
+        "column": 12,
+        "line": 75
+      },
+      "severity": "information"
+    },
+    {
+      "caption": "",
+      "data": "X : Type u\nx : X\nc : X → Bool\nhc :\n  @Membership.mem.{u, u} (X → Bool) (Set.{u} (X → Bool)) (@Set.instMembership.{u} (X → Bool))\n    (@setOf.{u} (X → Bool) fun (c : X → Bool) =>\n      And\n        (@Membership.mem.{u, u} (X → Bool) (Set.{u} (X → Bool)) (@Set.instMembership.{u} (X → Bool))\n          (Reconstruction.constants.{u} X) c)\n        (@Eq.{1} Bool (c x) Bool.true))\n    c\ny : X\nhfalse : @Eq.{u + 1} (X → Bool) c fun (x : X) => Bool.false\n⊢ @Eq.{1} Bool Bool.false Bool.true",
+      "endPos": {
+        "column": 17,
+        "line": 86
+      },
+      "fileName": "Littlestone.lean",
+      "isSilent": false,
+      "keepFullRange": false,
+      "kind": "trace",
+      "pos": {
+        "column": 6,
+        "line": 86
+      },
+      "severity": "information"
+    },
+    {
+      "caption": "",
+      "data": "X : Type u\nx : X\nk : Nat\nl r :\n  Reconstruction.Tree.{u} X\n    (@HAdd.hAdd.{0, 0, 0} Nat Nat Nat (@instHAdd.{0} Nat instAddNat) k\n      (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))\nshattered :\n  @Reconstruction.PathConsistent.{u} X\n    (@HAdd.hAdd.{0, 0, 0} Nat Nat Nat (@instHAdd.{0} Nat instAddNat)\n      (@HAdd.hAdd.{0, 0, 0} Nat Nat Nat (@instHAdd.{0} Nat instAddNat) k\n        (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))\n      (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))\n    (Reconstruction.constants.{u} X)\n    (@Reconstruction.Tree.branch.{u} X\n      (@HAdd.hAdd.{0, 0, 0} Nat Nat Nat (@instHAdd.{0} Nat instAddNat) k\n        (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))\n      x l r)\n⊢ @Reconstruction.PathConsistent.{u} X\n    (@HAdd.hAdd.{0, 0, 0} Nat Nat Nat (@instHAdd.{0} Nat instAddNat) k\n      (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))\n    (@setOf.{u} (X → Bool) fun (c : X → Bool) =>\n      And\n        (@Membership.mem.{u, u} (X → Bool) (Set.{u} (X → Bool)) (@Set.instMembership.{u} (X → Bool))\n          (Reconstruction.constants.{u} X) c)\n        (@Eq.{1} Bool (c x) Bool.true))\n    l",
+      "endPos": {
+        "column": 23,
+        "line": 102
+      },
+      "fileName": "Littlestone.lean",
+      "isSilent": false,
+      "keepFullRange": false,
+      "kind": "trace",
+      "pos": {
+        "column": 12,
+        "line": 102
+      },
+      "severity": "information"
+    },
+    {
+      "caption": "",
+      "data": "X : Type u\nx : X\nk : Nat\nl r :\n  Reconstruction.Tree.{u} X\n    (@HAdd.hAdd.{0, 0, 0} Nat Nat Nat (@instHAdd.{0} Nat instAddNat) k\n      (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))\nshattered :\n  @Reconstruction.PathConsistent.{u} X\n    (@HAdd.hAdd.{0, 0, 0} Nat Nat Nat (@instHAdd.{0} Nat instAddNat)\n      (@HAdd.hAdd.{0, 0, 0} Nat Nat Nat (@instHAdd.{0} Nat instAddNat) k\n        (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))\n      (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))\n    (Reconstruction.constants.{u} X)\n    (@Reconstruction.Tree.branch.{u} X\n      (@HAdd.hAdd.{0, 0, 0} Nat Nat Nat (@instHAdd.{0} Nat instAddNat) k\n        (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))\n      x l r)\nleft_shattered :\n  @Reconstruction.PathConsistent.{u} X\n    (@HAdd.hAdd.{0, 0, 0} Nat Nat Nat (@instHAdd.{0} Nat instAddNat) k\n      (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))\n    (@setOf.{u} (X → Bool) fun (c : X → Bool) =>\n      And\n        (@Membership.mem.{u, u} (X → Bool) (Set.{u} (X → Bool)) (@Set.instMembership.{u} (X → Bool))\n          (Reconstruction.constants.{u} X) c)\n        (@Eq.{1} Bool (c x) Bool.true))\n    l\n⊢ Not\n    (@Reconstruction.PathConsistent.{u} X\n      (@HAdd.hAdd.{0, 0, 0} Nat Nat Nat (@instHAdd.{0} Nat instAddNat) k\n        (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))\n      (@setOf.{u} (X → Bool) fun (c : X → Bool) =>\n        And\n          (@Membership.mem.{u, u} (X → Bool) (Set.{u} (X → Bool)) (@Set.instMembership.{u} (X → Bool))\n            (Reconstruction.constants.{u} X) c)\n          (@Eq.{1} Bool (c x) Bool.true))\n      l)",
+      "endPos": {
+        "column": 23,
+        "line": 106
+      },
+      "fileName": "Littlestone.lean",
+      "isSilent": false,
+      "keepFullRange": false,
+      "kind": "trace",
+      "pos": {
+        "column": 12,
+        "line": 106
+      },
+      "severity": "information"
+    },
+    {
+      "caption": "",
+      "data": "X : Type u\nx : X\nh :\n  @Reconstruction.PathConsistent.{u} X (@OfNat.ofNat.{0} Nat (nat_lit 2) (instOfNatNat (nat_lit 2)))\n    (Reconstruction.constants.{u} X)\n    (@Reconstruction.repeated.{u} X x (@OfNat.ofNat.{0} Nat (nat_lit 2) (instOfNatNat (nat_lit 2))))\n⊢ @LE.le.{0} Nat instLENat (@OfNat.ofNat.{0} Nat (nat_lit 2) (instOfNatNat (nat_lit 2)))\n    (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1)))",
+      "endPos": {
+        "column": 17,
+        "line": 134
+      },
+      "fileName": "Littlestone.lean",
+      "isSilent": false,
+      "keepFullRange": false,
+      "kind": "trace",
+      "pos": {
+        "column": 6,
+        "line": 134
+      },
+      "severity": "information"
+    },
+    {
+      "caption": "",
+      "data": "inductive Reconstruction.Tree.{u} : (X : Type u) → Nat → Type u\nnumber of parameters: 1\nconstructors:\nReconstruction.Tree.leaf : {X : Type u} →\n  Reconstruction.Tree.{u} X (@OfNat.ofNat.{0} Nat (nat_lit 0) (instOfNatNat (nat_lit 0)))\nReconstruction.Tree.branch : {X : Type u} →\n  {n : Nat} →\n    X →\n      Reconstruction.Tree.{u} X n →\n        Reconstruction.Tree.{u} X n →\n          Reconstruction.Tree.{u} X\n            (@HAdd.hAdd.{0, 0, 0} Nat Nat Nat (@instHAdd.{0} Nat instAddNat) n\n              (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))",
+      "endPos": {
+        "column": 6,
+        "line": 139
+      },
+      "fileName": "Littlestone.lean",
+      "isSilent": false,
+      "keepFullRange": false,
+      "kind": "[anonymous]",
+      "pos": {
+        "column": 0,
+        "line": 139
+      },
+      "severity": "information"
+    },
+    {
+      "caption": "",
+      "data": "def Reconstruction.constants.{u} : (X : Type u) → Set.{u} (X → Bool) :=\nfun (X : Type u) =>\n  @setOf.{u} (X → Bool) fun (c : X → Bool) =>\n    Or (@Eq.{u + 1} (X → Bool) c fun (x : X) => Bool.true) (@Eq.{u + 1} (X → Bool) c fun (x : X) => Bool.false)",
+      "endPos": {
+        "column": 6,
+        "line": 140
+      },
+      "fileName": "Littlestone.lean",
+      "isSilent": false,
+      "keepFullRange": false,
+      "kind": "[anonymous]",
+      "pos": {
+        "column": 0,
+        "line": 140
+      },
+      "severity": "information"
+    },
+    {
+      "caption": "",
+      "data": "def Reconstruction.BranchWise.{u} : {X : Type u} →\n  {n : Nat} → (C : Set.{u} (X → Bool)) → Reconstruction.Tree.{u} X n → Prop :=\nfun {X : Type u} {n : Nat} (C : Set.{u} (X → Bool)) (x : Reconstruction.Tree.{u} X n) =>\n  @Reconstruction.Tree.brecOn.{1, u} X (fun {n : Nat} (x : Reconstruction.Tree.{u} X n) => Prop) n x\n    (@Reconstruction.BranchWise._f.{u} X C)",
+      "endPos": {
+        "column": 6,
+        "line": 141
+      },
+      "fileName": "Littlestone.lean",
+      "isSilent": false,
+      "keepFullRange": false,
+      "kind": "[anonymous]",
+      "pos": {
+        "column": 0,
+        "line": 141
+      },
+      "severity": "information"
+    },
+    {
+      "caption": "",
+      "data": "@[reducible] def Reconstruction.BranchWise._f.{u} : {X : Type u} →\n  (C : Set.{u} (X → Bool)) →\n    {n : Nat} →\n      (x : Reconstruction.Tree.{u} X n) →\n        (f : @Reconstruction.Tree.below.{1, u} X (fun {n : Nat} (x : Reconstruction.Tree.{u} X n) => Prop) n x) →\n          Prop :=\nfun {X : Type u} (C : Set.{u} (X → Bool)) {n : Nat} (x : Reconstruction.Tree.{u} X n)\n    (f : @Reconstruction.Tree.below.{1, u} X (fun {n : Nat} (x : Reconstruction.Tree.{u} X n) => Prop) n x) =>\n  @Reconstruction.BranchWise.match_1.{u, u + 1} X\n    (fun (n : Nat) (x : Reconstruction.Tree.{u} X n) =>\n      @Reconstruction.Tree.below.{1, u} X (fun {n : Nat} (x : Reconstruction.Tree.{u} X n) => Prop) n x → Prop)\n    n x\n    (fun (_ : Unit)\n        (x :\n          @Reconstruction.Tree.below.{1, u} X (fun {n : Nat} (x : Reconstruction.Tree.{u} X n) => Prop)\n            (@OfNat.ofNat.{0} Nat (nat_lit 0) (instOfNatNat (nat_lit 0))) (@Reconstruction.Tree.leaf.{u} X)) =>\n      True)\n    (fun (n : Nat) (x : X) (l r : Reconstruction.Tree.{u} X n)\n        (x_1 :\n          @Reconstruction.Tree.below.{1, u} X (fun {n : Nat} (x : Reconstruction.Tree.{u} X n) => Prop)\n            (@HAdd.hAdd.{0, 0, 0} Nat Nat Nat (@instHAdd.{0} Nat instAddNat) n\n              (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))\n            (@Reconstruction.Tree.branch.{u} X n x l r)) =>\n      And\n        (@Exists.{u + 1} (X → Bool) fun (c : X → Bool) =>\n          And (@Membership.mem.{u, u} (X → Bool) (Set.{u} (X → Bool)) (@Set.instMembership.{u} (X → Bool)) C c)\n            (And (@Eq.{1} Bool (c x) Bool.true) x_1.1.1))\n        (@Exists.{u + 1} (X → Bool) fun (c : X → Bool) =>\n          And (@Membership.mem.{u, u} (X → Bool) (Set.{u} (X → Bool)) (@Set.instMembership.{u} (X → Bool)) C c)\n            (And (@Eq.{1} Bool (c x) Bool.false) x_1.2.1)))\n    f",
+      "endPos": {
+        "column": 6,
+        "line": 142
+      },
+      "fileName": "Littlestone.lean",
+      "isSilent": false,
+      "keepFullRange": false,
+      "kind": "[anonymous]",
+      "pos": {
+        "column": 0,
+        "line": 142
+      },
+      "severity": "information"
+    },
+    {
+      "caption": "",
+      "data": "def Reconstruction.PathConsistent.{u} : {X : Type u} →\n  {n : Nat} → (C : Set.{u} (X → Bool)) → Reconstruction.Tree.{u} X n → Prop :=\nfun {X : Type u} {n : Nat} (C : Set.{u} (X → Bool)) (x : Reconstruction.Tree.{u} X n) =>\n  @Reconstruction.Tree.brecOn.{u + 1, u} X\n    (fun {n : Nat} (x : Reconstruction.Tree.{u} X n) => (C : Set.{u} (X → Bool)) → Prop) n x\n    (@Reconstruction.PathConsistent._f.{u} X) C",
+      "endPos": {
+        "column": 6,
+        "line": 143
+      },
+      "fileName": "Littlestone.lean",
+      "isSilent": false,
+      "keepFullRange": false,
+      "kind": "[anonymous]",
+      "pos": {
+        "column": 0,
+        "line": 143
+      },
+      "severity": "information"
+    },
+    {
+      "caption": "",
+      "data": "@[reducible] def Reconstruction.PathConsistent._f.{u} : {X : Type u} →\n  {n : Nat} →\n    (x : Reconstruction.Tree.{u} X n) →\n      (f :\n          @Reconstruction.Tree.below.{u + 1, u} X\n            (fun {n : Nat} (x : Reconstruction.Tree.{u} X n) => (C : Set.{u} (X → Bool)) → Prop) n x) →\n        (C : Set.{u} (X → Bool)) → Prop :=\nfun {X : Type u} {n : Nat} (x : Reconstruction.Tree.{u} X n)\n    (f :\n      @Reconstruction.Tree.below.{u + 1, u} X\n        (fun {n : Nat} (x : Reconstruction.Tree.{u} X n) => (C : Set.{u} (X → Bool)) → Prop) n x)\n    (C : Set.{u} (X → Bool)) =>\n  @Reconstruction.BranchWise.match_1.{u, u + 1} X\n    (fun (n : Nat) (x : Reconstruction.Tree.{u} X n) =>\n      @Reconstruction.Tree.below.{u + 1, u} X\n          (fun {n : Nat} (x : Reconstruction.Tree.{u} X n) => (C : Set.{u} (X → Bool)) → Prop) n x →\n        Prop)\n    n x\n    (fun (_ : Unit)\n        (x :\n          @Reconstruction.Tree.below.{u + 1, u} X\n            (fun {n : Nat} (x : Reconstruction.Tree.{u} X n) => (C : Set.{u} (X → Bool)) → Prop)\n            (@OfNat.ofNat.{0} Nat (nat_lit 0) (instOfNatNat (nat_lit 0))) (@Reconstruction.Tree.leaf.{u} X)) =>\n      @Set.Nonempty.{u} (X → Bool) C)\n    (fun (n : Nat) (x : X) (l r : Reconstruction.Tree.{u} X n)\n        (x_1 :\n          @Reconstruction.Tree.below.{u + 1, u} X\n            (fun {n : Nat} (x : Reconstruction.Tree.{u} X n) => (C : Set.{u} (X → Bool)) → Prop)\n            (@HAdd.hAdd.{0, 0, 0} Nat Nat Nat (@instHAdd.{0} Nat instAddNat) n\n              (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))\n            (@Reconstruction.Tree.branch.{u} X n x l r)) =>\n      And\n        (@Exists.{u + 1} (X → Bool) fun (c : X → Bool) =>\n          And (@Membership.mem.{u, u} (X → Bool) (Set.{u} (X → Bool)) (@Set.instMembership.{u} (X → Bool)) C c)\n            (@Eq.{1} Bool (c x) Bool.true))\n        (And\n          (@Exists.{u + 1} (X → Bool) fun (c : X → Bool) =>\n            And (@Membership.mem.{u, u} (X → Bool) (Set.{u} (X → Bool)) (@Set.instMembership.{u} (X → Bool)) C c)\n              (@Eq.{1} Bool (c x) Bool.false))\n          (And\n            (x_1.1.1\n              (@setOf.{u} (X → Bool) fun (c : X → Bool) =>\n                And (@Membership.mem.{u, u} (X → Bool) (Set.{u} (X → Bool)) (@Set.instMembership.{u} (X → Bool)) C c)\n                  (@Eq.{1} Bool (c x) Bool.true)))\n            (x_1.2.1\n              (@setOf.{u} (X → Bool) fun (c : X → Bool) =>\n                And (@Membership.mem.{u, u} (X → Bool) (Set.{u} (X → Bool)) (@Set.instMembership.{u} (X → Bool)) C c)\n                  (@Eq.{1} Bool (c x) Bool.false))))))\n    f",
+      "endPos": {
+        "column": 6,
+        "line": 144
+      },
+      "fileName": "Littlestone.lean",
+      "isSilent": false,
+      "keepFullRange": false,
+      "kind": "[anonymous]",
+      "pos": {
+        "column": 0,
+        "line": 144
+      },
+      "severity": "information"
+    },
+    {
+      "caption": "",
+      "data": "def Reconstruction.repeated.{u} : {X : Type u} → (x : X) → (n : Nat) → Reconstruction.Tree.{u} X n :=\nfun {X : Type u} (x : X) (x_1 : Nat) =>\n  @Nat.brecOn.{u + 1} (fun (x : Nat) => Reconstruction.Tree.{u} X x) x_1 (@Reconstruction.repeated._f.{u} X x)",
+      "endPos": {
+        "column": 6,
+        "line": 145
+      },
+      "fileName": "Littlestone.lean",
+      "isSilent": false,
+      "keepFullRange": false,
+      "kind": "[anonymous]",
+      "pos": {
+        "column": 0,
+        "line": 145
+      },
+      "severity": "information"
+    },
+    {
+      "caption": "",
+      "data": "@[reducible] def Reconstruction.repeated._f.{u} : {X : Type u} →\n  (x : X) →\n    (x : Nat) →\n      (f : @Nat.below.{u + 1} (fun (x : Nat) => Reconstruction.Tree.{u} X x) x) → Reconstruction.Tree.{u} X x :=\nfun {X : Type u} (x : X) (x_1 : Nat) (f : @Nat.below.{u + 1} (fun (x : Nat) => Reconstruction.Tree.{u} X x) x_1) =>\n  Reconstruction.repeated.match_1.{u + 1}\n    (fun (x : Nat) => @Nat.below.{u + 1} (fun (x : Nat) => Reconstruction.Tree.{u} X x) x → Reconstruction.Tree.{u} X x)\n    x_1\n    (fun (_ : Unit)\n        (x :\n          @Nat.below.{u + 1} (fun (x : Nat) => Reconstruction.Tree.{u} X x)\n            (@OfNat.ofNat.{0} Nat (nat_lit 0) (instOfNatNat (nat_lit 0)))) =>\n      @Reconstruction.Tree.leaf.{u} X)\n    (fun (n : Nat) (x_2 : @Nat.below.{u + 1} (fun (x : Nat) => Reconstruction.Tree.{u} X x) (Nat.succ n)) =>\n      @Reconstruction.Tree.branch.{u} X n x x_2.1 x_2.1)\n    f",
+      "endPos": {
+        "column": 6,
+        "line": 146
+      },
+      "fileName": "Littlestone.lean",
+      "isSilent": false,
+      "keepFullRange": false,
+      "kind": "[anonymous]",
+      "pos": {
+        "column": 0,
+        "line": 146
+      },
+      "severity": "information"
+    },
+    {
+      "caption": "",
+      "data": "theorem Reconstruction.branchWise_repeated.{u} : ∀ {X : Type u} (x : X) (n : Nat),\n  @Reconstruction.BranchWise.{u} X n (Reconstruction.constants.{u} X) (@Reconstruction.repeated.{u} X x n) :=\nfun {X : Type u} (x : X) (n : Nat) =>\n  @Nat.recAux.{0}\n    (fun (n : Nat) =>\n      @Reconstruction.BranchWise.{u} X n (Reconstruction.constants.{u} X) (@Reconstruction.repeated.{u} X x n))\n    True.intro\n    (fun (n : Nat)\n        (ih :\n          @Reconstruction.BranchWise.{u} X n (Reconstruction.constants.{u} X) (@Reconstruction.repeated.{u} X x n)) =>\n      @And.intro\n        (@Exists.{u + 1} (X → Bool) fun (c : X → Bool) =>\n          And\n            (@Membership.mem.{u, u} (X → Bool) (Set.{u} (X → Bool)) (@Set.instMembership.{u} (X → Bool))\n              (Reconstruction.constants.{u} X) c)\n            (And (@Eq.{1} Bool (c x) Bool.true)\n              (@Reconstruction.BranchWise.{u} X n (Reconstruction.constants.{u} X)\n                (@Reconstruction.repeated.{u} X x n))))\n        (@Exists.{u + 1} (X → Bool) fun (c : X → Bool) =>\n          And\n            (@Membership.mem.{u, u} (X → Bool) (Set.{u} (X → Bool)) (@Set.instMembership.{u} (X → Bool))\n              (Reconstruction.constants.{u} X) c)\n            (And (@Eq.{1} Bool (c x) Bool.false)\n              (@Reconstruction.BranchWise.{u} X n (Reconstruction.constants.{u} X)\n                (@Reconstruction.repeated.{u} X x n))))\n        (@Exists.intro.{u + 1} (X → Bool)\n          (fun (c : X → Bool) =>\n            And\n              (@Membership.mem.{u, u} (X → Bool) (Set.{u} (X → Bool)) (@Set.instMembership.{u} (X → Bool))\n                (Reconstruction.constants.{u} X) c)\n              (And (@Eq.{1} Bool (c x) Bool.true)\n                (@Reconstruction.BranchWise.{u} X n (Reconstruction.constants.{u} X)\n                  (@Reconstruction.repeated.{u} X x n))))\n          (fun (x : X) => Bool.true)\n          (@And.intro\n            (@Membership.mem.{u, u} (X → Bool) (Set.{u} (X → Bool)) (@Set.instMembership.{u} (X → Bool))\n              (Reconstruction.constants.{u} X) fun (x : X) => Bool.true)\n            (And (@Eq.{1} Bool ((fun (x : X) => Bool.true) x) Bool.true)\n              (@Reconstruction.BranchWise.{u} X n (Reconstruction.constants.{u} X)\n                (@Reconstruction.repeated.{u} X x n)))\n            (@Or.inl (@Eq.{u + 1} (X → Bool) (fun (x : X) => Bool.true) fun (x : X) => Bool.true)\n              (@Eq.{u + 1} (X → Bool) (fun (x : X) => Bool.true) fun (x : X) => Bool.false)\n              (@rfl.{u + 1} (X → Bool) fun (x : X) => Bool.true))\n            (@And.intro (@Eq.{1} Bool ((fun (x : X) => Bool.true) x) Bool.true)\n              (@Reconstruction.BranchWise.{u} X n (Reconstruction.constants.{u} X) (@Reconstruction.repeated.{u} X x n))\n              (@rfl.{1} Bool ((fun (x : X) => Bool.true) x)) ih)))\n        (@Exists.intro.{u + 1} (X → Bool)\n          (fun (c : X → Bool) =>\n            And\n              (@Membership.mem.{u, u} (X → Bool) (Set.{u} (X → Bool)) (@Set.instMembership.{u} (X → Bool))\n                (Reconstruction.constants.{u} X) c)\n              (And (@Eq.{1} Bool (c x) Bool.false)\n                (@Reconstruction.BranchWise.{u} X n (Reconstruction.constants.{u} X)\n                  (@Reconstruction.repeated.{u} X x n))))\n          (fun (x : X) => Bool.false)\n          (@And.intro\n            (@Membership.mem.{u, u} (X → Bool) (Set.{u} (X → Bool)) (@Set.instMembership.{u} (X → Bool))\n              (Reconstruction.constants.{u} X) fun (x : X) => Bool.false)\n            (And (@Eq.{1} Bool ((fun (x : X) => Bool.false) x) Bool.false)\n              (@Reconstruction.BranchWise.{u} X n (Reconstruction.constants.{u} X)\n                (@Reconstruction.repeated.{u} X x n)))\n            (@Or.inr (@Eq.{u + 1} (X → Bool) (fun (x : X) => Bool.false) fun (x : X) => Bool.true)\n              (@Eq.{u + 1} (X → Bool) (fun (x : X) => Bool.false) fun (x : X) => Bool.false)\n              (@rfl.{u + 1} (X → Bool) fun (x : X) => Bool.false))\n            (@And.intro (@Eq.{1} Bool ((fun (x : X) => Bool.false) x) Bool.false)\n              (@Reconstruction.BranchWise.{u} X n (Reconstruction.constants.{u} X) (@Reconstruction.repeated.{u} X x n))\n              (@rfl.{1} Bool ((fun (x : X) => Bool.false) x)) ih))))\n    n",
+      "endPos": {
+        "column": 6,
+        "line": 147
+      },
+      "fileName": "Littlestone.lean",
+      "isSilent": false,
+      "keepFullRange": false,
+      "kind": "[anonymous]",
+      "pos": {
+        "column": 0,
+        "line": 147
+      },
+      "severity": "information"
+    },
+    {
+      "caption": "",
+      "data": "theorem Reconstruction.uniform_no_positive.{u} : ∀ {X : Type u} {C : Set.{u} (X → Bool)} (b : Bool)\n  (uniform :\n    ∀ (c : X → Bool),\n      @Membership.mem.{u, u} (X → Bool) (Set.{u} (X → Bool)) (@Set.instMembership.{u} (X → Bool)) C c →\n        ∀ (x : X), @Eq.{1} Bool (c x) b)\n  (n : Nat)\n  (t :\n    Reconstruction.Tree.{u} X\n      (@HAdd.hAdd.{0, 0, 0} Nat Nat Nat (@instHAdd.{0} Nat instAddNat) n\n        (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))),\n  Not\n    (@Reconstruction.PathConsistent.{u} X\n      (@HAdd.hAdd.{0, 0, 0} Nat Nat Nat (@instHAdd.{0} Nat instAddNat) n\n        (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))\n      C t) :=\nfun {X : Type u} {C : Set.{u} (X → Bool)} (b : Bool)\n    (uniform :\n      ∀ (c : X → Bool),\n        @Membership.mem.{u, u} (X → Bool) (Set.{u} (X → Bool)) (@Set.instMembership.{u} (X → Bool)) C c →\n          ∀ (x : X), @Eq.{1} Bool (c x) b)\n    (n : Nat)\n    (t :\n      Reconstruction.Tree.{u} X\n        (@HAdd.hAdd.{0, 0, 0} Nat Nat Nat (@instHAdd.{0} Nat instAddNat) n\n          (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))) =>\n  @Reconstruction.Tree.casesOn.{0, u} X\n    (fun (a : Nat) (t_1 : Reconstruction.Tree.{u} X a) =>\n      ∀\n        (h :\n          @Eq.{1} Nat\n            (@HAdd.hAdd.{0, 0, 0} Nat Nat Nat (@instHAdd.{0} Nat instAddNat) n\n              (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))\n            a)\n        (h :\n          @HEq.{u + 1}\n            (Reconstruction.Tree.{u} X\n              (@HAdd.hAdd.{0, 0, 0} Nat Nat Nat (@instHAdd.{0} Nat instAddNat) n\n                (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1)))))\n            t (Reconstruction.Tree.{u} X a) t_1),\n        Not\n          (@Reconstruction.PathConsistent.{u} X\n            (@HAdd.hAdd.{0, 0, 0} Nat Nat Nat (@instHAdd.{0} Nat instAddNat) n\n              (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))\n            C t))\n    (@HAdd.hAdd.{0, 0, 0} Nat Nat Nat (@instHAdd.{0} Nat instAddNat) n\n      (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))\n    t\n    (fun\n        (h :\n          @Eq.{1} Nat\n            (@HAdd.hAdd.{0, 0, 0} Nat Nat Nat (@instHAdd.{0} Nat instAddNat) n\n              (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))\n            (@OfNat.ofNat.{0} Nat (nat_lit 0) (instOfNatNat (nat_lit 0)))) =>\n      @False.elim.{0}\n        (∀\n          (h :\n            @HEq.{u + 1}\n              (Reconstruction.Tree.{u} X\n                (@HAdd.hAdd.{0, 0, 0} Nat Nat Nat (@instHAdd.{0} Nat instAddNat) n\n                  (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1)))))\n              t (Reconstruction.Tree.{u} X (@OfNat.ofNat.{0} Nat (nat_lit 0) (instOfNatNat (nat_lit 0))))\n              (@Reconstruction.Tree.leaf.{u} X)),\n          Not\n            (@Reconstruction.PathConsistent.{u} X\n              (@HAdd.hAdd.{0, 0, 0} Nat Nat Nat (@instHAdd.{0} Nat instAddNat) n\n                (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))\n              C t))\n        (@noConfusion_of_Nat.{1} Nat Nat.ctorIdx (Nat.succ (Nat.add n (nat_lit 0))) (nat_lit 0) h))\n    (fun {n_1 : Nat} (x : X) (l r : Reconstruction.Tree.{u} X n_1)\n        (h :\n          @Eq.{1} Nat\n            (@HAdd.hAdd.{0, 0, 0} Nat Nat Nat (@instHAdd.{0} Nat instAddNat) n\n              (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))\n            (@HAdd.hAdd.{0, 0, 0} Nat Nat Nat (@instHAdd.{0} Nat instAddNat) n_1\n              (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))) =>\n      @Nat.elimOffset.{0}\n        (∀\n          (h :\n            @HEq.{u + 1}\n              (Reconstruction.Tree.{u} X\n                (@HAdd.hAdd.{0, 0, 0} Nat Nat Nat (@instHAdd.{0} Nat instAddNat) n\n                  (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1)))))\n              t\n              (Reconstruction.Tree.{u} X\n                (@HAdd.hAdd.{0, 0, 0} Nat Nat Nat (@instHAdd.{0} Nat instAddNat) n_1\n                  (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1)))))\n              (@Reconstruction.Tree.branch.{u} X n_1 x l r)),\n          Not\n            (@Reconstruction.PathConsistent.{u} X\n              (@HAdd.hAdd.{0, 0, 0} Nat Nat Nat (@instHAdd.{0} Nat instAddNat) n\n                (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))\n              C t))\n        n n_1 (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))) h fun (x_1 : @Eq.{1} Nat n n_1) =>\n        @Eq.ndrec.{0, 1} Nat n\n          (fun {n_2 : Nat} =>\n            ∀ (l r : Reconstruction.Tree.{u} X n_2)\n              (h :\n                @HEq.{u + 1}\n                  (Reconstruction.Tree.{u} X\n                    (@HAdd.hAdd.{0, 0, 0} Nat Nat Nat (@instHAdd.{0} Nat instAddNat) n\n                      (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1)))))\n                  t\n                  (Reconstruction.Tree.{u} X\n                    (@HAdd.hAdd.{0, 0, 0} Nat Nat Nat (@instHAdd.{0} Nat instAddNat) n_2\n                      (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1)))))\n                  (@Reconstruction.Tree.branch.{u} X n_2 x l r)),\n              Not\n                (@Reconstruction.PathConsistent.{u} X\n                  (@HAdd.hAdd.{0, 0, 0} Nat Nat Nat (@instHAdd.{0} Nat instAddNat) n\n                    (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))\n                  C t))\n          (fun (l r : Reconstruction.Tree.{u} X n)\n              (h :\n                @HEq.{u + 1}\n                  (Reconstruction.Tree.{u} X\n                    (@HAdd.hAdd.{0, 0, 0} Nat Nat Nat (@instHAdd.{0} Nat instAddNat) n\n                      (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1)))))\n                  t\n                  (Reconstruction.Tree.{u} X\n                    (@HAdd.hAdd.{0, 0, 0} Nat Nat Nat (@instHAdd.{0} Nat instAddNat) n\n                      (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1)))))\n                  (@Reconstruction.Tree.branch.{u} X n x l r)) =>\n            @Eq.ndrec.{0, u + 1}\n              (Reconstruction.Tree.{u} X\n                (@HAdd.hAdd.{0, 0, 0} Nat Nat Nat (@instHAdd.{0} Nat instAddNat) n\n                  (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1)))))\n              (@Reconstruction.Tree.branch.{u} X n x l r)\n              (fun\n                  (t :\n                    Reconstruction.Tree.{u} X\n                      (@HAdd.hAdd.{0, 0, 0} Nat Nat Nat (@instHAdd.{0} Nat instAddNat) n\n                        (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))) =>\n                Not\n                  (@Reconstruction.PathConsistent.{u} X\n                    (@HAdd.hAdd.{0, 0, 0} Nat Nat Nat (@instHAdd.{0} Nat instAddNat) n\n                      (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))\n                    C t))\n              (fun\n                  (h :\n                    @Reconstruction.PathConsistent.{u} X\n                      (@HAdd.hAdd.{0, 0, 0} Nat Nat Nat (@instHAdd.{0} Nat instAddNat) n\n                        (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))\n                      C (@Reconstruction.Tree.branch.{u} X n x l r)) =>\n                @Bool.casesOn.{0} (fun (t : Bool) => ∀ (h : @Eq.{1} Bool b t), False) b\n                  (fun (h_1 : @Eq.{1} Bool b Bool.false) =>\n                    @Eq.ndrec.{0, 1} Bool Bool.false\n                      (fun (b : Bool) =>\n                        ∀\n                          (uniform :\n                            ∀ (c : X → Bool),\n                              @Membership.mem.{u, u} (X → Bool) (Set.{u} (X → Bool))\n                                  (@Set.instMembership.{u} (X → Bool)) C c →\n                                ∀ (x : X), @Eq.{1} Bool (c x) b),\n                          False)\n                      (fun\n                          (uniform :\n                            ∀ (c : X → Bool),\n                              @Membership.mem.{u, u} (X → Bool) (Set.{u} (X → Bool))\n                                  (@Set.instMembership.{u} (X → Bool)) C c →\n                                ∀ (x : X), @Eq.{1} Bool (c x) Bool.false) =>\n                        @Exists.casesOn.{u + 1} (X → Bool)\n                          (fun (c : X → Bool) =>\n                            And\n                              (@Membership.mem.{u, u} (X → Bool) (Set.{u} (X → Bool))\n                                (@Set.instMembership.{u} (X → Bool)) C c)\n                              (@Eq.{1} Bool (c x) Bool.true))\n                          (fun\n                              (x :\n                                @Exists.{u + 1} (X → Bool) fun (c : X → Bool) =>\n                                  And\n                                    (@Membership.mem.{u, u} (X → Bool) (Set.{u} (X → Bool))\n                                      (@Set.instMembership.{u} (X → Bool)) C c)\n                                    (@Eq.{1} Bool (c x) Bool.true)) =>\n                            False)\n                          (@And.left\n                            (@Exists.{u + 1} (X → Bool) fun (c : X → Bool) =>\n                              And\n                                (@Membership.mem.{u, u} (X → Bool) (Set.{u} (X → Bool))\n                                  (@Set.instMembership.{u} (X → Bool)) C c)\n                                (@Eq.{1} Bool (c x) Bool.true))\n                            (And\n                              (@Exists.{u + 1} (X → Bool) fun (c : X → Bool) =>\n                                And\n                                  (@Membership.mem.{u, u} (X → Bool) (Set.{u} (X → Bool))\n                                    (@Set.instMembership.{u} (X → Bool)) C c)\n                                  (@Eq.{1} Bool (c x) Bool.false))\n                              (And\n                                (@Reconstruction.PathConsistent.{u} X n\n                                  (@setOf.{u} (X → Bool) fun (c : X → Bool) =>\n                                    And\n                                      (@Membership.mem.{u, u} (X → Bool) (Set.{u} (X → Bool))\n                                        (@Set.instMembership.{u} (X → Bool)) C c)\n                                      (@Eq.{1} Bool (c x) Bool.true))\n                                  l)\n                                (@Reconstruction.PathConsistent.{u} X n\n                                  (@setOf.{u} (X → Bool) fun (c : X → Bool) =>\n                                    And\n                                      (@Membership.mem.{u, u} (X → Bool) (Set.{u} (X → Bool))\n                                        (@Set.instMembership.{u} (X → Bool)) C c)\n                                      (@Eq.{1} Bool (c x) Bool.false))\n                                  r)))\n                            h)\n                          fun (c : X → Bool)\n                            (h :\n                              And\n                                (@Membership.mem.{u, u} (X → Bool) (Set.{u} (X → Bool))\n                                  (@Set.instMembership.{u} (X → Bool)) C c)\n                                (@Eq.{1} Bool (c x) Bool.true)) =>\n                          @And.casesOn.{0}\n                            (@Membership.mem.{u, u} (X → Bool) (Set.{u} (X → Bool)) (@Set.instMembership.{u} (X → Bool))\n                              C c)\n                            (@Eq.{1} Bool (c x) Bool.true)\n                            (fun\n                                (x :\n                                  And\n                                    (@Membership.mem.{u, u} (X → Bool) (Set.{u} (X → Bool))\n                                      (@Set.instMembership.{u} (X → Bool)) C c)\n                                    (@Eq.{1} Bool (c x) Bool.true)) =>\n                              False)\n                            h\n                            fun\n                              (hc :\n                                @Membership.mem.{u, u} (X → Bool) (Set.{u} (X → Bool))\n                                  (@Set.instMembership.{u} (X → Bool)) C c)\n                              (hx : @Eq.{1} Bool (c x) Bool.true) =>\n                            have incompatible : @Eq.{1} Bool Bool.true Bool.false :=\n                              @Eq.trans.{1} Bool Bool.true (c x) Bool.false (@Eq.symm.{1} Bool (c x) Bool.true hx)\n                                (uniform c hc x);\n                            @Eq.casesOn.{0, 1} Bool Bool.true\n                              (fun (a : Bool) (t : @Eq.{1} Bool Bool.true a) =>\n                                ∀ (h : @Eq.{1} Bool Bool.false a)\n                                  (h :\n                                    @HEq.{0} (@Eq.{1} Bool Bool.true Bool.false) incompatible (@Eq.{1} Bool Bool.true a)\n                                      t),\n                                  False)\n                              Bool.false incompatible\n                              (fun (h : @Eq.{1} Bool Bool.false Bool.true) =>\n                                @False.elim.{0}\n                                  (∀\n                                    (h :\n                                      @HEq.{0} (@Eq.{1} Bool Bool.true Bool.false) incompatible\n                                        (@Eq.{1} Bool Bool.true Bool.true) (@Eq.refl.{1} Bool Bool.true)),\n                                    False)\n                                  (@noConfusion_of_Nat.{1} Bool Bool.ctorIdx Bool.false Bool.true h))\n                              (@Eq.refl.{1} Bool Bool.false)\n                              (@HEq.refl.{0} (@Eq.{1} Bool Bool.true Bool.false) incompatible))\n                      b (@Eq.symm.{1} Bool b Bool.false h_1) uniform)\n                  (fun (h_1 : @Eq.{1} Bool b Bool.true) =>\n                    @Eq.ndrec.{0, 1} Bool Bool.true\n                      (fun (b : Bool) =>\n                        ∀\n                          (uniform :\n                            ∀ (c : X → Bool),\n                              @Membership.mem.{u, u} (X → Bool) (Set.{u} (X → Bool))\n                                  (@Set.instMembership.{u} (X → Bool)) C c →\n                                ∀ (x : X), @Eq.{1} Bool (c x) b),\n                          False)\n                      (fun\n                          (uniform :\n                            ∀ (c : X → Bool),\n                              @Membership.mem.{u, u} (X → Bool) (Set.{u} (X → Bool))\n                                  (@Set.instMembership.{u} (X → Bool)) C c →\n                                ∀ (x : X), @Eq.{1} Bool (c x) Bool.true) =>\n                        @Exists.casesOn.{u + 1} (X → Bool)\n                          (fun (c : X → Bool) =>\n                            And\n                              (@Membership.mem.{u, u} (X → Bool) (Set.{u} (X → Bool))\n                                (@Set.instMembership.{u} (X → Bool)) C c)\n                              (@Eq.{1} Bool (c x) Bool.false))\n                          (fun\n                              (x :\n                                @Exists.{u + 1} (X → Bool) fun (c : X → Bool) =>\n                                  And\n                                    (@Membership.mem.{u, u} (X → Bool) (Set.{u} (X → Bool))\n                                      (@Set.instMembership.{u} (X → Bool)) C c)\n                                    (@Eq.{1} Bool (c x) Bool.false)) =>\n                            False)\n                          (@And.left\n                            (@Exists.{u + 1} (X → Bool) fun (c : X → Bool) =>\n                              And\n                                (@Membership.mem.{u, u} (X → Bool) (Set.{u} (X → Bool))\n                                  (@Set.instMembership.{u} (X → Bool)) C c)\n                                (@Eq.{1} Bool (c x) Bool.false))\n                            (And\n                              (@Reconstruction.PathConsistent.{u} X n\n                                (@setOf.{u} (X → Bool) fun (c : X → Bool) =>\n                                  And\n                                    (@Membership.mem.{u, u} (X → Bool) (Set.{u} (X → Bool))\n                                      (@Set.instMembership.{u} (X → Bool)) C c)\n                                    (@Eq.{1} Bool (c x) Bool.true))\n                                l)\n                              (@Reconstruction.PathConsistent.{u} X n\n                                (@setOf.{u} (X → Bool) fun (c : X → Bool) =>\n                                  And\n                                    (@Membership.mem.{u, u} (X → Bool) (Set.{u} (X → Bool))\n                                      (@Set.instMembership.{u} (X → Bool)) C c)\n                                    (@Eq.{1} Bool (c x) Bool.false))\n                                r))\n                            (@And.right\n                              (@Exists.{u + 1} (X → Bool) fun (c : X → Bool) =>\n                                And\n                                  (@Membership.mem.{u, u} (X → Bool) (Set.{u} (X → Bool))\n                                    (@Set.instMembership.{u} (X → Bool)) C c)\n                                  (@Eq.{1} Bool (c x) Bool.true))\n                              (And\n                                (@Exists.{u + 1} (X → Bool) fun (c : X → Bool) =>\n                                  And\n                                    (@Membership.mem.{u, u} (X → Bool) (Set.{u} (X → Bool))\n                                      (@Set.instMembership.{u} (X → Bool)) C c)\n                                    (@Eq.{1} Bool (c x) Bool.false))\n                                (And\n                                  (@Reconstruction.PathConsistent.{u} X n\n                                    (@setOf.{u} (X → Bool) fun (c : X → Bool) =>\n                                      And\n                                        (@Membership.mem.{u, u} (X → Bool) (Set.{u} (X → Bool))\n                                          (@Set.instMembership.{u} (X → Bool)) C c)\n                                        (@Eq.{1} Bool (c x) Bool.true))\n                                    l)\n                                  (@Reconstruction.PathConsistent.{u} X n\n                                    (@setOf.{u} (X → Bool) fun (c : X → Bool) =>\n                                      And\n                                        (@Membership.mem.{u, u} (X → Bool) (Set.{u} (X → Bool))\n                                          (@Set.instMembership.{u} (X → Bool)) C c)\n                                        (@Eq.{1} Bool (c x) Bool.false))\n                                    r)))\n                              h))\n                          fun (c : X → Bool)\n                            (h :\n                              And\n                                (@Membership.mem.{u, u} (X → Bool) (Set.{u} (X → Bool))\n                                  (@Set.instMembership.{u} (X → Bool)) C c)\n                                (@Eq.{1} Bool (c x) Bool.false)) =>\n                          @And.casesOn.{0}\n                            (@Membership.mem.{u, u} (X → Bool) (Set.{u} (X → Bool)) (@Set.instMembership.{u} (X → Bool))\n                              C c)\n                            (@Eq.{1} Bool (c x) Bool.false)\n                            (fun\n                                (x :\n                                  And\n                                    (@Membership.mem.{u, u} (X → Bool) (Set.{u} (X → Bool))\n                                      (@Set.instMembership.{u} (X → Bool)) C c)\n                                    (@Eq.{1} Bool (c x) Bool.false)) =>\n                              False)\n                            h\n                            fun\n                              (hc :\n                                @Membership.mem.{u, u} (X → Bool) (Set.{u} (X → Bool))\n                                  (@Set.instMembership.{u} (X → Bool)) C c)\n                              (hx : @Eq.{1} Bool (c x) Bool.false) =>\n                            have incompatible : @Eq.{1} Bool Bool.false Bool.true :=\n                              @Eq.trans.{1} Bool Bool.false (c x) Bool.true (@Eq.symm.{1} Bool (c x) Bool.false hx)\n                                (uniform c hc x);\n                            @Eq.casesOn.{0, 1} Bool Bool.false\n                              (fun (a : Bool) (t : @Eq.{1} Bool Bool.false a) =>\n                                ∀ (h : @Eq.{1} Bool Bool.true a)\n                                  (h :\n                                    @HEq.{0} (@Eq.{1} Bool Bool.false Bool.true) incompatible\n                                      (@Eq.{1} Bool Bool.false a) t),\n                                  False)\n                              Bool.true incompatible\n                              (fun (h : @Eq.{1} Bool Bool.true Bool.false) =>\n                                @False.elim.{0}\n                                  (∀\n                                    (h :\n                                      @HEq.{0} (@Eq.{1} Bool Bool.false Bool.true) incompatible\n                                        (@Eq.{1} Bool Bool.false Bool.false) (@Eq.refl.{1} Bool Bool.false)),\n                                    False)\n                                  (@noConfusion_of_Nat.{1} Bool Bool.ctorIdx Bool.true Bool.false h))\n                              (@Eq.refl.{1} Bool Bool.true)\n                              (@HEq.refl.{0} (@Eq.{1} Bool Bool.false Bool.true) incompatible))\n                      b (@Eq.symm.{1} Bool b Bool.true h_1) uniform)\n                  (@Eq.refl.{1} Bool b))\n              t\n              (@Eq.symm.{u + 1}\n                (Reconstruction.Tree.{u} X\n                  (@HAdd.hAdd.{0, 0, 0} Nat Nat Nat (@instHAdd.{0} Nat instAddNat) n\n                    (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1)))))\n                t (@Reconstruction.Tree.branch.{u} X n x l r)\n                (@eq_of_heq.{u + 1}\n                  (Reconstruction.Tree.{u} X\n                    (@HAdd.hAdd.{0, 0, 0} Nat Nat Nat (@instHAdd.{0} Nat instAddNat) n\n                      (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1)))))\n                  t (@Reconstruction.Tree.branch.{u} X n x l r) h)))\n          n_1 x_1 l r)\n    (@Eq.refl.{1} Nat\n      (@HAdd.hAdd.{0, 0, 0} Nat Nat Nat (@instHAdd.{0} Nat instAddNat) n\n        (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1)))))\n    (@HEq.refl.{u + 1}\n      (Reconstruction.Tree.{u} X\n        (@HAdd.hAdd.{0, 0, 0} Nat Nat Nat (@instHAdd.{0} Nat instAddNat) n\n          (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1)))))\n      t)",
+      "endPos": {
+        "column": 6,
+        "line": 148
+      },
+      "fileName": "Littlestone.lean",
+      "isSilent": false,
+      "keepFullRange": false,
+      "kind": "[anonymous]",
+      "pos": {
+        "column": 0,
+        "line": 148
+      },
+      "severity": "information"
+    },
+    {
+      "caption": "",
+      "data": "theorem Reconstruction.true_restriction_uniform.{u} : ∀ {X : Type u} (x : X) (c : X → Bool),\n  @Membership.mem.{u, u} (X → Bool) (Set.{u} (X → Bool)) (@Set.instMembership.{u} (X → Bool))\n      (@setOf.{u} (X → Bool) fun (c : X → Bool) =>\n        And\n          (@Membership.mem.{u, u} (X → Bool) (Set.{u} (X → Bool)) (@Set.instMembership.{u} (X → Bool))\n            (Reconstruction.constants.{u} X) c)\n          (@Eq.{1} Bool (c x) Bool.true))\n      c →\n    ∀ (y : X), @Eq.{1} Bool (c y) Bool.true :=\nfun {X : Type u} (x : X) (c : X → Bool)\n    (hc :\n      @Membership.mem.{u, u} (X → Bool) (Set.{u} (X → Bool)) (@Set.instMembership.{u} (X → Bool))\n        (@setOf.{u} (X → Bool) fun (c : X → Bool) =>\n          And\n            (@Membership.mem.{u, u} (X → Bool) (Set.{u} (X → Bool)) (@Set.instMembership.{u} (X → Bool))\n              (Reconstruction.constants.{u} X) c)\n            (@Eq.{1} Bool (c x) Bool.true))\n        c)\n    (y : X) =>\n  @Or.casesOn (@Eq.{u + 1} (X → Bool) c fun (x : X) => Bool.true) (@Eq.{u + 1} (X → Bool) c fun (x : X) => Bool.false)\n    (fun\n        (x :\n          @Membership.mem.{u, u} (X → Bool) (Set.{u} (X → Bool)) (@Set.instMembership.{u} (X → Bool))\n            (Reconstruction.constants.{u} X) c) =>\n      @Eq.{1} Bool (c y) Bool.true)\n    (@And.left\n      (@Membership.mem.{u, u} (X → Bool) (Set.{u} (X → Bool)) (@Set.instMembership.{u} (X → Bool))\n        (Reconstruction.constants.{u} X) c)\n      (@Eq.{1} Bool (c x) Bool.true) hc)\n    (fun (htrue : @Eq.{u + 1} (X → Bool) c fun (x : X) => Bool.true) =>\n      @of_eq_true (@Eq.{1} Bool (c y) Bool.true)\n        (@Eq.trans.{1} Prop (@Eq.{1} Bool (c y) Bool.true) (@Eq.{1} Bool Bool.true Bool.true) True\n          (@congrFun'.{1, 1} Bool Prop (@Eq.{1} Bool (c y)) (@Eq.{1} Bool Bool.true)\n            (@congrArg.{1, 1} Bool (Bool → Prop) (c y) Bool.true (@Eq.{1} Bool)\n              (@congrFun'.{u + 1, 1} X Bool c (fun (x : X) => Bool.true) htrue y))\n            Bool.true)\n          (@eq_self.{1} Bool Bool.true)))\n    fun (hfalse : @Eq.{u + 1} (X → Bool) c fun (x : X) => Bool.false) =>\n    have incompatible : @Eq.{1} Bool Bool.false Bool.true :=\n      @Eq.mp.{0} (@Eq.{1} Bool (c x) Bool.true) (@Eq.{1} Bool Bool.false Bool.true)\n        (@congrFun'.{1, 1} Bool Prop (@Eq.{1} Bool (c x)) (@Eq.{1} Bool Bool.false)\n          (@congrArg.{1, 1} Bool (Bool → Prop) (c x) Bool.false (@Eq.{1} Bool)\n            (@congrFun'.{u + 1, 1} X Bool c (fun (x : X) => Bool.false) hfalse x))\n          Bool.true)\n        (@And.right\n          (@Membership.mem.{u, u} (X → Bool) (Set.{u} (X → Bool)) (@Set.instMembership.{u} (X → Bool))\n            (Reconstruction.constants.{u} X) c)\n          (@Eq.{1} Bool (c x) Bool.true) hc);\n    @Eq.casesOn.{0, 1} Bool Bool.false\n      (fun (a : Bool) (t : @Eq.{1} Bool Bool.false a) =>\n        ∀ (h : @Eq.{1} Bool Bool.true a)\n          (h : @HEq.{0} (@Eq.{1} Bool Bool.false Bool.true) incompatible (@Eq.{1} Bool Bool.false a) t),\n          @Eq.{1} Bool (c y) Bool.true)\n      Bool.true incompatible\n      (fun (h : @Eq.{1} Bool Bool.true Bool.false) =>\n        @False.elim.{0}\n          (∀\n            (h :\n              @HEq.{0} (@Eq.{1} Bool Bool.false Bool.true) incompatible (@Eq.{1} Bool Bool.false Bool.false)\n                (@Eq.refl.{1} Bool Bool.false)),\n            @Eq.{1} Bool (c y) Bool.true)\n          (@noConfusion_of_Nat.{1} Bool Bool.ctorIdx Bool.true Bool.false h))\n      (@Eq.refl.{1} Bool Bool.true) (@HEq.refl.{0} (@Eq.{1} Bool Bool.false Bool.true) incompatible)",
+      "endPos": {
+        "column": 6,
+        "line": 149
+      },
+      "fileName": "Littlestone.lean",
+      "isSilent": false,
+      "keepFullRange": false,
+      "kind": "[anonymous]",
+      "pos": {
+        "column": 0,
+        "line": 149
+      },
+      "severity": "information"
+    },
+    {
+      "caption": "",
+      "data": "theorem Reconstruction.constants_depth_le_one.{u} : ∀ {X : Type u} {n : Nat} (t : Reconstruction.Tree.{u} X n)\n  (shattered : @Reconstruction.PathConsistent.{u} X n (Reconstruction.constants.{u} X) t),\n  @LE.le.{0} Nat instLENat n (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))) :=\nfun {X : Type u} {n : Nat} (t : Reconstruction.Tree.{u} X n)\n    (shattered : @Reconstruction.PathConsistent.{u} X n (Reconstruction.constants.{u} X) t) =>\n  @Reconstruction.Tree.casesOn.{0, u} X\n    (fun (a : Nat) (t_1 : Reconstruction.Tree.{u} X a) =>\n      ∀ (h : @Eq.{1} Nat n a) (h : @HEq.{u + 1} (Reconstruction.Tree.{u} X n) t (Reconstruction.Tree.{u} X a) t_1),\n        @LE.le.{0} Nat instLENat n (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))\n    n t\n    (fun (h : @Eq.{1} Nat n (@OfNat.ofNat.{0} Nat (nat_lit 0) (instOfNatNat (nat_lit 0)))) =>\n      @Eq.ndrec.{0, 1} Nat (@OfNat.ofNat.{0} Nat (nat_lit 0) (instOfNatNat (nat_lit 0)))\n        (fun {n : Nat} =>\n          ∀ (t : Reconstruction.Tree.{u} X n)\n            (shattered : @Reconstruction.PathConsistent.{u} X n (Reconstruction.constants.{u} X) t)\n            (h :\n              @HEq.{u + 1} (Reconstruction.Tree.{u} X n) t\n                (Reconstruction.Tree.{u} X (@OfNat.ofNat.{0} Nat (nat_lit 0) (instOfNatNat (nat_lit 0))))\n                (@Reconstruction.Tree.leaf.{u} X)),\n            @LE.le.{0} Nat instLENat n (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))\n        (fun (t : Reconstruction.Tree.{u} X (@OfNat.ofNat.{0} Nat (nat_lit 0) (instOfNatNat (nat_lit 0))))\n            (shattered :\n              @Reconstruction.PathConsistent.{u} X (@OfNat.ofNat.{0} Nat (nat_lit 0) (instOfNatNat (nat_lit 0)))\n                (Reconstruction.constants.{u} X) t)\n            (h :\n              @HEq.{u + 1} (Reconstruction.Tree.{u} X (@OfNat.ofNat.{0} Nat (nat_lit 0) (instOfNatNat (nat_lit 0)))) t\n                (Reconstruction.Tree.{u} X (@OfNat.ofNat.{0} Nat (nat_lit 0) (instOfNatNat (nat_lit 0))))\n                (@Reconstruction.Tree.leaf.{u} X)) =>\n          @Eq.ndrec.{0, u + 1} (Reconstruction.Tree.{u} X (@OfNat.ofNat.{0} Nat (nat_lit 0) (instOfNatNat (nat_lit 0))))\n            (@Reconstruction.Tree.leaf.{u} X)\n            (fun (t : Reconstruction.Tree.{u} X (@OfNat.ofNat.{0} Nat (nat_lit 0) (instOfNatNat (nat_lit 0)))) =>\n              ∀\n                (shattered :\n                  @Reconstruction.PathConsistent.{u} X (@OfNat.ofNat.{0} Nat (nat_lit 0) (instOfNatNat (nat_lit 0)))\n                    (Reconstruction.constants.{u} X) t),\n                @LE.le.{0} Nat instLENat (@OfNat.ofNat.{0} Nat (nat_lit 0) (instOfNatNat (nat_lit 0)))\n                  (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))\n            (fun\n                (shattered :\n                  @Reconstruction.PathConsistent.{u} X (@OfNat.ofNat.{0} Nat (nat_lit 0) (instOfNatNat (nat_lit 0)))\n                    (Reconstruction.constants.{u} X) (@Reconstruction.Tree.leaf.{u} X)) =>\n              Nat.zero_le (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))\n            t\n            (@Eq.symm.{u + 1} (Reconstruction.Tree.{u} X (@OfNat.ofNat.{0} Nat (nat_lit 0) (instOfNatNat (nat_lit 0))))\n              t (@Reconstruction.Tree.leaf.{u} X)\n              (@eq_of_heq.{u + 1}\n                (Reconstruction.Tree.{u} X (@OfNat.ofNat.{0} Nat (nat_lit 0) (instOfNatNat (nat_lit 0)))) t\n                (@Reconstruction.Tree.leaf.{u} X) h))\n            shattered)\n        n (@Eq.symm.{1} Nat n (@OfNat.ofNat.{0} Nat (nat_lit 0) (instOfNatNat (nat_lit 0))) h) t shattered)\n    (fun {n_1 : Nat} (x : X) (l r : Reconstruction.Tree.{u} X n_1)\n        (h :\n          @Eq.{1} Nat n\n            (@HAdd.hAdd.{0, 0, 0} Nat Nat Nat (@instHAdd.{0} Nat instAddNat) n_1\n              (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))) =>\n      @Eq.ndrec.{0, 1} Nat\n        (@HAdd.hAdd.{0, 0, 0} Nat Nat Nat (@instHAdd.{0} Nat instAddNat) n_1\n          (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))\n        (fun {n : Nat} =>\n          ∀ (t : Reconstruction.Tree.{u} X n)\n            (shattered : @Reconstruction.PathConsistent.{u} X n (Reconstruction.constants.{u} X) t)\n            (h :\n              @HEq.{u + 1} (Reconstruction.Tree.{u} X n) t\n                (Reconstruction.Tree.{u} X\n                  (@HAdd.hAdd.{0, 0, 0} Nat Nat Nat (@instHAdd.{0} Nat instAddNat) n_1\n                    (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1)))))\n                (@Reconstruction.Tree.branch.{u} X n_1 x l r)),\n            @LE.le.{0} Nat instLENat n (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))\n        (fun\n            (t :\n              Reconstruction.Tree.{u} X\n                (@HAdd.hAdd.{0, 0, 0} Nat Nat Nat (@instHAdd.{0} Nat instAddNat) n_1\n                  (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1)))))\n            (shattered :\n              @Reconstruction.PathConsistent.{u} X\n                (@HAdd.hAdd.{0, 0, 0} Nat Nat Nat (@instHAdd.{0} Nat instAddNat) n_1\n                  (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))\n                (Reconstruction.constants.{u} X) t)\n            (h :\n              @HEq.{u + 1}\n                (Reconstruction.Tree.{u} X\n                  (@HAdd.hAdd.{0, 0, 0} Nat Nat Nat (@instHAdd.{0} Nat instAddNat) n_1\n                    (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1)))))\n                t\n                (Reconstruction.Tree.{u} X\n                  (@HAdd.hAdd.{0, 0, 0} Nat Nat Nat (@instHAdd.{0} Nat instAddNat) n_1\n                    (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1)))))\n                (@Reconstruction.Tree.branch.{u} X n_1 x l r)) =>\n          @Eq.ndrec.{0, u + 1}\n            (Reconstruction.Tree.{u} X\n              (@HAdd.hAdd.{0, 0, 0} Nat Nat Nat (@instHAdd.{0} Nat instAddNat) n_1\n                (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1)))))\n            (@Reconstruction.Tree.branch.{u} X n_1 x l r)\n            (fun\n                (t :\n                  Reconstruction.Tree.{u} X\n                    (@HAdd.hAdd.{0, 0, 0} Nat Nat Nat (@instHAdd.{0} Nat instAddNat) n_1\n                      (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))) =>\n              ∀\n                (shattered :\n                  @Reconstruction.PathConsistent.{u} X\n                    (@HAdd.hAdd.{0, 0, 0} Nat Nat Nat (@instHAdd.{0} Nat instAddNat) n_1\n                      (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))\n                    (Reconstruction.constants.{u} X) t),\n                @LE.le.{0} Nat instLENat\n                  (@HAdd.hAdd.{0, 0, 0} Nat Nat Nat (@instHAdd.{0} Nat instAddNat) n_1\n                    (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))\n                  (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))\n            (fun\n                (shattered :\n                  @Reconstruction.PathConsistent.{u} X\n                    (@HAdd.hAdd.{0, 0, 0} Nat Nat Nat (@instHAdd.{0} Nat instAddNat) n_1\n                      (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))\n                    (Reconstruction.constants.{u} X) (@Reconstruction.Tree.branch.{u} X n_1 x l r)) =>\n              @Nat.casesAuxOn.{0}\n                (fun (a : Nat) =>\n                  ∀ (h : @Eq.{1} Nat n_1 a),\n                    @LE.le.{0} Nat instLENat\n                      (@HAdd.hAdd.{0, 0, 0} Nat Nat Nat (@instHAdd.{0} Nat instAddNat) n_1\n                        (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))\n                      (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))\n                n_1\n                (fun (h : @Eq.{1} Nat n_1 (@OfNat.ofNat.{0} Nat (nat_lit 0) (instOfNatNat (nat_lit 0)))) =>\n                  @Eq.ndrec.{0, 1} Nat (@OfNat.ofNat.{0} Nat (nat_lit 0) (instOfNatNat (nat_lit 0)))\n                    (fun {n : Nat} =>\n                      ∀ (l r : Reconstruction.Tree.{u} X n)\n                        (shattered :\n                          @Reconstruction.PathConsistent.{u} X\n                            (@HAdd.hAdd.{0, 0, 0} Nat Nat Nat (@instHAdd.{0} Nat instAddNat) n\n                              (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))\n                            (Reconstruction.constants.{u} X) (@Reconstruction.Tree.branch.{u} X n x l r)),\n                        @LE.le.{0} Nat instLENat\n                          (@HAdd.hAdd.{0, 0, 0} Nat Nat Nat (@instHAdd.{0} Nat instAddNat) n\n                            (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))\n                          (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))\n                    (fun (l r : Reconstruction.Tree.{u} X (@OfNat.ofNat.{0} Nat (nat_lit 0) (instOfNatNat (nat_lit 0))))\n                        (shattered :\n                          @Reconstruction.PathConsistent.{u} X\n                            (@HAdd.hAdd.{0, 0, 0} Nat Nat Nat (@instHAdd.{0} Nat instAddNat)\n                              (@OfNat.ofNat.{0} Nat (nat_lit 0) (instOfNatNat (nat_lit 0)))\n                              (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))\n                            (Reconstruction.constants.{u} X)\n                            (@Reconstruction.Tree.branch.{u} X\n                              (@OfNat.ofNat.{0} Nat (nat_lit 0) (instOfNatNat (nat_lit 0))) x l r)) =>\n                      Nat.le_refl (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))\n                    n_1 (@Eq.symm.{1} Nat n_1 (@OfNat.ofNat.{0} Nat (nat_lit 0) (instOfNatNat (nat_lit 0))) h) l r\n                    shattered)\n                (fun (k : Nat)\n                    (h :\n                      @Eq.{1} Nat n_1\n                        (@HAdd.hAdd.{0, 0, 0} Nat Nat Nat (@instHAdd.{0} Nat instAddNat) k\n                          (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))) =>\n                  @Eq.ndrec.{0, 1} Nat\n                    (@HAdd.hAdd.{0, 0, 0} Nat Nat Nat (@instHAdd.{0} Nat instAddNat) k\n                      (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))\n                    (fun {n : Nat} =>\n                      ∀ (l r : Reconstruction.Tree.{u} X n)\n                        (shattered :\n                          @Reconstruction.PathConsistent.{u} X\n                            (@HAdd.hAdd.{0, 0, 0} Nat Nat Nat (@instHAdd.{0} Nat instAddNat) n\n                              (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))\n                            (Reconstruction.constants.{u} X) (@Reconstruction.Tree.branch.{u} X n x l r)),\n                        @LE.le.{0} Nat instLENat\n                          (@HAdd.hAdd.{0, 0, 0} Nat Nat Nat (@instHAdd.{0} Nat instAddNat) n\n                            (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))\n                          (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))\n                    (fun\n                        (l r :\n                          Reconstruction.Tree.{u} X\n                            (@HAdd.hAdd.{0, 0, 0} Nat Nat Nat (@instHAdd.{0} Nat instAddNat) k\n                              (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1)))))\n                        (shattered :\n                          @Reconstruction.PathConsistent.{u} X\n                            (@HAdd.hAdd.{0, 0, 0} Nat Nat Nat (@instHAdd.{0} Nat instAddNat)\n                              (@HAdd.hAdd.{0, 0, 0} Nat Nat Nat (@instHAdd.{0} Nat instAddNat) k\n                                (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))\n                              (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))\n                            (Reconstruction.constants.{u} X)\n                            (@Reconstruction.Tree.branch.{u} X\n                              (@HAdd.hAdd.{0, 0, 0} Nat Nat Nat (@instHAdd.{0} Nat instAddNat) k\n                                (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))\n                              x l r)) =>\n                      have left_shattered :\n                        @Reconstruction.PathConsistent.{u} X\n                          (@HAdd.hAdd.{0, 0, 0} Nat Nat Nat (@instHAdd.{0} Nat instAddNat) k\n                            (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))\n                          (@setOf.{u} (X → Bool) fun (c : X → Bool) =>\n                            And\n                              (@Membership.mem.{u, u} (X → Bool) (Set.{u} (X → Bool))\n                                (@Set.instMembership.{u} (X → Bool)) (Reconstruction.constants.{u} X) c)\n                              (@Eq.{1} Bool (c x) Bool.true))\n                          l :=\n                        @And.left\n                          (@Reconstruction.PathConsistent.{u} X\n                            (@HAdd.hAdd.{0, 0, 0} Nat Nat Nat (@instHAdd.{0} Nat instAddNat) k\n                              (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))\n                            (@setOf.{u} (X → Bool) fun (c : X → Bool) =>\n                              And\n                                (@Membership.mem.{u, u} (X → Bool) (Set.{u} (X → Bool))\n                                  (@Set.instMembership.{u} (X → Bool)) (Reconstruction.constants.{u} X) c)\n                                (@Eq.{1} Bool (c x) Bool.true))\n                            l)\n                          (@Reconstruction.PathConsistent.{u} X\n                            (@HAdd.hAdd.{0, 0, 0} Nat Nat Nat (@instHAdd.{0} Nat instAddNat) k\n                              (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))\n                            (@setOf.{u} (X → Bool) fun (c : X → Bool) =>\n                              And\n                                (@Membership.mem.{u, u} (X → Bool) (Set.{u} (X → Bool))\n                                  (@Set.instMembership.{u} (X → Bool)) (Reconstruction.constants.{u} X) c)\n                                (@Eq.{1} Bool (c x) Bool.false))\n                            r)\n                          (@And.right\n                            (@Exists.{u + 1} (X → Bool) fun (c : X → Bool) =>\n                              And\n                                (@Membership.mem.{u, u} (X → Bool) (Set.{u} (X → Bool))\n                                  (@Set.instMembership.{u} (X → Bool)) (Reconstruction.constants.{u} X) c)\n                                (@Eq.{1} Bool (c x) Bool.false))\n                            (And\n                              (@Reconstruction.PathConsistent.{u} X\n                                (@HAdd.hAdd.{0, 0, 0} Nat Nat Nat (@instHAdd.{0} Nat instAddNat) k\n                                  (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))\n                                (@setOf.{u} (X → Bool) fun (c : X → Bool) =>\n                                  And\n                                    (@Membership.mem.{u, u} (X → Bool) (Set.{u} (X → Bool))\n                                      (@Set.instMembership.{u} (X → Bool)) (Reconstruction.constants.{u} X) c)\n                                    (@Eq.{1} Bool (c x) Bool.true))\n                                l)\n                              (@Reconstruction.PathConsistent.{u} X\n                                (@HAdd.hAdd.{0, 0, 0} Nat Nat Nat (@instHAdd.{0} Nat instAddNat) k\n                                  (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))\n                                (@setOf.{u} (X → Bool) fun (c : X → Bool) =>\n                                  And\n                                    (@Membership.mem.{u, u} (X → Bool) (Set.{u} (X → Bool))\n                                      (@Set.instMembership.{u} (X → Bool)) (Reconstruction.constants.{u} X) c)\n                                    (@Eq.{1} Bool (c x) Bool.false))\n                                r))\n                            (@And.right\n                              (@Exists.{u + 1} (X → Bool) fun (c : X → Bool) =>\n                                And\n                                  (@Membership.mem.{u, u} (X → Bool) (Set.{u} (X → Bool))\n                                    (@Set.instMembership.{u} (X → Bool)) (Reconstruction.constants.{u} X) c)\n                                  (@Eq.{1} Bool (c x) Bool.true))\n                              (And\n                                (@Exists.{u + 1} (X → Bool) fun (c : X → Bool) =>\n                                  And\n                                    (@Membership.mem.{u, u} (X → Bool) (Set.{u} (X → Bool))\n                                      (@Set.instMembership.{u} (X → Bool)) (Reconstruction.constants.{u} X) c)\n                                    (@Eq.{1} Bool (c x) Bool.false))\n                                (And\n                                  (@Reconstruction.PathConsistent.{u} X\n                                    (@HAdd.hAdd.{0, 0, 0} Nat Nat Nat (@instHAdd.{0} Nat instAddNat) k\n                                      (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))\n                                    (@setOf.{u} (X → Bool) fun (c : X → Bool) =>\n                                      And\n                                        (@Membership.mem.{u, u} (X → Bool) (Set.{u} (X → Bool))\n                                          (@Set.instMembership.{u} (X → Bool)) (Reconstruction.constants.{u} X) c)\n                                        (@Eq.{1} Bool (c x) Bool.true))\n                                    l)\n                                  (@Reconstruction.PathConsistent.{u} X\n                                    (@HAdd.hAdd.{0, 0, 0} Nat Nat Nat (@instHAdd.{0} Nat instAddNat) k\n                                      (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))\n                                    (@setOf.{u} (X → Bool) fun (c : X → Bool) =>\n                                      And\n                                        (@Membership.mem.{u, u} (X → Bool) (Set.{u} (X → Bool))\n                                          (@Set.instMembership.{u} (X → Bool)) (Reconstruction.constants.{u} X) c)\n                                        (@Eq.{1} Bool (c x) Bool.false))\n                                    r)))\n                              shattered));\n                      have obstruction :\n                        Not\n                          (@Reconstruction.PathConsistent.{u} X\n                            (@HAdd.hAdd.{0, 0, 0} Nat Nat Nat (@instHAdd.{0} Nat instAddNat) k\n                              (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))\n                            (@setOf.{u} (X → Bool) fun (c : X → Bool) =>\n                              And\n                                (@Membership.mem.{u, u} (X → Bool) (Set.{u} (X → Bool))\n                                  (@Set.instMembership.{u} (X → Bool)) (Reconstruction.constants.{u} X) c)\n                                (@Eq.{1} Bool (c x) Bool.true))\n                            l) :=\n                        @Reconstruction.uniform_no_positive.{u} X\n                          (@setOf.{u} (X → Bool) fun (c : X → Bool) =>\n                            And\n                              (@Membership.mem.{u, u} (X → Bool) (Set.{u} (X → Bool))\n                                (@Set.instMembership.{u} (X → Bool)) (Reconstruction.constants.{u} X) c)\n                              (@Eq.{1} Bool (c x) Bool.true))\n                          Bool.true (@Reconstruction.true_restriction_uniform.{u} X x) k l;\n                      @False.elim.{0}\n                        (@LE.le.{0} Nat instLENat\n                          (@HAdd.hAdd.{0, 0, 0} Nat Nat Nat (@instHAdd.{0} Nat instAddNat)\n                            (@HAdd.hAdd.{0, 0, 0} Nat Nat Nat (@instHAdd.{0} Nat instAddNat) k\n                              (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))\n                            (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))\n                          (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))\n                        (obstruction left_shattered))\n                    n_1\n                    (@Eq.symm.{1} Nat n_1\n                      (@HAdd.hAdd.{0, 0, 0} Nat Nat Nat (@instHAdd.{0} Nat instAddNat) k\n                        (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))\n                      h)\n                    l r shattered)\n                (@Eq.refl.{1} Nat n_1))\n            t\n            (@Eq.symm.{u + 1}\n              (Reconstruction.Tree.{u} X\n                (@HAdd.hAdd.{0, 0, 0} Nat Nat Nat (@instHAdd.{0} Nat instAddNat) n_1\n                  (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1)))))\n              t (@Reconstruction.Tree.branch.{u} X n_1 x l r)\n              (@eq_of_heq.{u + 1}\n                (Reconstruction.Tree.{u} X\n                  (@HAdd.hAdd.{0, 0, 0} Nat Nat Nat (@instHAdd.{0} Nat instAddNat) n_1\n                    (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1)))))\n                t (@Reconstruction.Tree.branch.{u} X n_1 x l r) h))\n            shattered)\n        n\n        (@Eq.symm.{1} Nat n\n          (@HAdd.hAdd.{0, 0, 0} Nat Nat Nat (@instHAdd.{0} Nat instAddNat) n_1\n            (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))\n          h)\n        t shattered)\n    (@Eq.refl.{1} Nat n) (@HEq.refl.{u + 1} (Reconstruction.Tree.{u} X n) t)",
+      "endPos": {
+        "column": 6,
+        "line": 150
+      },
+      "fileName": "Littlestone.lean",
+      "isSilent": false,
+      "keepFullRange": false,
+      "kind": "[anonymous]",
+      "pos": {
+        "column": 0,
+        "line": 150
+      },
+      "severity": "information"
+    },
+    {
+      "caption": "",
+      "data": "theorem Reconstruction.constants_depth_one.{u} : ∀ {X : Type u} (x : X),\n  @Reconstruction.PathConsistent.{u} X\n    (@HAdd.hAdd.{0, 0, 0} Nat Nat Nat (@instHAdd.{0} Nat instAddNat)\n      (@OfNat.ofNat.{0} Nat (nat_lit 0) (instOfNatNat (nat_lit 0)))\n      (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))\n    (Reconstruction.constants.{u} X)\n    (@Reconstruction.Tree.branch.{u} X (@OfNat.ofNat.{0} Nat (nat_lit 0) (instOfNatNat (nat_lit 0))) x\n      (@Reconstruction.Tree.leaf.{u} X) (@Reconstruction.Tree.leaf.{u} X)) :=\nfun {X : Type u} (x : X) =>\n  @And.intro\n    (@Exists.{u + 1} (X → Bool) fun (c : X → Bool) =>\n      And\n        (@Membership.mem.{u, u} (X → Bool) (Set.{u} (X → Bool)) (@Set.instMembership.{u} (X → Bool))\n          (Reconstruction.constants.{u} X) c)\n        (@Eq.{1} Bool (c x) Bool.true))\n    (And\n      (@Exists.{u + 1} (X → Bool) fun (c : X → Bool) =>\n        And\n          (@Membership.mem.{u, u} (X → Bool) (Set.{u} (X → Bool)) (@Set.instMembership.{u} (X → Bool))\n            (Reconstruction.constants.{u} X) c)\n          (@Eq.{1} Bool (c x) Bool.false))\n      (And\n        (@Reconstruction.PathConsistent.{u} X (@OfNat.ofNat.{0} Nat (nat_lit 0) (instOfNatNat (nat_lit 0)))\n          (@setOf.{u} (X → Bool) fun (c : X → Bool) =>\n            And\n              (@Membership.mem.{u, u} (X → Bool) (Set.{u} (X → Bool)) (@Set.instMembership.{u} (X → Bool))\n                (Reconstruction.constants.{u} X) c)\n              (@Eq.{1} Bool (c x) Bool.true))\n          (@Reconstruction.Tree.leaf.{u} X))\n        (@Reconstruction.PathConsistent.{u} X (@OfNat.ofNat.{0} Nat (nat_lit 0) (instOfNatNat (nat_lit 0)))\n          (@setOf.{u} (X → Bool) fun (c : X → Bool) =>\n            And\n              (@Membership.mem.{u, u} (X → Bool) (Set.{u} (X → Bool)) (@Set.instMembership.{u} (X → Bool))\n                (Reconstruction.constants.{u} X) c)\n              (@Eq.{1} Bool (c x) Bool.false))\n          (@Reconstruction.Tree.leaf.{u} X))))\n    (@Exists.intro.{u + 1} (X → Bool)\n      (fun (c : X → Bool) =>\n        And\n          (@Membership.mem.{u, u} (X → Bool) (Set.{u} (X → Bool)) (@Set.instMembership.{u} (X → Bool))\n            (Reconstruction.constants.{u} X) c)\n          (@Eq.{1} Bool (c x) Bool.true))\n      (fun (x : X) => Bool.true)\n      (@And.intro\n        (@Membership.mem.{u, u} (X → Bool) (Set.{u} (X → Bool)) (@Set.instMembership.{u} (X → Bool))\n          (Reconstruction.constants.{u} X) fun (x : X) => Bool.true)\n        (@Eq.{1} Bool ((fun (x : X) => Bool.true) x) Bool.true)\n        (@Or.inl (@Eq.{u + 1} (X → Bool) (fun (x : X) => Bool.true) fun (x : X) => Bool.true)\n          (@Eq.{u + 1} (X → Bool) (fun (x : X) => Bool.true) fun (x : X) => Bool.false)\n          (@rfl.{u + 1} (X → Bool) fun (x : X) => Bool.true))\n        (@rfl.{1} Bool ((fun (x : X) => Bool.true) x))))\n    (@And.intro\n      (@Exists.{u + 1} (X → Bool) fun (c : X → Bool) =>\n        And\n          (@Membership.mem.{u, u} (X → Bool) (Set.{u} (X → Bool)) (@Set.instMembership.{u} (X → Bool))\n            (Reconstruction.constants.{u} X) c)\n          (@Eq.{1} Bool (c x) Bool.false))\n      (And\n        (@Reconstruction.PathConsistent.{u} X (@OfNat.ofNat.{0} Nat (nat_lit 0) (instOfNatNat (nat_lit 0)))\n          (@setOf.{u} (X → Bool) fun (c : X → Bool) =>\n            And\n              (@Membership.mem.{u, u} (X → Bool) (Set.{u} (X → Bool)) (@Set.instMembership.{u} (X → Bool))\n                (Reconstruction.constants.{u} X) c)\n              (@Eq.{1} Bool (c x) Bool.true))\n          (@Reconstruction.Tree.leaf.{u} X))\n        (@Reconstruction.PathConsistent.{u} X (@OfNat.ofNat.{0} Nat (nat_lit 0) (instOfNatNat (nat_lit 0)))\n          (@setOf.{u} (X → Bool) fun (c : X → Bool) =>\n            And\n              (@Membership.mem.{u, u} (X → Bool) (Set.{u} (X → Bool)) (@Set.instMembership.{u} (X → Bool))\n                (Reconstruction.constants.{u} X) c)\n              (@Eq.{1} Bool (c x) Bool.false))\n          (@Reconstruction.Tree.leaf.{u} X)))\n      (@Exists.intro.{u + 1} (X → Bool)\n        (fun (c : X → Bool) =>\n          And\n            (@Membership.mem.{u, u} (X → Bool) (Set.{u} (X → Bool)) (@Set.instMembership.{u} (X → Bool))\n              (Reconstruction.constants.{u} X) c)\n            (@Eq.{1} Bool (c x) Bool.false))\n        (fun (x : X) => Bool.false)\n        (@And.intro\n          (@Membership.mem.{u, u} (X → Bool) (Set.{u} (X → Bool)) (@Set.instMembership.{u} (X → Bool))\n            (Reconstruction.constants.{u} X) fun (x : X) => Bool.false)\n          (@Eq.{1} Bool ((fun (x : X) => Bool.false) x) Bool.false)\n          (@Or.inr (@Eq.{u + 1} (X → Bool) (fun (x : X) => Bool.false) fun (x : X) => Bool.true)\n            (@Eq.{u + 1} (X → Bool) (fun (x : X) => Bool.false) fun (x : X) => Bool.false)\n            (@rfl.{u + 1} (X → Bool) fun (x : X) => Bool.false))\n          (@rfl.{1} Bool ((fun (x : X) => Bool.false) x))))\n      (@And.intro\n        (@Reconstruction.PathConsistent.{u} X (@OfNat.ofNat.{0} Nat (nat_lit 0) (instOfNatNat (nat_lit 0)))\n          (@setOf.{u} (X → Bool) fun (c : X → Bool) =>\n            And\n              (@Membership.mem.{u, u} (X → Bool) (Set.{u} (X → Bool)) (@Set.instMembership.{u} (X → Bool))\n                (Reconstruction.constants.{u} X) c)\n              (@Eq.{1} Bool (c x) Bool.true))\n          (@Reconstruction.Tree.leaf.{u} X))\n        (@Reconstruction.PathConsistent.{u} X (@OfNat.ofNat.{0} Nat (nat_lit 0) (instOfNatNat (nat_lit 0)))\n          (@setOf.{u} (X → Bool) fun (c : X → Bool) =>\n            And\n              (@Membership.mem.{u, u} (X → Bool) (Set.{u} (X → Bool)) (@Set.instMembership.{u} (X → Bool))\n                (Reconstruction.constants.{u} X) c)\n              (@Eq.{1} Bool (c x) Bool.false))\n          (@Reconstruction.Tree.leaf.{u} X))\n        (@Exists.intro.{u + 1} (X → Bool)\n          (fun (x_1 : X → Bool) =>\n            @Membership.mem.{u, u} (X → Bool) (Set.{u} (X → Bool)) (@Set.instMembership.{u} (X → Bool))\n              (@setOf.{u} (X → Bool) fun (c : X → Bool) =>\n                And\n                  (@Membership.mem.{u, u} (X → Bool) (Set.{u} (X → Bool)) (@Set.instMembership.{u} (X → Bool))\n                    (Reconstruction.constants.{u} X) c)\n                  (@Eq.{1} Bool (c x) Bool.true))\n              x_1)\n          (fun (x : X) => Bool.true)\n          (@And.intro\n            (@Membership.mem.{u, u} (X → Bool) (Set.{u} (X → Bool)) (@Set.instMembership.{u} (X → Bool))\n              (Reconstruction.constants.{u} X) fun (x : X) => Bool.true)\n            (@Eq.{1} Bool ((fun (x : X) => Bool.true) x) Bool.true)\n            (@Or.inl (@Eq.{u + 1} (X → Bool) (fun (x : X) => Bool.true) fun (x : X) => Bool.true)\n              (@Eq.{u + 1} (X → Bool) (fun (x : X) => Bool.true) fun (x : X) => Bool.false)\n              (@rfl.{u + 1} (X → Bool) fun (x : X) => Bool.true))\n            (@rfl.{1} Bool ((fun (x : X) => Bool.true) x))))\n        (@Exists.intro.{u + 1} (X → Bool)\n          (fun (x_1 : X → Bool) =>\n            @Membership.mem.{u, u} (X → Bool) (Set.{u} (X → Bool)) (@Set.instMembership.{u} (X → Bool))\n              (@setOf.{u} (X → Bool) fun (c : X → Bool) =>\n                And\n                  (@Membership.mem.{u, u} (X → Bool) (Set.{u} (X → Bool)) (@Set.instMembership.{u} (X → Bool))\n                    (Reconstruction.constants.{u} X) c)\n                  (@Eq.{1} Bool (c x) Bool.false))\n              x_1)\n          (fun (x : X) => Bool.false)\n          (@And.intro\n            (@Membership.mem.{u, u} (X → Bool) (Set.{u} (X → Bool)) (@Set.instMembership.{u} (X → Bool))\n              (Reconstruction.constants.{u} X) fun (x : X) => Bool.false)\n            (@Eq.{1} Bool ((fun (x : X) => Bool.false) x) Bool.false)\n            (@Or.inr (@Eq.{u + 1} (X → Bool) (fun (x : X) => Bool.false) fun (x : X) => Bool.true)\n              (@Eq.{u + 1} (X → Bool) (fun (x : X) => Bool.false) fun (x : X) => Bool.false)\n              (@rfl.{u + 1} (X → Bool) fun (x : X) => Bool.false))\n            (@rfl.{1} Bool ((fun (x : X) => Bool.false) x))))))",
+      "endPos": {
+        "column": 6,
+        "line": 151
+      },
+      "fileName": "Littlestone.lean",
+      "isSilent": false,
+      "keepFullRange": false,
+      "kind": "[anonymous]",
+      "pos": {
+        "column": 0,
+        "line": 151
+      },
+      "severity": "information"
+    },
+    {
+      "caption": "",
+      "data": "theorem Reconstruction.constants_exact_depth.{u} : ∀ {X : Type u} [Nonempty.{u + 1} X],\n  And\n    (@Exists.{u + 1} (Reconstruction.Tree.{u} X (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))\n      fun (t : Reconstruction.Tree.{u} X (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1)))) =>\n      @Reconstruction.PathConsistent.{u} X (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1)))\n        (Reconstruction.constants.{u} X) t)\n    (∀ (n : Nat) (t : Reconstruction.Tree.{u} X n),\n      @Reconstruction.PathConsistent.{u} X n (Reconstruction.constants.{u} X) t →\n        @LE.le.{0} Nat instLENat n (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1)))) :=\nfun {X : Type u} [inst : Nonempty.{u + 1} X] =>\n  @Nonempty.casesOn.{u + 1} X\n    (fun (x : Nonempty.{u + 1} X) =>\n      And\n        (@Exists.{u + 1} (Reconstruction.Tree.{u} X (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))\n          fun (t : Reconstruction.Tree.{u} X (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1)))) =>\n          @Reconstruction.PathConsistent.{u} X (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1)))\n            (Reconstruction.constants.{u} X) t)\n        (∀ (n : Nat) (t : Reconstruction.Tree.{u} X n),\n          @Reconstruction.PathConsistent.{u} X n (Reconstruction.constants.{u} X) t →\n            @LE.le.{0} Nat instLENat n (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1)))))\n    inst fun (x : X) =>\n    @And.intro\n      (@Exists.{u + 1} (Reconstruction.Tree.{u} X (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))\n        fun (t : Reconstruction.Tree.{u} X (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1)))) =>\n        @Reconstruction.PathConsistent.{u} X (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1)))\n          (Reconstruction.constants.{u} X) t)\n      (∀ (n : Nat) (t : Reconstruction.Tree.{u} X n),\n        @Reconstruction.PathConsistent.{u} X n (Reconstruction.constants.{u} X) t →\n          @LE.le.{0} Nat instLENat n (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))\n      (@Exists.intro.{u + 1} (Reconstruction.Tree.{u} X (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))\n        (fun (t : Reconstruction.Tree.{u} X (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1)))) =>\n          @Reconstruction.PathConsistent.{u} X (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1)))\n            (Reconstruction.constants.{u} X) t)\n        (@Reconstruction.Tree.branch.{u} X (@OfNat.ofNat.{0} Nat (nat_lit 0) (instOfNatNat (nat_lit 0))) x\n          (@Reconstruction.Tree.leaf.{u} X) (@Reconstruction.Tree.leaf.{u} X))\n        (@Reconstruction.constants_depth_one.{u} X x))\n      fun (x : Nat) (t : Reconstruction.Tree.{u} X x)\n        (ht : @Reconstruction.PathConsistent.{u} X x (Reconstruction.constants.{u} X) t) =>\n      @Reconstruction.constants_depth_le_one.{u} X x t ht",
+      "endPos": {
+        "column": 6,
+        "line": 152
+      },
+      "fileName": "Littlestone.lean",
+      "isSilent": false,
+      "keepFullRange": false,
+      "kind": "[anonymous]",
+      "pos": {
+        "column": 0,
+        "line": 152
+      },
+      "severity": "information"
+    },
+    {
+      "caption": "",
+      "data": "theorem Reconstruction.repeated_counterexample.{u} : ∀ {X : Type u} (x : X),\n  And\n    (@Reconstruction.BranchWise.{u} X (@OfNat.ofNat.{0} Nat (nat_lit 2) (instOfNatNat (nat_lit 2)))\n      (Reconstruction.constants.{u} X)\n      (@Reconstruction.repeated.{u} X x (@OfNat.ofNat.{0} Nat (nat_lit 2) (instOfNatNat (nat_lit 2)))))\n    (Not\n      (@Reconstruction.PathConsistent.{u} X (@OfNat.ofNat.{0} Nat (nat_lit 2) (instOfNatNat (nat_lit 2)))\n        (Reconstruction.constants.{u} X)\n        (@Reconstruction.repeated.{u} X x (@OfNat.ofNat.{0} Nat (nat_lit 2) (instOfNatNat (nat_lit 2)))))) :=\nfun {X : Type u} (x : X) =>\n  @And.intro\n    (@Reconstruction.BranchWise.{u} X (@OfNat.ofNat.{0} Nat (nat_lit 2) (instOfNatNat (nat_lit 2)))\n      (Reconstruction.constants.{u} X)\n      (@Reconstruction.repeated.{u} X x (@OfNat.ofNat.{0} Nat (nat_lit 2) (instOfNatNat (nat_lit 2)))))\n    (Not\n      (@Reconstruction.PathConsistent.{u} X (@OfNat.ofNat.{0} Nat (nat_lit 2) (instOfNatNat (nat_lit 2)))\n        (Reconstruction.constants.{u} X)\n        (@Reconstruction.repeated.{u} X x (@OfNat.ofNat.{0} Nat (nat_lit 2) (instOfNatNat (nat_lit 2))))))\n    (@Reconstruction.branchWise_repeated.{u} X x (@OfNat.ofNat.{0} Nat (nat_lit 2) (instOfNatNat (nat_lit 2))))\n    fun\n      (h :\n        @Reconstruction.PathConsistent.{u} X (@OfNat.ofNat.{0} Nat (nat_lit 2) (instOfNatNat (nat_lit 2)))\n          (Reconstruction.constants.{u} X)\n          (@Reconstruction.repeated.{u} X x (@OfNat.ofNat.{0} Nat (nat_lit 2) (instOfNatNat (nat_lit 2))))) =>\n    have impossible_bound :\n      @LE.le.{0} Nat instLENat (@OfNat.ofNat.{0} Nat (nat_lit 2) (instOfNatNat (nat_lit 2)))\n        (@OfNat.ofNat.{0} Nat (nat_lit 1) (instOfNatNat (nat_lit 1))) :=\n      @Reconstruction.constants_depth_le_one.{u} X (@OfNat.ofNat.{0} Nat (nat_lit 2) (instOfNatNat (nat_lit 2)))\n        (@Reconstruction.repeated.{u} X x (@OfNat.ofNat.{0} Nat (nat_lit 2) (instOfNatNat (nat_lit 2)))) h;\n    Reconstruction.repeated_counterexample._proof_1_1 impossible_bound",
+      "endPos": {
+        "column": 6,
+        "line": 153
+      },
+      "fileName": "Littlestone.lean",
+      "isSilent": false,
+      "keepFullRange": false,
+      "kind": "[anonymous]",
+      "pos": {
+        "column": 0,
+        "line": 153
+      },
+      "severity": "information"
+    },
+    {
+      "caption": "",
+      "data": "'Reconstruction.branchWise_repeated' does not depend on any axioms",
+      "endPos": {
+        "column": 6,
+        "line": 154
+      },
+      "fileName": "Littlestone.lean",
+      "isSilent": false,
+      "keepFullRange": false,
+      "kind": "[anonymous]",
+      "pos": {
+        "column": 0,
+        "line": 154
+      },
+      "severity": "information"
+    },
+    {
+      "caption": "",
+      "data": "'Reconstruction.uniform_no_positive' depends on axioms: [propext]",
+      "endPos": {
+        "column": 6,
+        "line": 155
+      },
+      "fileName": "Littlestone.lean",
+      "isSilent": false,
+      "keepFullRange": false,
+      "kind": "[anonymous]",
+      "pos": {
+        "column": 0,
+        "line": 155
+      },
+      "severity": "information"
+    },
+    {
+      "caption": "",
+      "data": "'Reconstruction.true_restriction_uniform' depends on axioms: [propext]",
+      "endPos": {
+        "column": 6,
+        "line": 156
+      },
+      "fileName": "Littlestone.lean",
+      "isSilent": false,
+      "keepFullRange": false,
+      "kind": "[anonymous]",
+      "pos": {
+        "column": 0,
+        "line": 156
+      },
+      "severity": "information"
+    },
+    {
+      "caption": "",
+      "data": "'Reconstruction.constants_depth_le_one' depends on axioms: [propext]",
+      "endPos": {
+        "column": 6,
+        "line": 157
+      },
+      "fileName": "Littlestone.lean",
+      "isSilent": false,
+      "keepFullRange": false,
+      "kind": "[anonymous]",
+      "pos": {
+        "column": 0,
+        "line": 157
+      },
+      "severity": "information"
+    },
+    {
+      "caption": "",
+      "data": "'Reconstruction.constants_depth_one' does not depend on any axioms",
+      "endPos": {
+        "column": 6,
+        "line": 158
+      },
+      "fileName": "Littlestone.lean",
+      "isSilent": false,
+      "keepFullRange": false,
+      "kind": "[anonymous]",
+      "pos": {
+        "column": 0,
+        "line": 158
+      },
+      "severity": "information"
+    },
+    {
+      "caption": "",
+      "data": "'Reconstruction.constants_exact_depth' depends on axioms: [propext]",
+      "endPos": {
+        "column": 6,
+        "line": 159
+      },
+      "fileName": "Littlestone.lean",
+      "isSilent": false,
+      "keepFullRange": false,
+      "kind": "[anonymous]",
+      "pos": {
+        "column": 0,
+        "line": 159
+      },
+      "severity": "information"
+    },
+    {
+      "caption": "",
+      "data": "'Reconstruction.repeated_counterexample' depends on axioms: [propext, Quot.sound.{u}]",
+      "endPos": {
+        "column": 6,
+        "line": 160
+      },
+      "fileName": "Littlestone.lean",
+      "isSilent": false,
+      "keepFullRange": false,
+      "kind": "[anonymous]",
+      "pos": {
+        "column": 0,
+        "line": 160
+      },
+      "severity": "information"
+    }
+  ],
+  "checked_item_meaning": "Theorem derivations checked; definitions and local arguments checked with their full stated scopes. No free-standing truth claim for a scoped hypothesis.",
+  "runtime_inputs": [
+    {
+      "path": "lean-toolchain",
+      "sha256": "efac0b94923b2d8b6840cd35be9177ad0fc5ab2332f4f4311c98712cee92fdee"
+    },
+    {
+      "path": "lake-manifest.json",
+      "sha256": "28bc3dc49aa19725bc53bf210b30e34856d81e5537854da78e48e8895001f0f4"
+    },
+    {
+      "path": "lakefile.lean",
+      "sha256": "539b75eebef3ad486d87aba8c17778f5f4dc442500bf0c1805a56e63ff7e8436"
+    }
+  ],
+  "runtime_mathlib_revision": "fabf563a7c95a166b8d7b6efca11c8b4dc9d911f",
+  "open_obligations": [
+    {
+      "id": "transport_to_original_types",
+      "kind": "transport",
+      "status": "open",
+      "statement": "Construct and check a structure-preserving map from these standalone trees and predicates to the original project's tree, dimension, and mistake-bound interfaces.",
+      "origin": "PathConsistent",
+      "dependencies": [
+        "constants_exact_depth"
+      ]
+    },
+    {
+      "id": "broader_class_bound",
+      "kind": "generalization",
+      "status": "open",
+      "statement": "Specify and prove an appropriate depth bound for concept classes beyond the two constants. The present theorem does not establish such a bound.",
+      "origin": "constants_exact_depth",
+      "dependencies": [
+        "constants_exact_depth"
+      ]
+    }
+  ],
+  "coverage_basis": "Exact source-bound manual index; elaborated declarations and local contexts. Not arbitrary semantic extraction.",
+  "execution_boundary": "Trusted source hash gate, fixed argv and project, sanitized environment. No adversarial OS sandbox claim."
+}

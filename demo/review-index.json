@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "namespace": "Reconstruction",
+  "toolchain": "leanprover/lean4:v4.31.0",
+  "mathlib_revision": "fabf563a7c95a166b8d7b6efca11c8b4dc9d911f",
+  "allowed_axioms": ["propext", "Quot.sound"],
+  "declarations": {
+    "Tree": {"kind": "type", "argument": "Complete binary trees indexed by depth, with equal-depth children; review the constructors and universe parameter.", "dependencies": ["library"]},
+    "constants": {"kind": "definition", "argument": "The class is exactly the two constant Boolean functions, with arbitrary domain and no finiteness assumption.", "dependencies": ["library"]},
+    "BranchWise": {"kind": "definition", "argument": "Deliberately defective comparator: unrestricted recursive classes permit a different witness at each level; the leaf is True.", "dependencies": ["Tree"]},
+    "PathConsistent": {"kind": "definition", "argument": "Retain all earlier branch constraints by restricting the class at each edge; a leaf requires a concept witness.", "dependencies": ["Tree"]},
+    "repeated": {"kind": "construction", "argument": "Repeat one arbitrary input at every internal node, at arbitrary natural-number depth.", "dependencies": ["Tree"]},
+    "branchWise_repeated": {"kind": "theorem", "argument": "Induction on depth supplies the true and false constant witnesses at each node, reusing the same unrestricted class.", "dependencies": ["BranchWise", "constants", "repeated"]},
+    "uniform_no_positive": {"kind": "theorem", "argument": "For an arbitrary class whose functions all have fixed label b everywhere, the opposite root-label witness is impossible. Review both Bool cases, witness eliminations, and both local equalities.", "dependencies": ["PathConsistent", "uniform_no_positive.have.1", "uniform_no_positive.have.2"]},
+    "true_restriction_uniform": {"kind": "theorem", "argument": "Membership in the constants and label true at one input eliminates the false constant. Review the function-equality case assumptions and the local contradiction.", "dependencies": ["constants", "true_restriction_uniform.have.1"]},
+    "constants_depth_le_one": {"kind": "generalization", "argument": "An arbitrary shattered tree of depth at least two has a positive-depth true subtree; its restricted class is uniform and therefore cannot shatter that subtree. Review the index case split and both local obligations.", "dependencies": ["constants", "PathConsistent", "constants_depth_le_one.have.1", "constants_depth_le_one.have.2"]},
+    "constants_depth_one": {"kind": "theorem", "argument": "The chosen input and both constant functions witness depth one; review all four explicit witnesses, including restricted leaf membership.", "dependencies": ["Tree", "constants", "PathConsistent"]},
+    "constants_exact_depth": {"kind": "generalization", "argument": "Nonempty X supplies an input; combine the depth-one witness with the arbitrary-domain upper bound. No finite-domain enumeration is used.", "dependencies": ["constants_depth_one", "constants_depth_le_one"]},
+    "repeated_counterexample": {"kind": "theorem", "argument": "The repeated-input depth-two tree satisfies the defective predicate but violates the repaired depth bound.", "dependencies": ["branchWise_repeated", "constants_depth_le_one", "repeated_counterexample.have.1"]}
+  },
+  "local_arguments": {
+    "uniform_no_positive.have.1": {"argument": "In the b=false branch, the true witness and uniformity give true=false.", "dependencies": ["PathConsistent"]},
+    "uniform_no_positive.have.2": {"argument": "In the b=true branch, the false witness and uniformity give false=true.", "dependencies": ["PathConsistent"]},
+    "true_restriction_uniform.have.1": {"argument": "Under the false-constant case assumption, membership in the true restriction gives false=true.", "dependencies": ["constants"]},
+    "constants_depth_le_one.have.1": {"argument": "Extract the true subtree obligation under the complete depth-at-least-two case.", "dependencies": ["PathConsistent", "constants"]},
+    "constants_depth_le_one.have.2": {"argument": "Apply the independently reviewed uniform-class obstruction to the positive-depth true subtree.", "dependencies": ["uniform_no_positive", "true_restriction_uniform"]},
+    "repeated_counterexample.have.1": {"argument": "Assuming repaired shattering of the depth-two repeated tree yields the impossible numerical bound 2≤1.", "dependencies": ["constants_depth_le_one", "repeated"]}
+  },
+  "open_obligations": [
+    {"id": "transport_to_original_types", "kind": "transport", "status": "open", "statement": "Construct and check a structure-preserving map from these standalone trees and predicates to the original project's tree, dimension, and mistake-bound interfaces.", "origin": "PathConsistent", "dependencies": ["constants_exact_depth"]},
+    {"id": "broader_class_bound", "kind": "generalization", "status": "open", "statement": "Specify and prove an appropriate depth bound for concept classes beyond the two constants. The present theorem does not establish such a bound.", "origin": "constants_exact_depth", "dependencies": ["constants_exact_depth"]}
+  ],
+  "questions": [
+    "Do complete depth-indexed trees and the selected Boolean branch directions express the intended objects?",
+    "Should the repaired leaf require a remaining concept witness, distinguishing empty from zero-dimensional nonempty classes?",
+    "Does cumulative restriction express the intended same-concept-per-path condition?",
+    "Are the arbitrary-domain upper bound, nonempty-domain lower witness, and all displayed local arguments acceptable with their complete contexts?",
+    "Which separate extension should be pursued next: transport to the original interfaces or a broader concept-class bound?"
+  ]
+}
